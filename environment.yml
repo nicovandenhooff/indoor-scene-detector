@@ -1,0 +1,8 @@
+name: cnn-dashboard
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - torchvision
+  - captum
+  - pytorch
