@@ -17,10 +17,6 @@
 | [Plant Diseases](https://www.kaggle.com/vipoooool/new-plant-diseases-dataset)              | 87,000 images, 38 classes                  | Small, size not listed  | Very "research" oriented          | Narrow problem scope                         |
 | [Stanford Dogs](http://vision.stanford.edu/aditya86/ImageNetDogs/)                         | 20,580 images, 120 classes                 | Not preprocessed        | Clean data (kinda)                | Dogs/cats are too common for image work      |
 
-## Transfer learning nets
-
-- [PyTorch - Models and Pre-trained Weights](https://pytorch.org/vision/stable/models.html)
-
 ## Ideas for dashboard
 
 - Dropdown/Radio Button to select NN to use for classification
@@ -36,8 +32,37 @@
 - Separate tab with information on data set (Interactive EDA of training data etc.)
 - Separate tab with information on models, references, link to GitHub etc.
 
+## Rough code notes
+
+### Data
+
+- Custom PyTorch `DataSet` for the data set that is used?  Not sure if we need this if we used a data set that is organized into forlders, then we can just use `torchvision.datasets.ImageFolder`.
+- Also need to add data transformations (e.g. flip, noise, cropping)
+- PyTorch `DataLoader` to load the data set for training
+
+### Neural Nets
+
+- Need one class per NN (inherit from `nn.Module`), however we can probably share some functions like training loop etc. rather than defining explicitly in each class
+- Maybe also have a general function that prints out the status after each epoch nicely?
+- When predicting make sure to use `with torch.no_grad()`
+- Things to tune for all NN: epoch, batch size, lr
+- Additional things for custom: architecture
+- Need to pick an appropriate loss function
+- Need to set an optimizer
+- Will need to save our final models
+- Looks like it's cleaner to abstract out train/validation steps of training loop to separate functions
+
+### Misc
+
+- Ensure to have `device = "cuda" if torch.cuda.is_available() else "cpu"`
+
+## Useful PyTorch Links
+
+- [Tutorials](https://pytorch.org/tutorials/index.html)
+- [Datasets included](https://pytorch.org/vision/stable/datasets.html)
+- [Models and Pre-trained Weights](https://pytorch.org/vision/stable/models.html)
+
 ## Other links
 
-- [PyTorch Tutorials](https://pytorch.org/tutorials/index.html)
 - [1st Place Solution for Intel Scene Classification Challenge](https://medium.com/@afzalsayed96/1st-place-solution-for-intel-scene-classification-challenge-c95cf941f8ed)
 - [Indoor Scene Recognition - Pytorch](https://www.kaggle.com/kshitijmohan/indoor-scene-recognition-pytorch)
