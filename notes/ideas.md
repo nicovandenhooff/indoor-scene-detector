@@ -56,6 +56,23 @@
 
 - Ensure to have `device = "cuda" if torch.cuda.is_available() else "cpu"`
 
+## Ideas for Neural Nets
+
+### Custom Neural Net
+
+- Could try to create a NN from scratch to serve as a "base" model
+
+### Transfer Learning
+
+- These could be good networks to use and provide a good breadth of different architectures over time:
+  - [AlexNet (2014)](https://arxiv.org/abs/1404.5997)
+  - [ResNet (2015)](https://arxiv.org/abs/1512.03385)
+  - [DenseNet (2018)](https://arxiv.org/abs/1608.06993)
+  - [ConvNeXt (2022)](https://arxiv.org/abs/2201.03545)
+- For ResNet and DenseNet will need to choose a specific NN e.g. ResNet-18 vs. ResNet-152 (will need to figure out how larger networks affect compute/memory on dashboard, probably just easier to start small)
+- ConvNeXt is especially exciting since it includes transformers and is very recent
+- PyTorch has all of them available in [`torchvision.models`](https://pytorch.org/vision/stable/models.html) including w/ pre-trained weights for transfer learning
+
 ## Useful PyTorch Links
 
 - [Tutorials](https://pytorch.org/tutorials/index.html)
