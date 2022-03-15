@@ -79,6 +79,10 @@
 - [Datasets included](https://pytorch.org/vision/stable/datasets.html)
 - [Models and Pre-trained Weights](https://pytorch.org/vision/stable/models.html)
 
+## Papers
+
+- [Recognizing Indoor Scenes](http://people.csail.mit.edu/torralba/publications/indoor.pdf) (original paper with the MIT Indoor Scenes dataset)
+
 ## Other links
 
 - [1st Place Solution for Intel Scene Classification Challenge](https://medium.com/@afzalsayed96/1st-place-solution-for-intel-scene-classification-challenge-c95cf941f8ed)
