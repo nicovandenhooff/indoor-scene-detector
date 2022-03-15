@@ -13,11 +13,12 @@ Current idea of how to structure the project:
     │   ├── header.css
     │   └── typography.css
     ├── models/
-    │   ├── model_1.pth
-    │   └── model_2.pth
+    │   ├── modelling.py
+    │   ├── cnn.py
+    │   └── saved/
+    │       ├── model_1.pth
+    │       └── model_2.pth
     ├── app.py
-    ├── cnn.py (to change name)
-    ├── modelling.py
     ├── plotting.py
     └── utils.py
 ```
