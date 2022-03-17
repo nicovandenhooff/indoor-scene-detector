@@ -6,3 +6,7 @@ dependencies:
   - torchvision
   - captum
   - pytorch
+  - scikit-learn
+  - black
+  - torchinfo
+prefix: /opt/miniconda3/envs/cnn-dashboard
