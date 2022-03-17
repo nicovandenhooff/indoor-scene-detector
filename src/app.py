@@ -40,7 +40,7 @@ header = html.Div(
 
 control_panel = html.Div(
     children=[
-        html.H3(children="Upload an image:"),
+        html.H3(children="Upload an image"),
         dcc.Upload(
             id="upload-image",
             children=html.Div(["Drag and Drop or ", html.A("Select Files")]),
@@ -48,13 +48,14 @@ control_panel = html.Div(
             multiple=False,
         ),
         html.Div(id="output-image-upload"),
+        html.H5(children="Or select from dropdown"),
         dcc.Dropdown(
             id="image_id",
             value="school",
             options=opt_dropdown_images,
             className="dropdown",
         ),
-        html.H3(children="Select a network:"),
+        html.H3(children="Select a network"),
         dcc.RadioItems(
             options=opt_radio_network,
             value="simple",

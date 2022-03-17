@@ -4,11 +4,15 @@ purple: 301B3F
 black: 1F1F1F
 accent: #3C415C
 white: #ECE9E9
+
+accent-blue: 00ADB5
+accent-purple: 834C69
+
 */
 
 
 body {
-    background-color:#3C415C;;
+    background-color:#222831;;
     color: #ECE9E9;
     width: 100%;
     height: 100vh;
@@ -33,17 +37,16 @@ body {
 
 
 .control_panel {
-    background-color: #1F1F1F;
+    background-color: #393E46;
     padding: 20px;
     margin: 10px;
     border-radius: 3px;
     width: 20%;
 }
 
-
 .dropdown {
     color: black;
-    margin-bottom: 20px;
+    margin-bottom: 50px;
 }
 
 .radio {
@@ -61,4 +64,13 @@ body {
     border-radius: 5px;
     text-align: center;
     margin-bottom: 20px;
+    background-color: #6F495C;
+}
+
+a {
+    font-weight: bold;
+    cursor: pointer;
+}
+a:hover {
+    color: #3C415C; 
 }
