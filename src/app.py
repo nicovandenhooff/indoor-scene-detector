@@ -54,6 +54,7 @@ control_panel = html.Div(
             value="school",
             options=opt_dropdown_images,
             className="dropdown",
+            clearable=False,
         ),
         html.H3(children="Select a network"),
         dcc.RadioItems(
@@ -62,21 +63,27 @@ control_panel = html.Div(
             className="radio",
             inputStyle={"cursor": "pointer", "margin-bottom": "10px"},
         ),
+        html.Button("Submit", id="submit-val", className="button"),
     ],
     className="control_panel",
 )
 
+image_panel = html.Div(
+    children=[html.Img(id="image", className="image")],
+    className="image_panel",
+)
+
 output_panel = html.Div(
-    children=[html.Img(id="image")],
-    className="control_panel",
+    children=[html.Div()],
+    className="output_panel",
 )
 
-body = html.Div(children=[control_panel, output_panel], className="body")
-
-
-app.layout = html.Div(
-    children=[header, body],
+body = html.Div(
+    children=[control_panel, image_panel, output_panel], className="body"
 )
+
+
+app.layout = html.Div(children=[header, body], className="page")
 
 
 @app.callback(Output("image", "src"), [Input("image_id", "value")])
