@@ -15,6 +15,7 @@ def train_model(
     epochs=1,
     patience=3,
     verbose=True,
+    save=False,
 ):
     since = time.time()
 
@@ -123,5 +124,8 @@ def train_model(
 
     # load best model weights
     model.load_state_dict(best_model_wts)
+
+    if save:
+        torch.save(model.state_dict(), "model.pth")
 
     return model, train_loss, train_acc, valid_loss, valid_acc
