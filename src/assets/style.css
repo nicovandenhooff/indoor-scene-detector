@@ -37,13 +37,6 @@ body {
 }
 
 
-.control_panel {
-    min-width: 20%;
-    border-width: 2px;
-    border-style: solid;
-    border-color: #ECE9E9;
-}
-
 .image_panel {
     display: flex;
     align-items: flex-start;

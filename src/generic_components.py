@@ -1,4 +1,4 @@
-from dash import Dash, html, dcc, Input, Output, State
+from dash import Dash, html, dcc
 
 app = Dash(__name__)
 
@@ -12,6 +12,7 @@ def _omit(omitted_keys, d):
     return {k: v for k, v in d.items() if k not in omitted_keys}
 
 
+# Display components
 def Header(title, headline):
 
     return html.Div(
