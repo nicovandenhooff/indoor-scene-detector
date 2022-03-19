@@ -1,5 +1,6 @@
 from dash import Dash, html, dcc, Input, Output, State
-import dash_bootstrap_components as dbc
+
+import generic_components as dc
 
 import base64
 from PIL import Image
@@ -24,37 +25,19 @@ opt_radio_network = [
 ]
 
 
-# Layouts
-header = html.Div(
-    children=[
-        html.H1(children="Indoor Image Recognition"),
-        html.Div(
-            children="""
-                    Dash: A web application framework for your data.
-    """
-        ),
-    ],
-    className="header",
-)
-
-
-control_panel = html.Div(
+control_panel = dc.Panel(
     children=[
         html.H3(children="Upload an image"),
-        dcc.Upload(
-            id="upload-image",
-            children=html.Div(["Drag and Drop or ", html.A("Select Files")]),
-            className="uploader",
-            multiple=False,
+        dc.ImageUploader(
+            "upload-image",
+            html.Div(["Drag and Drop or ", html.A("Select Files")]),
         ),
-        html.Div(id="output-image-upload"),
         html.H5(children="Or select from dropdown"),
         dcc.Dropdown(
             id="image_id",
             value="school",
             options=opt_dropdown_images,
             className="dropdown",
-            clearable=False,
         ),
         html.H3(children="Select a network"),
         dcc.RadioItems(
@@ -68,12 +51,13 @@ control_panel = html.Div(
     className="control_panel",
 )
 
-image_panel = html.Div(
+
+image_panel = dc.Panel(
     children=[html.Img(id="image", className="image")],
     className="image_panel",
 )
 
-output_panel = html.Div(
+output_panel = dc.Panel(
     children=[html.Div()],
     className="output_panel",
 )
@@ -83,7 +67,13 @@ body = html.Div(
 )
 
 
-app.layout = html.Div(children=[header, body], className="page")
+app.layout = html.Div(
+    children=[
+        dc.Header("Indoor Image Recognition", "A dashboard for things"),
+        body,
+    ],
+    className="page",
+)
 
 
 @app.callback(Output("image", "src"), [Input("image_id", "value")])
@@ -97,7 +87,7 @@ def update_output(image_id):
 
 
 @app.callback(
-    Output("output-image-upload", "children"),
+    Output("image", "children"),
     Input("upload-image", "contents"),
     State("upload-image", "filename"),
     State("upload-image", "last_modified"),
