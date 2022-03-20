@@ -1,6 +1,7 @@
 import time
 import torch
 import torch.nn as nn
+from torchvision import models
 from copy import deepcopy
 
 
@@ -17,6 +18,7 @@ def train_model(
     verbose=True,
     save=False,
 ):
+    """Training function for PyTorch CNN for multiclass classification."""
     since = time.time()
 
     # move model to GPU
@@ -129,3 +131,51 @@ def train_model(
         torch.save(model.state_dict(), "model.pth")
 
     return model, train_loss, train_acc, valid_loss, valid_acc
+
+
+def freeze_parameters(model):
+    """Freeze the parameters in a PyTorch model."""
+    for param in model.parameters():
+        param.requires_grad = False
+
+
+def get_custom_alexnet(n_classes, pretrained=True, freeze=True):
+    """Get a custom AlexNet to use with the Indoor Scenes dataset."""
+    alexnet = models.alexnet(pretrained=pretrained)
+
+    if freeze:
+        freeze_parameters(alexnet)
+
+    alexnet.classifier = nn.Sequential(
+        nn.Dropout(p=0.5),
+        nn.Linear(256 * 6 * 6, 250),
+        nn.ReLU(inplace=True),
+        nn.Dropout(p=0.5),
+        nn.Linear(250, n_classes),
+    )
+
+    return alexnet
+
+
+def get_custom_densenet121(n_classes, pretrained=True, freeze=True):
+    """Get a custom DenseNet121 to use with the Indoor Scenes dataset."""
+    densenet121 = models.densenet121(pretrained=pretrained)
+
+    if freeze:
+        freeze_parameters(densenet121)
+
+    densenet121.classifier = nn.Linear(512, n_classes)
+
+    return densenet121
+
+
+def get_custom_resnet18(n_classses, pretrained=True, freeze=True):
+    """Get a custom ResNet18 to use with the Indoor Scenes dataset."""
+    resnet18 = models.resnet18(pretrained=pretrained)
+
+    if freeze:
+        freeze_parameters(resnet18)
+
+    resnet18.fc = nn.Linear(512, n_classses)
+
+    return resnet18
