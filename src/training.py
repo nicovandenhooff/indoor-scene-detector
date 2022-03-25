@@ -137,7 +137,7 @@ def freeze_parameters(model):
         param.requires_grad = False
 
 
-def get_custom_alexnet(n_classes, pretrained=True, freeze=True):
+def get_custom_alexnet(n_classes, pretrained=False, freeze=False):
     """Get a custom AlexNet to use with the Indoor Scenes dataset."""
     alexnet = models.alexnet(pretrained=pretrained)
 
@@ -155,7 +155,7 @@ def get_custom_alexnet(n_classes, pretrained=True, freeze=True):
     return alexnet
 
 
-def get_custom_densenet121(n_classes, pretrained=True, freeze=True):
+def get_custom_densenet121(n_classes, pretrained=False, freeze=False):
     """Get a custom DenseNet121 to use with the Indoor Scenes dataset."""
     densenet121 = models.densenet121(pretrained=pretrained)
 
@@ -167,7 +167,7 @@ def get_custom_densenet121(n_classes, pretrained=True, freeze=True):
     return densenet121
 
 
-def get_custom_resnet18(n_classes, pretrained=True, freeze=True):
+def get_custom_resnet18(n_classes, pretrained=False, freeze=False):
     """Get a custom ResNet18 to use with the Indoor Scenes dataset."""
     resnet18 = models.resnet18(pretrained=pretrained)
 
