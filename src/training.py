@@ -162,7 +162,7 @@ def get_custom_densenet121(n_classes, pretrained=True, freeze=True):
     if freeze:
         freeze_parameters(densenet121)
 
-    densenet121.classifier = nn.Linear(512, n_classes)
+    densenet121.classifier = nn.Linear(1024, n_classes)
 
     return densenet121
 
