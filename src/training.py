@@ -5,6 +5,48 @@ from torchvision import models
 from copy import deepcopy
 
 
+class SimpleCNN(nn.Module):
+    """Custom CNN for the indoor scenes dataset
+
+    Note: Assumes input size of 256 x 256 x 3.
+    """
+
+    def __init__(self):
+        super().__init__()
+
+        self.features = nn.Sequential(
+            nn.Conv2d(3, 64, kernel_size=5, stride=1, padding=2),
+            nn.ReLU(inplace=True),
+            nn.MaxPool2d(kernel_size=2),
+            nn.Conv2d(64, 128, kernel_size=3, padding=1),
+            nn.ReLU(inplace=True),
+            nn.MaxPool2d(kernel_size=2),
+            nn.Conv2d(128, 256, kernel_size=3, padding=1),
+            nn.ReLU(inplace=True),
+            nn.MaxPool2d(kernel_size=2),
+            nn.Conv2d(256, 128, kernel_size=2, padding=1),
+            nn.ReLU(inplace=True),
+            nn.Conv2d(128, 64, kernel_size=2),
+            nn.ReLU(inplace=True),
+            nn.Conv2d(64, 64, kernel_size=3, padding=1),
+            nn.ReLU(inplace=True),
+            nn.MaxPool2d(kernel_size=2),
+        )
+        self.classifier = nn.Sequential(
+            nn.Linear(64 * 16 * 16, 32),
+            nn.ReLU(inplace=True),
+            nn.Linear(32, 16),
+            nn.ReLU(inplace=True),
+            nn.Linear(16, 10),
+        )
+
+    def forward(self, x):
+        x = self.features(x)
+        x = torch.flatten(x, 1)
+        x = self.classifier(x)
+        return x
+
+
 # to add: scheduler
 def train_model(
     model,
@@ -177,3 +219,9 @@ def get_custom_resnet18(n_classes, pretrained=False, freeze=False):
     resnet18.fc = nn.Linear(512, n_classes)
 
     return resnet18
+
+
+def load_weights(model, path):
+    model.load_state_dict(torch.load(path))
+    model.eval()
+    return model
