@@ -28,10 +28,10 @@ Please install the following packages for the required operating system before c
     source venv/bin/activate
     ```
 
-4. Now install all the dependencies in requirements.txt using the following command:
+4. Install dependencies for Flask server:
 
     ```python3
-    pip intsall -r requirements.txt
+    pip install -r requirements.txt
     ```
 
 5. Navigate back to root and install dependencies for React app:

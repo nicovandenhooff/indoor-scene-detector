@@ -8,4 +8,5 @@ import json
 def get_predictions():
     data = request.json
     print("DATA", data)
-    return data
+    response = {"server_response": data}
+    return response
