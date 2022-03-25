@@ -167,13 +167,13 @@ def get_custom_densenet121(n_classes, pretrained=True, freeze=True):
     return densenet121
 
 
-def get_custom_resnet18(n_classses, pretrained=True, freeze=True):
+def get_custom_resnet18(n_classes, pretrained=True, freeze=True):
     """Get a custom ResNet18 to use with the Indoor Scenes dataset."""
     resnet18 = models.resnet18(pretrained=pretrained)
 
     if freeze:
         freeze_parameters(resnet18)
 
-    resnet18.fc = nn.Linear(512, n_classses)
+    resnet18.fc = nn.Linear(512, n_classes)
 
     return resnet18
