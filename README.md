@@ -19,13 +19,13 @@ Please install the following packages for the required operating system before c
 2. Create a virtualenv in `/server` directory
 
     ```python3
-    python3 -m venv cnn-venv
+    python3 -m venv venv
     ```
 
 3. Activate the virtualenv
 
     ```python3
-    source cnn-venv/bin/activate
+    source venv/bin/activate
     ```
 
 4. Now install all the dependencies in requirements.txt using the following command:
