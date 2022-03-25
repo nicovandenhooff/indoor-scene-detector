@@ -14,9 +14,10 @@ def train_model(
     trainloader,
     validloader,
     epochs=1,
-    patience=3,
+    patience=None,
     verbose=True,
     save=False,
+    name=None,
 ):
     """Training function for PyTorch CNN for multiclass classification."""
     since = time.time()
@@ -73,9 +74,6 @@ def train_model(
                 # move to GPU if available
                 inputs, labels = inputs.to(device), labels.to(device)
 
-                # zero parameter gradients
-                optimizer.zero_grad()
-
                 # forward propagation and calc batch valid loss
                 outputs = model(inputs)
                 loss = criterion(outputs, labels)
@@ -111,7 +109,7 @@ def train_model(
             consec_increases += 1
         else:
             consec_increases = 0
-        if consec_increases == patience:
+        if consec_increases > patience:
             print(f"Stopped early at Epoch {epoch+1}")
             break
 
@@ -122,13 +120,13 @@ def train_model(
             time_elapsed // 60, time_elapsed % 60
         )
     )
-    print("Best valid accuracy (Epoch {:.0f}): {:4f}".format(best_epoch, best_acc))
+    print(f"Best validation accuracy (Epoch {best_epoch+1:.0f}): {best_acc:.4f}")
 
     # load best model weights
     model.load_state_dict(best_model_wts)
 
     if save:
-        torch.save(model.state_dict(), "model.pth")
+        torch.save(model.state_dict(), f"{name}.pth")
 
     return model, train_loss, train_acc, valid_loss, valid_acc
 
