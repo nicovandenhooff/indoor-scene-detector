@@ -1,6 +1,7 @@
 .body {
     display: flex;
     padding: 24px;
+    padding-left: 40px;
+    padding-right: 40px;
     flex: 1;
-    align-items: center;
 }

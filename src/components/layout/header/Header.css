@@ -4,7 +4,7 @@
     display: flex;
     background-color: white;
     color: white;
-    padding: 24px;
+    padding: 24px 80px 24px 80px;
     justify-content: flex-end;
     align-items: center;
     font-size: larger;
@@ -12,7 +12,7 @@
 }
 
 .header-dark {
-    background-color: #3B413C;
+    background-color: #27272E;
     color: white;
 }
 

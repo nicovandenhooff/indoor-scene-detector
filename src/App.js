@@ -48,7 +48,7 @@ const App = () => {
           <NavBar />
         </Header>
         <Body>
-          <Panel>
+          <Panel className="panel-form">
             <Form
               handleSubmit={handleSubmit}
               setImageURL={setImageURL}
