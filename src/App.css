@@ -1,6 +1,32 @@
-body > #root > div {
+/* 
+Color palette:
+	Light-mode 
+	primary: #8499B1
+	secondary: #053C5E
+	background: white
+	error: #DA2C38
+	onPrimary: white
+	onBackground: black
+	onSecondary: black
+	onError: white
+
+
+	Dark-mode 
+	primary: #087E8B
+	primary-variant: #8499B1
+	secondary: #33333D; #A5D8FF #8CFBDE #BEE7E8
+	background: #27272E
+	error: #EC0B43
+	onPrimary: black
+	onSecondary: white
+	onBackground: white
+	onError: black
+
+*/
+
+/* body > #root > div {
 	height: 100vh;
-}
+} */
 
 .app {
 	background-color: white;

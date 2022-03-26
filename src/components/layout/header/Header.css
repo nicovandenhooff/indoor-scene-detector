@@ -10,15 +10,15 @@
     font-size: larger;
     transition: all 0.3s ease-in;
     /* background-color: #27272e; */
-    background-color: #6200ee;
+    background-color: #8499B1;
 }
 
 
 .header-dark {
     /* background-color: #27272E; */
-    background-color: #8b4bda;
+    background-color: #087E8B;
     color: white;
-}
+} 
 
 .theme-img{
     width: 20px;
