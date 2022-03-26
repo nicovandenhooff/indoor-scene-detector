@@ -15,13 +15,15 @@ const App = () => {
 
   const { showModal, toggle } = useModal();
 
-  const setTheme = () => setIsDarkTheme(state => !state);
+  const setTheme = () => setIsDarkTheme(state => !state)
 
   useEffect(() => {
     if (!image) return
+
+
     const imageUrl = URL.createObjectURL(image[0])
     setImageURL(imageUrl)
-  }, image)
+  }, [image])
 
 
   const handleSubmit = (e) => {
