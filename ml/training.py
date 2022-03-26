@@ -1,8 +1,52 @@
+from multiprocessing.sharedctypes import Value
 import time
 import torch
 import torch.nn as nn
+import matplotlib.pyplot as plt
 from torchvision import models
 from copy import deepcopy
+
+
+class SimpleCNN(nn.Module):
+    """Custom CNN for the indoor scenes dataset
+
+    Note: Assumes input size of 256 x 256 x 3.
+    """
+
+    def __init__(self):
+        super().__init__()
+
+        self.features = nn.Sequential(
+            nn.Conv2d(3, 64, kernel_size=5, stride=1, padding=2),
+            nn.ReLU(inplace=True),
+            nn.MaxPool2d(kernel_size=2),
+            nn.Conv2d(64, 128, kernel_size=3, padding=1),
+            nn.ReLU(inplace=True),
+            nn.MaxPool2d(kernel_size=2),
+            nn.Conv2d(128, 256, kernel_size=3, padding=1),
+            nn.ReLU(inplace=True),
+            nn.MaxPool2d(kernel_size=2),
+            nn.Conv2d(256, 128, kernel_size=2, padding=1),
+            nn.ReLU(inplace=True),
+            nn.Conv2d(128, 64, kernel_size=2),
+            nn.ReLU(inplace=True),
+            nn.Conv2d(64, 64, kernel_size=3, padding=1),
+            nn.ReLU(inplace=True),
+            nn.MaxPool2d(kernel_size=2),
+        )
+        self.classifier = nn.Sequential(
+            nn.Linear(64 * 16 * 16, 32),
+            nn.ReLU(inplace=True),
+            nn.Linear(32, 16),
+            nn.ReLU(inplace=True),
+            nn.Linear(16, 10),
+        )
+
+    def forward(self, x):
+        x = self.features(x)
+        x = torch.flatten(x, 1)
+        x = self.classifier(x)
+        return x
 
 
 # to add: scheduler
@@ -14,9 +58,10 @@ def train_model(
     trainloader,
     validloader,
     epochs=1,
-    patience=3,
+    patience=None,
     verbose=True,
     save=False,
+    name=None,
 ):
     """Training function for PyTorch CNN for multiclass classification."""
     since = time.time()
@@ -73,9 +118,6 @@ def train_model(
                 # move to GPU if available
                 inputs, labels = inputs.to(device), labels.to(device)
 
-                # zero parameter gradients
-                optimizer.zero_grad()
-
                 # forward propagation and calc batch valid loss
                 outputs = model(inputs)
                 loss = criterion(outputs, labels)
@@ -111,7 +153,7 @@ def train_model(
             consec_increases += 1
         else:
             consec_increases = 0
-        if consec_increases == patience:
+        if consec_increases > patience:
             print(f"Stopped early at Epoch {epoch+1}")
             break
 
@@ -122,13 +164,13 @@ def train_model(
             time_elapsed // 60, time_elapsed % 60
         )
     )
-    print("Best valid accuracy (Epoch {:.0f}): {:4f}".format(best_epoch, best_acc))
+    print(f"Best validation accuracy (Epoch {best_epoch+1:.0f}): {best_acc:.4f}")
 
     # load best model weights
     model.load_state_dict(best_model_wts)
 
     if save:
-        torch.save(model.state_dict(), "model.pth")
+        torch.save(model.state_dict(), f"{name}.pth")
 
     return model, train_loss, train_acc, valid_loss, valid_acc
 
@@ -139,7 +181,7 @@ def freeze_parameters(model):
         param.requires_grad = False
 
 
-def get_custom_alexnet(n_classes, pretrained=True, freeze=True):
+def get_custom_alexnet(n_classes, pretrained=False, freeze=False):
     """Get a custom AlexNet to use with the Indoor Scenes dataset."""
     alexnet = models.alexnet(pretrained=pretrained)
 
@@ -157,25 +199,94 @@ def get_custom_alexnet(n_classes, pretrained=True, freeze=True):
     return alexnet
 
 
-def get_custom_densenet121(n_classes, pretrained=True, freeze=True):
+def get_custom_densenet121(n_classes, pretrained=False, freeze=False):
     """Get a custom DenseNet121 to use with the Indoor Scenes dataset."""
     densenet121 = models.densenet121(pretrained=pretrained)
 
     if freeze:
         freeze_parameters(densenet121)
 
-    densenet121.classifier = nn.Linear(512, n_classes)
+    densenet121.classifier = nn.Linear(1024, n_classes)
 
     return densenet121
 
 
-def get_custom_resnet18(n_classses, pretrained=True, freeze=True):
+def get_custom_resnet18(n_classes, pretrained=False, freeze=False):
     """Get a custom ResNet18 to use with the Indoor Scenes dataset."""
     resnet18 = models.resnet18(pretrained=pretrained)
 
     if freeze:
         freeze_parameters(resnet18)
 
-    resnet18.fc = nn.Linear(512, n_classses)
+    resnet18.fc = nn.Linear(512, n_classes)
 
     return resnet18
+
+
+def load_weights(model, path, device, mode="eval"):
+    """Loads pre-trained weights into a PyTorch model."""
+
+    # load model with cpu or gpu
+    if device == "cpu":
+        model.load_state_dict(torch.load(path, map_location=torch.device(device)))
+    else:
+        model.load_state_dict(torch.load(path))
+
+    # switch to eval mode if desired
+    if mode == "eval":
+        model.eval()
+
+
+def visualize_model(model, dl, device, num_images=6):
+    """Visualize predictions from a PyTorch model via a DataLoader.
+
+    Note: This function is intended for use with assessing model predictions
+          rather than real time inference.
+
+    Parameters
+    ----------
+    model : torch.nn.Module
+        A trained PyTorch model.
+    dl : torch.utils.data.DataLoader
+        A PyTorch DataLoader.
+    device : str
+        The current device ("cpu" or "cuda")
+    num_images : int, optional
+        Number of images to plot (must be even)
+    """
+
+    if num_images % 2 != 0:
+        raise ValueError("num_images must be positive")
+
+    plotted = 0
+    class_names = dl.dataset.dataset.classes
+    fig, axes = plt.subplots(num_images // 2, 2, figsize=(15, 15))
+
+    if model.training:
+        model.eval()
+
+    with torch.no_grad():
+        for inputs, labels in dl:
+            inputs, labels = inputs.to(device), labels.to(device)
+
+            outputs = model(inputs)
+            probs = torch.softmax(outputs, 1)
+            pred_probs, pred_labels = torch.max(probs, 1)
+
+            for j in range(inputs.size()[0]):
+                img = inputs[j].permute(1, 2, 0)
+                label = class_names[labels[j]]
+                pred_label = class_names[pred_labels[j].item()]
+                pred_prob = pred_probs[j].item()
+
+                title = f"Predicted: {pred_label}\nActual: {label}\n Probability: {pred_prob:.5f}"
+
+                axes[plotted // 2, plotted % 2].imshow(img)
+                axes[plotted // 2, plotted % 2].axis("off")
+                axes[plotted // 2, plotted % 2].set_title(title)
+
+                plotted += 1
+
+                if plotted == num_images:
+                    plt.tight_layout()
+                    return
