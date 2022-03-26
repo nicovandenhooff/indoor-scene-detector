@@ -1,5 +1,10 @@
 import torch
+import numpy as np
 import matplotlib.pyplot as plt
+
+from prediction import get_prediction
+from captum.attr import Occlusion
+from captum.attr import visualization as viz
 
 
 def visualize_model(model, dl, device, num_images=6):
@@ -55,3 +60,21 @@ def visualize_model(model, dl, device, num_images=6):
                 if plotted == num_images:
                     plt.tight_layout()
                     return
+
+
+def get_numpy_3d(img_tensor):
+    """Convert an image from 4d PyTorch Tensor (B, C, H, W) to 3d NumPy Array (H, W, C).
+
+    Parameters
+    ----------
+    img_tensor : torch.Tensor
+        Image represented as a 4d PyTorch tensor.
+        Dimensions must be (batch, channel, height, width).
+
+    Returns
+    -------
+    np.array
+        Image represented as a 3D NumPy array.
+        Dimensions are (height, width, channel).
+    """
+    return np.transpose(img_tensor.squeeze().cpu().detach().numpy(), (1, 2, 0))
