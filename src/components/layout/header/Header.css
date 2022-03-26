@@ -2,14 +2,21 @@
 
 .header {
     display: flex;
-    background-color: #9DB5B2;
+    background-color: white;
     color: white;
-    padding: 12px;
+    padding: 24px;
     justify-content: flex-end;
     align-items: center;
+    font-size: larger;
+    transition: all 0.3s ease-in;
 }
 
 .header-dark {
     background-color: #3B413C;
     color: white;
+}
+
+.theme-img{
+    width: 20px;
+    height: 20px;
 }
