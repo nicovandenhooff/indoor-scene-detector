@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useContext } from "react"
 import { Header, Body, Panel, NavBar, Modal } from "./components/layout";
 import { Form } from "./components/form/Form";
 import { ImageViewer } from "./components/image-viewer/ImageViewer";
-import { useModal, useDarkMode } from './hooks';
-import { ThemeProvider as GlobalThemeProvider } from 'styled-components';
 
-import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
+import { ThemeContext } from "./context"
+import { useModal } from './hooks';
 
-import { lightThemeMui, darkThemeMui, lightTheme, darkTheme } from './theme';
 import { GlobalStyles } from './global';
 
 import "./App.css"
@@ -17,7 +15,8 @@ const App = () => {
   const [imageURL, setImageURL] = useState('')
   const [network, setNetwork] = useState('alexnet')
 
-  const [theme, toggleTheme, componentMounted] = useDarkMode();
+  const { theme, toggleTheme } = useContext(ThemeContext)
+
   const { showModal, toggle } = useModal();
 
   useEffect(() => {
@@ -35,11 +34,6 @@ const App = () => {
       return toggle(true)
     }
 
-    console.log({
-      image,
-      network
-    })
-
     e.preventDefault()
     return fetch("/predict", {
       method: "POST",
@@ -52,51 +46,47 @@ const App = () => {
       })
   }
 
-  if (!componentMounted) {
-    return null
-  }
 
   return (
-    <GlobalThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
-      <MuiThemeProvider theme={theme === 'light' ? lightThemeMui : darkThemeMui}>
-        <GlobalStyles />
-        <div className={theme === 'light' ? 'light theme' : 'dark theme'}>
-          <Header>
-            <NavBar />
-          </Header>
-          <Modal
-            isShowing={showModal}
-            toggle={toggle}
-          />
-          <Body>
-            <button
-              type="button"
-              className="theme-button"
-              onClick={toggleTheme}
-            >
-              <img
-                src="https://assets.ccbp.in/frontend/react-js/light-theme-img.png"
-                className="theme-img"
-                alt="theme"
-              />
-            </button>
-            <Panel className="panel-form">
-              <Form
-                handleSubmit={handleSubmit}
-                setImageURL={setImageURL}
-                setNetwork={setNetwork}
-                setImage={setImage}
-              />
-            </Panel>
-            <Panel>
-              {imageURL && <ImageViewer src={imageURL} />}
-            </Panel>
-            <Panel>
-            </Panel>
-          </Body>
-        </div>
-      </MuiThemeProvider>
-    </GlobalThemeProvider>
+    <>
+      <GlobalStyles />
+      <div className={theme === 'light' ? 'light theme' : 'dark theme'}>
+        <Header>
+          <NavBar />
+        </Header>
+        <Modal
+          isShowing={showModal}
+          toggle={toggle}
+        />
+        <Body>
+          <button
+            type="button"
+            className="theme-button"
+            onClick={toggleTheme}
+          >
+            <img
+              src="https://assets.ccbp.in/frontend/react-js/light-theme-img.png"
+              className="theme-img"
+              alt="theme"
+            />
+          </button>
+          <Panel className="panel-form">
+            <Form
+              handleSubmit={handleSubmit}
+              setImageURL={setImageURL}
+              setNetwork={setNetwork}
+              setImage={setImage}
+            />
+          </Panel>
+          <Panel>
+            {imageURL && <ImageViewer src={imageURL} />}
+          </Panel>
+          <Panel>
+          </Panel>
+        </Body>
+      </div>
+    </>
+
   )
 }
 

@@ -1,19 +1,18 @@
-import React from 'react'
-import { ThemeContext } from '../../../context'
+import React, { useContext } from 'react'
+import { ThemeContext } from "../../../context"
 
 
 import './Panel.css'
 
 export const Panel = ({ children, className }) => {
+
+    const { theme } = useContext(ThemeContext)
+
     return (
-        <ThemeContext.Consumer>
-            {({ isDarkTheme, toggleTheme }) => (
-                < div className={isDarkTheme ? `panel panel-dark ${className}` : `panel ${className}`} >
-                    {children}
-                </div>
-            )
-            }
-        </ThemeContext.Consumer >
+
+        < div className={theme === 'light' ? `panel ${className}` : `panel panel-dark ${className}`} >
+            {children}
+        </div>
     )
 
 }
