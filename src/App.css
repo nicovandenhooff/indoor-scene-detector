@@ -28,18 +28,6 @@ Color palette:
 	height: 100vh;
 } */
 
-.app {
-	background-color: white;
-	color: #121212;
-	display: flex;
-	flex-direction: column;
-	transition: all 0.3s ease-in;
-}
 
-.app-dark{
-	background-color: #27272E;
-	/* background-color: black; */
-	color: white
-}
 
 

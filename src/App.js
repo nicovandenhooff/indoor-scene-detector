@@ -8,21 +8,17 @@ import { useModal } from './hooks';
 
 import { GlobalStyles } from './global';
 
-import "./App.css"
-
 const App = () => {
   const [image, setImage] = useState()
   const [imageURL, setImageURL] = useState('')
   const [network, setNetwork] = useState('alexnet')
 
-  const { theme, toggleTheme } = useContext(ThemeContext)
+  const { theme } = useContext(ThemeContext)
 
   const { showModal, toggle } = useModal();
 
   useEffect(() => {
     if (!image) return
-
-
     const imageUrl = URL.createObjectURL(image[0])
     setImageURL(imageUrl)
   }, [image])
@@ -59,17 +55,6 @@ const App = () => {
           toggle={toggle}
         />
         <Body>
-          <button
-            type="button"
-            className="theme-button"
-            onClick={toggleTheme}
-          >
-            <img
-              src="https://assets.ccbp.in/frontend/react-js/light-theme-img.png"
-              className="theme-img"
-              alt="theme"
-            />
-          </button>
           <Panel className="panel-form">
             <Form
               handleSubmit={handleSubmit}

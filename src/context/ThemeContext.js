@@ -12,12 +12,8 @@ const ThemeProvider = ({ children }) => {
 
     const [theme, toggleTheme, componentMounted] = useDarkMode()
 
-    if (!componentMounted) {
-        return null
-    }
-
     return (
-        <ThemeContext.Provider value={{ theme, toggleTheme }}>
+        <ThemeContext.Provider value={{ theme, toggleTheme, componentMounted }}>
             <GlobalThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
                 <MuiThemeProvider theme={theme === 'light' ? lightThemeMui : darkThemeMui}>
                     {children}
