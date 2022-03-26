@@ -1,13 +1,19 @@
 import React from 'react'
+import { ThemeContext } from '../../../context'
+
 
 import './Panel.css'
 
-export const Panel = ({ children }) => {
-
+export const Panel = ({ children, className }) => {
     return (
-        <div className="panel">
-            {children}
-        </div>
+        <ThemeContext.Consumer>
+            {({ isDarkTheme, toggleTheme }) => (
+                < div className={isDarkTheme ? `panel panel-dark ${className}` : `panel ${className}`} >
+                    {children}
+                </div>
+            )
+            }
+        </ThemeContext.Consumer >
     )
 
 }

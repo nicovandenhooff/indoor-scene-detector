@@ -9,6 +9,16 @@
 .fileContainer{
     box-shadow: none;
     border: dashed;
+    padding: 10px;
+    margin: 0px;
+}
+
+.fileContainer > p {
+    display: none;
+}
+
+.fileContainer .chooseFileButton{
+    border-radius: 4px;
 }
 
 .image-uploader {
