@@ -5,8 +5,6 @@ import { ThemeContext } from '../../../context'
 import './Panel.css'
 
 export const Panel = ({ children, className }) => {
-    console.log(className)
-
     return (
         <ThemeContext.Consumer>
             {({ isDarkTheme, toggleTheme }) => (

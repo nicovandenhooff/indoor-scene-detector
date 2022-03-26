@@ -12,6 +12,7 @@ body > #root > div {
 
 .app-dark{
 	background-color: #27272E;
+	/* background-color: black; */
 	color: white
 }
 

@@ -9,10 +9,14 @@
     align-items: center;
     font-size: larger;
     transition: all 0.3s ease-in;
+    /* background-color: #27272e; */
+    background-color: #6200ee;
 }
 
+
 .header-dark {
-    background-color: #27272E;
+    /* background-color: #27272E; */
+    background-color: #8b4bda;
     color: white;
 }
 

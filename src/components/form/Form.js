@@ -6,7 +6,6 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
 
 import "./Form.css"
 
@@ -27,7 +26,7 @@ export const Form = ({ handleSubmit, setImage, setNetwork }) => {
             <RadioGroup
                 aria-labelledby="network-label"
                 defaultValue="alexnet"
-                name="network-group"
+                name="network"
                 onChange={setNetwork}
                 className="radio-group"
             >
