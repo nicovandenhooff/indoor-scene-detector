@@ -1,2 +1,4 @@
-export { Header } from './header/Header'
-export { NavBar } from './navbar/NavBar'
+export { Header } from './header'
+export { NavBar } from './navbar'
+export { Body } from './body'
+export { Panel } from './panel'
