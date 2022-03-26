@@ -11,6 +11,8 @@ import "./Form.css"
 
 export const Form = ({ handleSubmit, setImage, setNetwork }) => {
 
+    const handleRadioChange = (e) => setNetwork(e.target.value)
+
     return (
         <FormControl className="form">
             <ImageUploader
@@ -21,13 +23,14 @@ export const Form = ({ handleSubmit, setImage, setNetwork }) => {
                 buttonClassName="upload-button"
                 onChange={setImage}
                 imgExtension={[".jpg", ".png"]}
+                singleImage={true}
                 maxFileSize={5242880} />
             Select a network:
             <RadioGroup
                 aria-labelledby="network-label"
                 defaultValue="alexnet"
                 name="network"
-                onChange={setNetwork}
+                onChange={handleRadioChange}
                 className="radio-group"
             >
                 <FormControlLabel value="alexnet" control={<Radio />} label="AlexNet" />
