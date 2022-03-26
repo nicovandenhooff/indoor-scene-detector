@@ -78,3 +78,69 @@ def get_numpy_3d(img_tensor):
         Dimensions are (height, width, channel).
     """
     return np.transpose(img_tensor.squeeze().cpu().detach().numpy(), (1, 2, 0))
+
+
+def get_occlusion_attr(
+    model, img_tensor, sliding_window_shapes=(3, 30, 30), strides=(3, 20, 20), **kwargs
+):
+    """Calculates primary image attributes using the Occlusion Algorithm.
+
+    Parameters
+    ----------
+    model : PyTorch CNN
+        Trained PyTorch CNN.
+    img_tensor : torch.Tensor
+        The image to calculate primary attributes for.
+    sliding_window_shapes : tuple, optional
+        Shape of sliding window for the algorithm, by default (3, 30, 30).
+    strides : tuple, optional
+        Strides for the algorithm, by default (3, 20, 20).
+
+    Returns
+    -------
+    occlusion_attr: torch.Tensor
+        The primary image attributions calculated with Occlusion.
+    """
+    occlusion = Occlusion(model)
+
+    _, pred_label, _ = get_prediction(model, img_tensor)
+
+    occlusion_attr = occlusion.attribute(
+        inputs=img_tensor,
+        sliding_window_shapes=sliding_window_shapes,
+        strides=strides,
+        baselines=0,
+        target=pred_label,
+        **kwargs,
+    )
+
+    return occlusion_attr
+
+
+def plot_occlusion(occlusion_attr, img_tensor, **kwargs):
+    """Plots occlusion attributes as a heatmap over an image.
+
+    Parameters
+    ----------
+    occlusion_attr : torch.Tensor
+        The primary image attributions calculated with Occlusion.
+    img_tensor : torch.Tensor
+        The original image.
+
+    Returns
+    -------
+    fig : matplotlib.figure.Figure
+        The plotted
+    """
+    fig, _ = viz.visualize_image_attr_multiple(
+        attr=get_numpy_3d(occlusion_attr),
+        original_image=get_numpy_3d(img_tensor),
+        methods=["blended_heat_map"],
+        signs=["positive"],
+        cmap="jet",
+        alpha_overlay=0.35,
+        show_colorbar=True,
+        **kwargs,
+    )
+
+    return fig
