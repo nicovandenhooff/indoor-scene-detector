@@ -1,0 +1,15 @@
+
+
+.header {
+    display: flex;
+    background-color: #9DB5B2;
+    color: white;
+    padding: 12px;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.header-dark {
+    background-color: #3B413C;
+    color: white;
+}

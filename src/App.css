@@ -1,0 +1,55 @@
+.app {
+	background-color: white;
+	color: black;
+}
+
+.app-dark{
+	background-color: black;
+	color: white
+}
+
+.form {
+	padding: 16px;
+	display: flex;
+	flex-direction: column;
+}
+
+.label {
+  font-size: calc(10px + 2vmin);
+	margin-bottom: 16px;
+}
+
+input[type=text] {
+	padding:5px; 
+	border:2px solid #ccc; 
+	border-radius: 5px;
+}
+
+input[type=text]:focus {
+	border-color:#333; 
+}
+
+input[type=submit] {
+	padding:5px 15px; 
+	background:#ccc; 
+	border:0 none;
+	cursor: pointer;
+	border-radius: 5px; 
+	margin-left: 8px;
+}
+
+
+.body {
+	display:flex;
+	flex-direction: row
+}
+
+.section{
+	text-align: center;
+	font-size: 24px;
+	width: 50%;
+	padding: 48px;
+	display: flex;
+    flex-direction: column;
+}
+

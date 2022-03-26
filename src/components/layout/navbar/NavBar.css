@@ -1,0 +1,21 @@
+.navbar {
+    display: flex;
+    flex-grow: 1;
+    padding-right: 16px;
+}
+
+.nav-bar {
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-items{
+    display: flex;
+    align-items: center;
+}
+
+.nav-link {
+    padding: 12px;
+}
