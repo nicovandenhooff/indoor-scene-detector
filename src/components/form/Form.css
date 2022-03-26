@@ -1,0 +1,20 @@
+
+.form{
+    display: flex;
+    flex-direction: column;
+    width: 20vw;
+    /* align-items: center; */
+}
+
+.fileContainer{
+    box-shadow: none;
+    border: dashed;
+}
+
+.image-uploader {
+    padding-bottom: 40px;
+}
+.radio-group {
+    padding: 10px;
+    padding-bottom: 40px;
+}
