@@ -3,8 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from prediction import get_prediction
-from captum.attr import Occlusion, GradientShap, IntegratedGradients
 from captum.attr import visualization as viz
+from captum.attr import Occlusion, GradientShap, IntegratedGradients, Saliency
 from matplotlib.colors import LinearSegmentedColormap
 
 # random seed
@@ -278,6 +278,57 @@ def plot_integrated_gradients(ig_attr, img_tensor, **kwargs):
         cmap=CUSTOM_CMAP,
         show_colorbar=True,
         outlier_perc=1,
+        **kwargs,
+    )
+
+    return fig
+
+
+def get_saliency_grads(model, img_tensor):
+    """Calculates gradients of features with respect to inputs with Saliency algorithm.
+
+    Parameters
+    ----------
+    model : PyTorch CNN
+        Trained PyTorch CNN.
+    img_tensor : torch.Tensor
+        The image to calculate gradients for.
+
+    Returns
+    -------
+    grads: torch.Tensor
+        The gradients calculated with Saliency.
+
+    """
+    saliency = Saliency(model)
+    _, pred_label, _ = get_prediction(model, img_tensor)
+    grads = saliency.attribute(img_tensor, target=pred_label)
+
+    return grads
+
+
+def plot_saliency_grads(grads, img_tensor, **kwargs):
+    """Plots gradients (magnitudes) of an image calculated with Saliency.
+
+    Parameters
+    ----------
+    grads : torch.Tensor
+        The gradients calculated with Saliency.
+    img_tensor : torch.Tensor
+        The original image.
+
+    Returns
+    -------
+    fig : matplotlib.figure.Figure
+        Blended heat map of gradients (magnitudes) and original image.
+    """
+
+    fig, _ = viz.visualize_image_attr(
+        attr=get_numpy_3d(grads),
+        original_image=get_numpy_3d(img_tensor),
+        method="blended_heat_map",
+        sign="absolute_value",
+        show_colorbar=True,
         **kwargs,
     )
 
