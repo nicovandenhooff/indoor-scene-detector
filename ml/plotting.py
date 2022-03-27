@@ -3,8 +3,17 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from prediction import get_prediction
-from captum.attr import Occlusion
+from captum.attr import Occlusion, GradientShap
 from captum.attr import visualization as viz
+from matplotlib.colors import LinearSegmentedColormap
+
+# random seed
+SEED = 42
+
+# custom matplotlib color map for some Captum plots
+CUSTOM_CMAP = LinearSegmentedColormap.from_list(
+    "custom blue", [(0, "#ffffff"), (0.25, "#000000"), (1, "#000000")], N=256
+)
 
 
 def visualize_model(model, dl, device, num_images=6):
@@ -118,7 +127,7 @@ def get_occlusion_attr(
 
 
 def plot_occlusion(occlusion_attr, img_tensor, **kwargs):
-    """Plots occlusion attributes as a heatmap over an image.
+    """Plots positive occlusion attributes as a heatmap over an image.
 
     Parameters
     ----------
@@ -130,7 +139,7 @@ def plot_occlusion(occlusion_attr, img_tensor, **kwargs):
     Returns
     -------
     fig : matplotlib.figure.Figure
-        The plotted
+        Blended heat map of positive attributes and original image.
     """
     fig, _ = viz.visualize_image_attr_multiple(
         attr=get_numpy_3d(occlusion_attr),
@@ -139,6 +148,74 @@ def plot_occlusion(occlusion_attr, img_tensor, **kwargs):
         signs=["positive"],
         cmap="jet",
         alpha_overlay=0.35,
+        show_colorbar=True,
+        **kwargs,
+    )
+
+    return fig
+
+
+def get_grad_shap_attr(model, img_tensor, n_samples=15, stdevs=0.0001, **kwargs):
+    """_summary_
+
+    Parameters
+    ----------
+    model : _type_
+        _description_
+    img_tensor : _type_
+        _description_
+    n_samples : int, optional
+        _description_, by default 15
+    stdevs : float, optional
+        _description_, by default 0.0001
+
+    Returns
+    -------
+    _type_
+        _description_
+    """
+    torch.manual_seed(SEED)
+    np.random.seed(SEED)
+
+    grad_shap = GradientShap(model)
+
+    _, pred_label, _ = get_prediction(model, img_tensor)
+
+    rand_img_dist = torch.cat([img_tensor * 0, img_tensor * 1])
+
+    grad_shap_attr = grad_shap.attribute(
+        img_tensor,
+        baselines=rand_img_dist,
+        n_samples=n_samples,
+        stdevs=stdevs,
+        target=pred_label,
+        **kwargs,
+    )
+
+    return grad_shap_attr
+
+
+def plot_grad_shap(grad_shap_attr, img_tensor, **kwargs):
+    """Plots positive gradient SHAP attributes of an image.
+
+    Parameters
+    ----------
+    grad_shap_attr : torch.Tensor
+        The primary image attributions calculated with Gradient SHAP.
+    img_tensor : torch.Tensor
+        The original image.
+
+    Returns
+    -------
+    fig : matplotlib.figure.Figure
+        Heatmap of positive attributes.
+    """
+    fig, _ = viz.visualize_image_attr_multiple(
+        attr=get_numpy_3d(grad_shap_attr),
+        original_image=get_numpy_3d(img_tensor),
+        methods=["heat_map"],
+        signs=["positive"],
+        cmap=CUSTOM_CMAP,
         show_colorbar=True,
         **kwargs,
     )
