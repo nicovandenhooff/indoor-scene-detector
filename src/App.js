@@ -1,26 +1,24 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useContext } from "react"
 import { Header, Body, Panel, NavBar, Modal } from "./components/layout";
 import { Form } from "./components/form/Form";
 import { ImageViewer } from "./components/image-viewer/ImageViewer";
-import { ThemeContext } from './context'
+
+import { ThemeContext } from "./context"
 import { useModal } from './hooks';
 
-import "./App.css"
+import { GlobalStyles } from './global';
 
 const App = () => {
-  const [isDarkTheme, setIsDarkTheme] = useState(false)
   const [image, setImage] = useState()
   const [imageURL, setImageURL] = useState('')
   const [network, setNetwork] = useState('alexnet')
 
-  const { showModal, toggle } = useModal();
+  const { theme } = useContext(ThemeContext)
 
-  const setTheme = () => setIsDarkTheme(state => !state)
+  const { showModal, toggle } = useModal();
 
   useEffect(() => {
     if (!image) return
-
-
     const imageUrl = URL.createObjectURL(image[0])
     setImageURL(imageUrl)
   }, [image])
@@ -31,11 +29,6 @@ const App = () => {
     if (!image || !network) {
       return toggle(true)
     }
-
-    console.log({
-      image,
-      network
-    })
 
     e.preventDefault()
     return fetch("/predict", {
@@ -49,12 +42,11 @@ const App = () => {
       })
   }
 
-  return (
-    <ThemeContext.Provider
-      value={{ isDarkTheme, toggleTheme: setTheme }}
-    >
 
-      <div className={isDarkTheme ? "app app-dark" : "app"}>
+  return (
+    <>
+      <GlobalStyles />
+      <div className={theme === 'light' ? 'light theme' : 'dark theme'}>
         <Header>
           <NavBar />
         </Header>
@@ -77,9 +69,9 @@ const App = () => {
           <Panel>
           </Panel>
         </Body>
-
       </div>
-    </ThemeContext.Provider>
+    </>
+
   )
 }
 

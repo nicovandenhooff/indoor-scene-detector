@@ -1,3 +1,4 @@
+
 .panel {
     display: flex;
     flex-direction: column;
@@ -12,7 +13,7 @@
 }
 
 .panel-dark {
-    box-shadow: none;
+    /* box-shadow: none; */
     background-color: #33333D;
 }
 
