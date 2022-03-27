@@ -17,6 +17,7 @@ const App = () => {
   const [image, setImage] = useState()
   const [imageURL, setImageURL] = useState('')
   const [network, setNetwork] = useState('alexnet')
+  const [transferLearning, setTransferLearning] = useState('tuned')
   const [postImage, setPostImage] = useState({
     myFile: "",
   });
@@ -63,7 +64,7 @@ const App = () => {
   // }
 
   const createImage = (newImage) => axios.post('/predict', {
-    newImage, network
+    newImage, network, transferLearning
   }).then((res) => {
     setPredictions(res.data)
   })
@@ -135,6 +136,7 @@ const App = () => {
                 setImageURL={setImageURL}
                 setNetwork={setNetwork}
                 setImage={(e) => handleFileUpload(e)}
+                setTransferLearning={setTransferLearning}
               />
             </Panel>
             <Panel>
