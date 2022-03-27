@@ -1,13 +1,19 @@
 import React from 'react'
-
-import './Body.css'
+import Container from '@mui/material/Container';
 
 export const Body = ({ children }) => {
 
     return (
-        < div className="body">
+        <Container
+            maxWidth="xl"
+            sx={{
+                flexGrow: 1,
+                display: 'flex',
+                flexDirection: { xs: 'column', md: 'row' },
+                paddingTop: '40px'
+            }}>
             {children}
-        </div >
+        </Container >
     )
 
 }

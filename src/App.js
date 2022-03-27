@@ -1,10 +1,14 @@
 import React, { useEffect, useState, useContext } from "react"
-import { Header, Body, Panel, NavBar, Modal } from "./components/layout";
+import { Body, Panel, NavBar, Modal } from "./components/layout";
 import { Form } from "./components/form/Form";
 import { ImageViewer } from "./components/image-viewer/ImageViewer";
 
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { ThemeToggle } from "./components/themeToggle/ThemeToggle";
+
 import { ThemeContext } from "./context"
 import { useModal } from './hooks';
+import Container from '@mui/material/Container';
 
 import { GlobalStyles } from './global';
 
@@ -47,28 +51,42 @@ const App = () => {
     <>
       <GlobalStyles />
       <div className={theme === 'light' ? 'light theme' : 'dark theme'}>
-        <Header>
+        <Router>
           <NavBar />
-        </Header>
+          {/* <Routes>
+            <Route exact path="/" component={Dashboard} />
+            <Route path="/about" component={About} />
+            <Route path="/contact" component={Contact} />
+          </Routes> */}
+        </Router>
         <Modal
           isShowing={showModal}
           toggle={toggle}
         />
-        <Body>
-          <Panel className="panel-form">
-            <Form
-              handleSubmit={handleSubmit}
-              setImageURL={setImageURL}
-              setNetwork={setNetwork}
-              setImage={setImage}
-            />
-          </Panel>
-          <Panel>
-            {imageURL && <ImageViewer src={imageURL} />}
-          </Panel>
-          <Panel>
-          </Panel>
-        </Body>
+        <Container
+          maxWidth="xl"
+          sx={{
+            flexGrow: 1,
+            display: 'flex',
+            flexDirection: { md: 'column' },
+          }}>
+          <ThemeToggle />
+          <Body>
+            <Panel className="panel-form">
+              <Form
+                handleSubmit={handleSubmit}
+                setImageURL={setImageURL}
+                setNetwork={setNetwork}
+                setImage={setImage}
+              />
+            </Panel>
+            <Panel>
+              {imageURL && <ImageViewer src={imageURL} />}
+            </Panel>
+            <Panel>
+            </Panel>
+          </Body>
+        </Container>
       </div>
     </>
 
