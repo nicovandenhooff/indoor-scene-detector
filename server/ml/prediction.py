@@ -3,7 +3,7 @@ import io
 import json
 import torch
 import base64
-from training import (
+from ml.training import (
     SimpleCNN,
     get_custom_alexnet,
     get_custom_densenet121,
