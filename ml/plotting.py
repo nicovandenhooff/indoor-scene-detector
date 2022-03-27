@@ -156,23 +156,23 @@ def plot_occlusion(occlusion_attr, img_tensor, **kwargs):
 
 
 def get_grad_shap_attr(model, img_tensor, n_samples=15, stdevs=0.0001, **kwargs):
-    """_summary_
+    """Calculates primary image attributes using the Gradient SHAP Algorithm.
 
     Parameters
     ----------
-    model : _type_
-        _description_
-    img_tensor : _type_
-        _description_
+    model : PyTorch CNN
+        Trained PyTorch CNN.
+    img_tensor : torch.Tensor
+        The image to calculate primary attributes for.
     n_samples : int, optional
-        _description_, by default 15
+        Number of randomly generated examples for SHAP, by default 15
     stdevs : float, optional
-        _description_, by default 0.0001
+        Std dev of random noise added to examples, by default 0.0001
 
     Returns
     -------
-    _type_
-        _description_
+    grad_shap_attr: torch.Tensor
+        The primary image attributions calculated with Gradient SHAP.
     """
     torch.manual_seed(SEED)
     np.random.seed(SEED)
@@ -196,7 +196,7 @@ def get_grad_shap_attr(model, img_tensor, n_samples=15, stdevs=0.0001, **kwargs)
 
 
 def plot_grad_shap(grad_shap_attr, img_tensor, **kwargs):
-    """Plots positive gradient SHAP attributes of an image.
+    """Plots positive Gradient SHAP attributes of an image.
 
     Parameters
     ----------
