@@ -97,7 +97,7 @@ def get_class_mapper():
     return class_mapper
 
 
-def load_weights(model, path, device, mode="eval"):
+def load_weights(model, path, device=DEVICE, mode="eval"):
     """Loads pre-trained weights into a PyTorch model."""
 
     # load model with cpu or gpu
@@ -127,20 +127,18 @@ def load_models():
         network, _ = [x.lower() for x in model_name.split("_")]  # network name
         weights_path = os.path.join(WEIGHTS_DIR, f)  # path to correct weights
 
-        # load correct weights into model
+        # get correct untrained model
         if network == "alexnet":
             model = get_custom_alexnet(n_classes, pretrained=False)
-            load_weights(model, weights_path, DEVICE)
         elif network == "densenet121":
             model = get_custom_densenet121(n_classes, pretrained=False)
-            load_weights(model, weights_path, DEVICE)
         elif network == "resnet18":
             model = get_custom_resnet18(n_classes, pretrained=False)
-            load_weights(model, weights_path, DEVICE)
         elif network == "simple_cnn":
             model = SimpleCNN()
-            load_weights(model, weights_path, DEVICE)
 
+        # load in weights and save to dictionary
+        load_weights(model, weights_path)
         models[model_name.lower()] = model
 
     return models
