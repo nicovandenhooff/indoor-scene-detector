@@ -9,9 +9,10 @@ import FormControl from '@mui/material/FormControl';
 
 import "./Form.css"
 
-export const Form = ({ handleSubmit, setImage, setNetwork }) => {
+export const Form = ({ handleSubmit, setImage, setNetwork, setTransferLearning }) => {
 
-    const handleRadioChange = (e) => setNetwork(e.target.value)
+    const handleNetworkChange = (e) => setNetwork(e.target.value)
+    const handleTransferLearningChange = (e) => setTransferLearning(e.target.value)
 
     return (
         <FormControl className="form">
@@ -37,13 +38,24 @@ export const Form = ({ handleSubmit, setImage, setNetwork }) => {
                 aria-labelledby="network-label"
                 defaultValue="alexnet"
                 name="network"
-                onChange={handleRadioChange}
+                onChange={handleNetworkChange}
                 className="radio-group"
             >
                 <FormControlLabel value="alexnet" control={<Radio />} label="AlexNet" />
-                <FormControlLabel value="densenet" control={<Radio />} label="DenseNet" />
-                <FormControlLabel value="resnet" control={<Radio />} label="ResNet" />
-                <FormControlLabel value="custom" control={<Radio />} label="Custom" />
+                <FormControlLabel value="densenet121" control={<Radio />} label="DenseNet" />
+                <FormControlLabel value="resnet18" control={<Radio />} label="ResNet" />
+                <FormControlLabel value="simple_cnn" control={<Radio />} label="Simple Network" />
+
+            </RadioGroup>
+            <RadioGroup
+                aria-labelledby="network-label"
+                defaultValue="tuned"
+                name="transferLearning"
+                onChange={handleTransferLearningChange}
+                className="radio-group"
+            >
+                <FormControlLabel value="tuned" control={<Radio />} label="Fully tuned" />
+                <FormControlLabel value="featex" control={<Radio />} label="Last layer tuned" />
 
             </RadioGroup>
             <Button variant="contained" type="submit" onClick={handleSubmit}>Submit</Button>

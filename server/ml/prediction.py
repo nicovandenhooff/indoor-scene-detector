@@ -134,7 +134,7 @@ def load_models():
             model = get_custom_densenet121(n_classes, pretrained=False)
         elif network == "resnet18":
             model = get_custom_resnet18(n_classes, pretrained=False)
-        elif network == "simple_cnn":
+        elif network == "simple":
             model = SimpleCNN()
 
         # load in weights and save to dictionary
