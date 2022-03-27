@@ -15,7 +15,14 @@ export const Form = ({ handleSubmit, setImage, setNetwork }) => {
 
     return (
         <FormControl className="form">
-            <ImageUploader
+            <input
+                type="file"
+                label="Image"
+                name="myFile"
+                accept=".jpeg, .png, .jpg"
+                onChange={setImage}
+            />
+            {/* <ImageUploader
                 className="image-uploader"
                 name="image"
                 withIcon={true}
@@ -24,7 +31,7 @@ export const Form = ({ handleSubmit, setImage, setNetwork }) => {
                 onChange={setImage}
                 imgExtension={[".jpg", ".png"]}
                 singleImage={true}
-                maxFileSize={5242880} />
+                maxFileSize={5242880} /> */}
             Select a network:
             <RadioGroup
                 aria-labelledby="network-label"
