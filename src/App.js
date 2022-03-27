@@ -9,6 +9,7 @@ import { ThemeToggle } from "./components/themeToggle/ThemeToggle";
 import { ThemeContext } from "./context"
 import { useModal } from './hooks';
 import Container from '@mui/material/Container';
+import axios from 'axios';
 
 import { GlobalStyles } from './global';
 
@@ -16,35 +17,87 @@ const App = () => {
   const [image, setImage] = useState()
   const [imageURL, setImageURL] = useState('')
   const [network, setNetwork] = useState('alexnet')
-
+  const [postImage, setPostImage] = useState({
+    myFile: "",
+  });
   const { theme } = useContext(ThemeContext)
 
   const { showModal, toggle } = useModal();
 
   useEffect(() => {
     if (!image) return
-    const imageUrl = URL.createObjectURL(image[0])
+    const imageUrl = URL.createObjectURL(image)
     setImageURL(imageUrl)
   }, [image])
 
 
-  const handleSubmit = (e) => {
+  // const handleSubmit = (e) => {
 
-    if (!image || !network) {
-      return toggle(true)
+  //   if (!image || !network) {
+  //     return toggle(true)
+  //   }
+
+  //   console.log(image[0])
+  //   e.preventDefault()
+
+  //   axios.post('/predict', { data: image[0] })
+  //     .then(res => {
+  //       console.log(`response = ${res.data}`)
+  //       // setName(res.data)
+  //     })
+  //     .catch(error => {
+  //       console.log(`error = ${error}`)
+  //     })
+
+  //   // return fetch("/predict", {
+  //   //   method: "POST",
+  //   //   headers: { "Content-Type": "application/json" },
+  //   //   body: JSON.stringify({ image }),
+  //   // })
+  //   //   .then((res) => res.json())
+  //   //   .then((data) => {
+  //   //     console.log('data', data)
+  //   //   })
+  // }
+
+  const createImage = (newImage) => axios.post('/predict', {
+    newImage, network
+  })
+
+  const createPost = async (post) => {
+    try {
+      await createImage(post);
+    } catch (error) {
+      console.log(error.message);
     }
+  };
 
-    e.preventDefault()
-    return fetch("/predict", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ network, image }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log('data', data)
-      })
-  }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    createPost(postImage);
+  };
+
+  const convertToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
+
+
+  const handleFileUpload = async (e) => {
+    console.log(e.target.files)
+    const file = e.target.files[0];
+    const base64 = await convertToBase64(file);
+    setPostImage({ ...postImage, myFile: base64 });
+    setImage(file)
+  };
 
 
   return (
@@ -77,7 +130,7 @@ const App = () => {
                 handleSubmit={handleSubmit}
                 setImageURL={setImageURL}
                 setNetwork={setNetwork}
-                setImage={setImage}
+                setImage={(e) => handleFileUpload(e)}
               />
             </Panel>
             <Panel>
