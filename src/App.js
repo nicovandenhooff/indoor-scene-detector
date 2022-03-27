@@ -20,6 +20,8 @@ const App = () => {
   const [postImage, setPostImage] = useState({
     myFile: "",
   });
+  const [predictions, setPredictions] = useState({})
+
   const { theme } = useContext(ThemeContext)
 
   const { showModal, toggle } = useModal();
@@ -62,6 +64,8 @@ const App = () => {
 
   const createImage = (newImage) => axios.post('/predict', {
     newImage, network
+  }).then((res) => {
+    setPredictions(res.data)
   })
 
   const createPost = async (post) => {
@@ -137,6 +141,14 @@ const App = () => {
               {imageURL && <ImageViewer src={imageURL} />}
             </Panel>
             <Panel>
+              {
+                Object.keys(predictions).map((key, i) => (
+                  <p key={i}>
+                    <span>{key}</span>
+                    <span>: {predictions[key]}</span>
+                  </p>
+                ))
+              }
             </Panel>
           </Body>
         </Container>
