@@ -2,11 +2,31 @@ import os
 import io
 import json
 import torch
+import base64
 
 from PIL import Image
 from torchvision import transforms
 
 CURRENT_DIR = os.path.abspath(os.path.dirname(__file__))
+
+
+def b64_to_bytes(img_b64):
+    """Decodes an image from base64 -> bytes
+
+    Parameters
+    ----------
+    img_b64 : string
+        base64 encoding of image.
+
+    Returns
+    -------
+    img_bytes
+        Byte representation of the image.
+    """
+
+    img_b64 = img_b64.split(",")[1]
+    img_bytes = base64.b64decode(img_b64)
+    return img_bytes
 
 
 def transform_image(img_bytes):
