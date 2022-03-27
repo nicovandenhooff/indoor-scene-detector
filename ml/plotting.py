@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from prediction import get_prediction
-from captum.attr import Occlusion, GradientShap
+from captum.attr import Occlusion, GradientShap, IntegratedGradients
 from captum.attr import visualization as viz
 from matplotlib.colors import LinearSegmentedColormap
 
@@ -217,6 +217,67 @@ def plot_grad_shap(grad_shap_attr, img_tensor, **kwargs):
         signs=["positive"],
         cmap=CUSTOM_CMAP,
         show_colorbar=True,
+        **kwargs,
+    )
+
+    return fig
+
+
+def get_integrated_grad_attr(model, img_tensor, n_steps=15, **kwargs):
+    """Calculates primary image attributes using the Integrated Gradients Algorithm.
+
+    Parameters
+    ----------
+    model : PyTorch CNN
+        Trained PyTorch CNN.
+    img_tensor : torch.Tensor
+        The image to calculate primary attributes for.
+    n_steps : int, optional
+        Number of steps used in Integrated Gradients approximation, by default 15.
+
+    Returns
+    -------
+    ig_attr: torch.Tensor
+        The primary image attributions calculated with Integrated Gradients.
+    """
+    ig = IntegratedGradients(model)
+
+    _, pred_label, _ = get_prediction(model, img_tensor)
+
+    ig_attr = ig.attribute(
+        inputs=img_tensor,
+        target=pred_label,
+        n_steps=n_steps,
+        internal_batch_size=2,
+        **kwargs,
+    )
+
+    return ig_attr
+
+
+def plot_integrated_gradients(ig_attr, img_tensor, **kwargs):
+    """Plots positive Integrated Gradients attributes of an image.
+
+    Parameters
+    ----------
+    ig_attr : torch.Tensor
+        The primary image attributions calculated with Integrated Gradients.
+    img_tensor : torch.Tensor
+        The original image.
+
+    Returns
+    -------
+    fig : matplotlib.figure.Figure
+        Heatmap of positive attributes.
+    """
+    fig, _ = viz.visualize_image_attr_multiple(
+        attr=get_numpy_3d(ig_attr),
+        original_image=get_numpy_3d(img_tensor),
+        methods=["heat_map"],
+        signs=["positive"],
+        cmap=CUSTOM_CMAP,
+        show_colorbar=True,
+        outlier_perc=1,
         **kwargs,
     )
 
