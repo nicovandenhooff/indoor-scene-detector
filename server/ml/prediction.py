@@ -89,6 +89,20 @@ def get_class_mapper():
     return class_mapper
 
 
+def load_weights(model, path, device, mode="eval"):
+    """Loads pre-trained weights into a PyTorch model."""
+
+    # load model with cpu or gpu
+    if device == "cpu":
+        model.load_state_dict(torch.load(path, map_location=torch.device(device)))
+    else:
+        model.load_state_dict(torch.load(path))
+
+    # switch to eval mode if desired
+    if mode == "eval":
+        model.eval()
+
+
 def get_prediction(model, img_tensor):
     """Performs prediction for a multiclass image classification problem.
 

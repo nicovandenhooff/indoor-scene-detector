@@ -221,17 +221,3 @@ def get_custom_resnet18(n_classes, pretrained=False, freeze=False):
     resnet18.fc = nn.Linear(512, n_classes)
 
     return resnet18
-
-
-def load_weights(model, path, device, mode="eval"):
-    """Loads pre-trained weights into a PyTorch model."""
-
-    # load model with cpu or gpu
-    if device == "cpu":
-        model.load_state_dict(torch.load(path, map_location=torch.device(device)))
-    else:
-        model.load_state_dict(torch.load(path))
-
-    # switch to eval mode if desired
-    if mode == "eval":
-        model.eval()
