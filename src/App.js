@@ -63,7 +63,7 @@ const App = () => {
   //   //   })
   // }
 
-  const createImage = (newImage) => axios.post('/ predict', {
+  const createImage = (newImage) => axios.post('/predict', {
     newImage, network, transferLearning
   }).then((res) => {
     setPredictions(res.data)
