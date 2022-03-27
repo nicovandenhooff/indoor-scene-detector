@@ -3,11 +3,19 @@ import io
 import json
 import torch
 import base64
+from training import (
+    SimpleCNN,
+    get_custom_alexnet,
+    get_custom_densenet121,
+    get_custom_resnet18,
+)
 
 from PIL import Image
 from torchvision import transforms
 
 CURRENT_DIR = os.path.abspath(os.path.dirname(__file__))
+WEIGHTS_DIR = os.path.join(CURRENT_DIR, "model_weights")
+DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 
 def b64_to_bytes(img_b64):
@@ -101,6 +109,41 @@ def load_weights(model, path, device, mode="eval"):
     # switch to eval mode if desired
     if mode == "eval":
         model.eval()
+
+
+def load_models():
+    """Loads in all models in "model_weights" directory to a dictionary.
+
+    Returns
+    -------
+    models : dict
+        Dictionary of loaded models.
+    """
+    models = {}
+    n_classes = len(get_class_mapper())
+
+    for f in os.listdir(WEIGHTS_DIR):
+        model_name, _ = os.path.splitext(f)  # name without .pth
+        network, _ = [x.lower() for x in model_name.split("_")]  # network name
+        weights_path = os.path.join(WEIGHTS_DIR, f)  # path to correct weights
+
+        # load correct weights into model
+        if network == "alexnet":
+            model = get_custom_alexnet(n_classes, pretrained=False)
+            load_weights(model, weights_path, DEVICE)
+        elif network == "densenet121":
+            model = get_custom_densenet121(n_classes, pretrained=False)
+            load_weights(model, weights_path, DEVICE)
+        elif network == "resnet18":
+            model = get_custom_resnet18(n_classes, pretrained=False)
+            load_weights(model, weights_path, DEVICE)
+        elif network == "simple_cnn":
+            model = SimpleCNN()
+            load_weights(model, weights_path, DEVICE)
+
+        models[model_name.lower()] = model
+
+    return models
 
 
 def get_prediction(model, img_tensor):
