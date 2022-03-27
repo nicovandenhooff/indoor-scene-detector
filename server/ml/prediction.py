@@ -2,11 +2,39 @@ import os
 import io
 import json
 import torch
+import base64
+from ml.training import (
+    SimpleCNN,
+    get_custom_alexnet,
+    get_custom_densenet121,
+    get_custom_resnet18,
+)
 
 from PIL import Image
 from torchvision import transforms
 
 CURRENT_DIR = os.path.abspath(os.path.dirname(__file__))
+WEIGHTS_DIR = os.path.join(CURRENT_DIR, "model_weights")
+DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
+
+
+def b64_to_bytes(img_b64):
+    """Decodes an image from base64 -> bytes
+
+    Parameters
+    ----------
+    img_b64 : string
+        base64 encoding of image.
+
+    Returns
+    -------
+    img_bytes
+        Byte representation of the image.
+    """
+
+    img_b64 = img_b64.split(",")[1]
+    img_bytes = base64.b64decode(img_b64)
+    return img_bytes
 
 
 def transform_image(img_bytes):
@@ -67,6 +95,53 @@ def get_class_mapper():
     path = os.path.join(CURRENT_DIR, "class_mapper.json")
     class_mapper = json.load(open(path))
     return class_mapper
+
+
+def load_weights(model, path, device=DEVICE, mode="eval"):
+    """Loads pre-trained weights into a PyTorch model."""
+
+    # load model with cpu or gpu
+    if device == "cpu":
+        model.load_state_dict(torch.load(path, map_location=torch.device(device)))
+    else:
+        model.load_state_dict(torch.load(path))
+
+    # switch to eval mode if desired
+    if mode == "eval":
+        model.eval()
+
+
+def load_models():
+    """Loads in all models in "model_weights" directory to a dictionary.
+
+    Returns
+    -------
+    models : dict
+        Dictionary of loaded models.
+    """
+    models = {}
+    n_classes = len(get_class_mapper())
+
+    for f in os.listdir(WEIGHTS_DIR):
+        model_name, _ = os.path.splitext(f)  # name without .pth
+        network, _ = [x.lower() for x in model_name.split("_")]  # network name
+        weights_path = os.path.join(WEIGHTS_DIR, f)  # path to correct weights
+
+        # get correct untrained model
+        if network == "alexnet":
+            model = get_custom_alexnet(n_classes, pretrained=False)
+        elif network == "densenet121":
+            model = get_custom_densenet121(n_classes, pretrained=False)
+        elif network == "resnet18":
+            model = get_custom_resnet18(n_classes, pretrained=False)
+        elif network == "simple_cnn":
+            model = SimpleCNN()
+
+        # load in weights and save to dictionary
+        load_weights(model, weights_path)
+        models[model_name.lower()] = model
+
+    return models
 
 
 def get_prediction(model, img_tensor):
