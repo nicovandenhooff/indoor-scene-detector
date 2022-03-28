@@ -53,3 +53,11 @@ To run the frontend React app on port `3000`, open a new terminal and run the fo
 ```python
 yarn start
 ```
+
+## Run dockerized containers
+
+Run in project root:
+
+```python
+docker-compose up
+```
