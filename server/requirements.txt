@@ -10,3 +10,4 @@ captum==0.5.0
 torch==1.11.0
 scikit-learn==1.0.2
 torchinfo==1.6.3
+gunicorn
