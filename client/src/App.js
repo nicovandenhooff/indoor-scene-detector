@@ -22,10 +22,29 @@ const App = () => {
     myFile: "",
   });
   const [predictions, setPredictions] = useState({})
+  const [data, setData] = useState()
 
   const { theme } = useContext(ThemeContext)
 
   const { showModal, toggle } = useModal();
+
+
+  useEffect(() => {
+    const url = 'api/v1.0/predict'
+
+    const fetchData = async () => {
+      try {
+        const response = await fetch(url);
+        const json = await response.json();
+
+        setData(json.items);
+      } catch (error) {
+        console.log("error", error);
+      }
+    };
+    fetchData()
+
+  }, [])
 
   useEffect(() => {
     if (!image) return
@@ -33,6 +52,7 @@ const App = () => {
     setImageURL(imageUrl)
   }, [image])
 
+  if (!data) return null
 
   // const handleSubmit = (e) => {
 
@@ -63,7 +83,7 @@ const App = () => {
   //   //   })
   // }
 
-  const createImage = (newImage) => axios.post('/predict', {
+  const createImage = (newImage) => axios.post('http://localhost:5000/api/predict', {
     newImage, network, transferLearning
   }).then((res) => {
     setPredictions(res.data)
@@ -97,7 +117,6 @@ const App = () => {
 
 
   const handleFileUpload = async (e) => {
-    console.log(e.target.files)
     const file = e.target.files[0];
     const base64 = await convertToBase64(file);
     setPostImage(base64);
@@ -130,6 +149,8 @@ const App = () => {
           }}>
           <ThemeToggle />
           <Body>
+            {data && data.map(home => <div>{home.name}</div>)}
+
             <Panel className="panel-form">
               <Form
                 handleSubmit={handleSubmit}
@@ -161,3 +182,60 @@ const App = () => {
 }
 
 export default App
+
+
+
+// import React from 'react';
+// import './index.css'
+
+// class App extends React.Component {
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       error: null,
+//       isLoaded: false,
+//       items: [],
+//     };
+//   }
+
+//   componentDidMount() {
+//     fetch("api/v1.0/predict")
+//       .then(res => res.json())
+//       .then(
+//         (result) => {
+//           this.setState({
+//             isLoaded: true,
+//             items: result.items,
+//           });
+//         },
+//         (error) => {
+//           this.setState({
+//             isLoaded: true,
+//             error,
+//           });
+//         }
+//       )
+//   }
+
+//   render() {
+//     const { error, isLoaded, items } = this.state;
+//     if (error) {
+//       return <div>Error: {error.message}</div>;
+//     } else if (!isLoaded) {
+//       return <div>Loading...</div>;
+//     } else {
+//       return (
+//         <ul>
+//           {items.map(item => (
+//             <li key={item.name}>
+//               {item.name} {item.price}
+//             </li>
+//           ))}
+//         </ul>
+//       );
+//     }
+//   }
+// }
+
+
+// export default App

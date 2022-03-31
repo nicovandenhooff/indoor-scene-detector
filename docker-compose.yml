@@ -1,6 +1,7 @@
 version: "3.9"
 services:
   server:
+    container_name: server_1
     build: ./server
     ports:
       - "80:5000"
