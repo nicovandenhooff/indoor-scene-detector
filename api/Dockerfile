@@ -1,34 +1,13 @@
-# pull base image
-FROM python:3.9.10
-
-# set work directory
+FROM python:3.8-slim-buster
 WORKDIR /app
 
-# set environments
 ENV FLASK_APP app.py
 
-ENV FLASK_ENV development
+COPY requirements.txt requirements.txt
 
-# copy the requirements file into the image
-COPY ./requirements.txt /app/requirements.txt
+RUN pip3 install -r requirements.txt
 
-# upgrade pip
-RUN pip install --upgrade pip
-
-# install packages
-RUN pip install -r requirements.txt
-
-# copy everything across
-COPY ./ /app
-
-# expose port number
-EXPOSE 5000
+COPY . .
 
 
-CMD [ "flask", "run" ]
-
-# configure the container to run in an executed manner
-# ENTRYPOINT [ "python" ]
-
-# run server.py
-# CMD ["server.py" ]
+# CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]

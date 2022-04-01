@@ -1,9 +1,9 @@
 # base image
 FROM node:16 as build-step
 
+RUN mkdir /frontend
 # set working directory
-WORKDIR /app
-
+WORKDIR /frontend
 
 # install and cache app dependencies
 COPY package.json yarn.lock ./

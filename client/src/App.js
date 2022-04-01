@@ -22,29 +22,10 @@ const App = () => {
     myFile: "",
   });
   const [predictions, setPredictions] = useState({})
-  const [data, setData] = useState()
 
   const { theme } = useContext(ThemeContext)
 
   const { showModal, toggle } = useModal();
-
-
-  useEffect(() => {
-    const url = 'api/v1.0/predict'
-
-    const fetchData = async () => {
-      try {
-        const response = await fetch(url);
-        const json = await response.json();
-
-        setData(json.items);
-      } catch (error) {
-        console.log("error", error);
-      }
-    };
-    fetchData()
-
-  }, [])
 
   useEffect(() => {
     if (!image) return
@@ -52,8 +33,8 @@ const App = () => {
     setImageURL(imageUrl)
   }, [image])
 
-  if (!data) return null
 
+  // TO UNCOMMENT OUT AND USE ONCE EVERYTHING WORKS
   // const handleSubmit = (e) => {
 
   //   if (!image || !network) {
@@ -83,7 +64,9 @@ const App = () => {
   //   //   })
   // }
 
-  const createImage = (newImage) => axios.post('http://localhost:5000/api/predict', {
+
+
+  const createImage = (newImage) => axios.post('api/v1.0/predict', {
     newImage, network, transferLearning
   }).then((res) => {
     setPredictions(res.data)
@@ -149,8 +132,6 @@ const App = () => {
           }}>
           <ThemeToggle />
           <Body>
-            {data && data.map(home => <div>{home.name}</div>)}
-
             <Panel className="panel-form">
               <Form
                 handleSubmit={handleSubmit}
