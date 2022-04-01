@@ -1,18 +1,26 @@
 version: "3.9"
+
 services:
-  server:
-    build: ./server
+  api:
+    build: api
+    command: [ "python3", "-m", "flask", "run", "--host=0.0.0.0" ]
     ports:
-      - "80:5000"
+      - "8000:5000"
     volumes:
-      - ./server:/app
+      - ./api:/app
     environment:
-      FLASK_ENV: development
-  web:
-    build: ./
+      - FLASK_ENV=development
+      - FLASK_APP=app.py
+  client:
+    build: client
+    command: [ "yarn", "start" ]
     ports:
       - "3000:3000"
     volumes:
-      - ./:/app
+      - ./client:/frontend
+      - node-modules:/frontend/node_modules
     depends_on:
-      - server
+      - api
+
+volumes:
+  node-modules:

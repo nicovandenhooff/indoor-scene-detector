@@ -1,11 +1,23 @@
-from flask import request
+from flask import Flask, jsonify, make_response, request
 from ml import prediction
-from api import app
+
+app = Flask(__name__)
+
 
 MODELS = prediction.load_models()
 
 
-@app.route("/predict", methods=["POST"])
+# if __name__ == "__main__":
+#     app.run(port="5001", debug=True, host="0.0.0.0")
+
+
+@app.route("/", methods=["GET", "POST"])
+def home():
+
+    return {"hello": "HIIIII"}
+
+
+@app.route("/api/v1.0/predict", methods=["POST"])
 def get_predictions():
     data = request.json
     # convert base 64 image to tensor

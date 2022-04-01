@@ -34,6 +34,7 @@ const App = () => {
   }, [image])
 
 
+  // TO UNCOMMENT OUT AND USE ONCE EVERYTHING WORKS
   // const handleSubmit = (e) => {
 
   //   if (!image || !network) {
@@ -63,7 +64,9 @@ const App = () => {
   //   //   })
   // }
 
-  const createImage = (newImage) => axios.post('/predict', {
+
+
+  const createImage = (newImage) => axios.post('api/v1.0/predict', {
     newImage, network, transferLearning
   }).then((res) => {
     setPredictions(res.data)
@@ -97,7 +100,6 @@ const App = () => {
 
 
   const handleFileUpload = async (e) => {
-    console.log(e.target.files)
     const file = e.target.files[0];
     const base64 = await convertToBase64(file);
     setPostImage(base64);
@@ -161,3 +163,60 @@ const App = () => {
 }
 
 export default App
+
+
+
+// import React from 'react';
+// import './index.css'
+
+// class App extends React.Component {
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       error: null,
+//       isLoaded: false,
+//       items: [],
+//     };
+//   }
+
+//   componentDidMount() {
+//     fetch("api/v1.0/predict")
+//       .then(res => res.json())
+//       .then(
+//         (result) => {
+//           this.setState({
+//             isLoaded: true,
+//             items: result.items,
+//           });
+//         },
+//         (error) => {
+//           this.setState({
+//             isLoaded: true,
+//             error,
+//           });
+//         }
+//       )
+//   }
+
+//   render() {
+//     const { error, isLoaded, items } = this.state;
+//     if (error) {
+//       return <div>Error: {error.message}</div>;
+//     } else if (!isLoaded) {
+//       return <div>Loading...</div>;
+//     } else {
+//       return (
+//         <ul>
+//           {items.map(item => (
+//             <li key={item.name}>
+//               {item.name} {item.price}
+//             </li>
+//           ))}
+//         </ul>
+//       );
+//     }
+//   }
+// }
+
+
+// export default App
