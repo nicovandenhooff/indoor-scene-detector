@@ -13,16 +13,18 @@ Please install the following packages for the required operating system before c
 1. Clone the project
 
     ```python3
-    git clone https://github.com/
+    git clone https://github.com/nicovandenhooff/cnn-dashboard.git
+    cd cnn-dashboard
     ```
 
-2. Create a virtualenv in `/server` directory
+2. Create a python virtual environment in `/api` directory
 
     ```python3
+    cd api
     python3 -m venv venv
     ```
 
-3. Activate the virtualenv
+3. Activate the virtual environment
 
     ```python3
     source venv/bin/activate
@@ -34,21 +36,25 @@ Please install the following packages for the required operating system before c
     pip install -r requirements.txt
     ```
 
-5. Navigate back to root and install dependencies for React app:
+5. Navigate to the client directory and install dependencies for React app:
 
     ```python3
+    cd ..
+    cd client
     yarn install
     ```
 
 ## Running the project locally
 
-This command will run a temprorary local flask server on port `5000`:
+Open two terminals, and ensure that you are in the `client` directory within both and then run the following commands:
+
+To run a temprorary local flask server on port `5000`:
 
 ```python
-yarn start-server
+yarn start-api
 ```
 
-To run the frontend React app on port `3000`, open a new terminal and run the following:
+To run the frontend React app on port `3000`:
 
 ```python
 yarn start
