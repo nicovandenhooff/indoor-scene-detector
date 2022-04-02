@@ -1,26 +1,26 @@
-from flask import Flask, jsonify, make_response, request
+from flask import Flask, request
+from flask_cors import CORS, cross_origin
 from ml import prediction
 
 app = Flask(__name__)
-
+CORS(app)
 
 MODELS = prediction.load_models()
-
 
 # if __name__ == "__main__":
 #     app.run(port="5001", debug=True, host="0.0.0.0")
 
 
 @app.route("/", methods=["GET", "POST"])
+@cross_origin()
 def home():
-
     return {"hello": "HIIIII"}
 
 
 @app.route("/api/v1.0/predict", methods=["POST"])
+@cross_origin()
 def get_predictions():
     data = request.json
-    # convert base 64 image to tensor
     img_bytes = prediction.b64_to_bytes(data["newImage"])
     img_tensor = prediction.transform_image(img_bytes)
 
