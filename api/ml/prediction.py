@@ -1,9 +1,11 @@
 import os
 import io
 import json
+from tkinter import CURRENT
 import torch
 import base64
-from ml.training import (
+from torch.hub import load_state_dict_from_url
+from training import (
     SimpleCNN,
     get_custom_alexnet,
     get_custom_densenet121,
@@ -14,7 +16,8 @@ from PIL import Image
 from torchvision import transforms
 
 CURRENT_DIR = os.path.abspath(os.path.dirname(__file__))
-WEIGHTS_DIR = os.path.join(CURRENT_DIR, "model_weights")
+WEIGHT_DIR = os.path.join(CURRENT_DIR, "weights")
+WEIGHT_URLS = os.path.join(CURRENT_DIR, "weight_urls.json")
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 
@@ -111,37 +114,61 @@ def load_weights(model, path, device=DEVICE, mode="eval"):
         model.eval()
 
 
-def load_models():
-    """Loads in all models in "model_weights" directory to a dictionary.
+def get_weights_s3():
+    """Gets model weights from AWS S3 bucket.
 
     Returns
     -------
-    models : dict
-        Dictionary of loaded models.
+    model_weights : dict
+        Dictionary of model weights, key: model name, value: weights.
     """
-    models = {}
-    n_classes = len(get_class_mapper())
 
-    for f in os.listdir(WEIGHTS_DIR):
-        model_name, _ = os.path.splitext(f)  # name without .pth
-        network, _ = [x.lower() for x in model_name.split("_")]  # network name
-        weights_path = os.path.join(WEIGHTS_DIR, f)  # path to correct weights
+    model_weights = {}
 
-        # get correct untrained model
-        if network == "alexnet":
-            model = get_custom_alexnet(n_classes, pretrained=False)
-        elif network == "densenet121":
-            model = get_custom_densenet121(n_classes, pretrained=False)
-        elif network == "resnet18":
-            model = get_custom_resnet18(n_classes, pretrained=False)
-        elif network == "simple":
-            model = SimpleCNN()
+    with open(WEIGHT_URLS) as f:
+        weight_dict = json.load(f)
 
-        # load in weights and save to dictionary
-        load_weights(model, weights_path)
-        models[model_name.lower()] = model
+    for model, url in weight_dict.items():
+        model_weights[model] = load_state_dict_from_url(
+            url=url,
+            map_location=torch.device("cpu"),
+            progress=False,
+        )
 
-    return models
+    return model_weights
+
+
+# def load_models():
+#     """Loads in all models in "model_weights" directory to a dictionary.
+
+#     Returns
+#     -------
+#     models : dict
+#         Dictionary of loaded models.
+#     """
+#     models = {}
+#     n_classes = len(get_class_mapper())
+
+#     for f in os.listdir(WEIGHTS_DIR):
+#         model_name, _ = os.path.splitext(f)  # name without .pth
+#         network, _ = [x.lower() for x in model_name.split("_")]  # network name
+#         weights_path = os.path.join(WEIGHTS_DIR, f)  # path to correct weights
+
+#         # get correct untrained model
+#         if network == "alexnet":
+#             model = get_custom_alexnet(n_classes, pretrained=False)
+#         elif network == "densenet121":
+#             model = get_custom_densenet121(n_classes, pretrained=False)
+#         elif network == "resnet18":
+#             model = get_custom_resnet18(n_classes, pretrained=False)
+#         elif network == "simple":
+#             model = SimpleCNN()
+
+#         # load in weights and save to dictionary
+#         load_weights(model, weights_path)
+#         models[model_name.lower()] = model
+
+#     return models
 
 
 def get_prediction(model, img_tensor):
