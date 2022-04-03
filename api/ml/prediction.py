@@ -3,6 +3,8 @@ import io
 import json
 import torch
 import base64
+from PIL import Image
+from torchvision import transforms
 from torch.hub import load_state_dict_from_url
 from training import (
     SimpleCNN,
@@ -11,9 +13,6 @@ from training import (
     get_custom_resnet18,
 )
 
-from PIL import Image
-from torchvision import transforms
-
 CURRENT_DIR = os.path.abspath(os.path.dirname(__file__))
 WEIGHT_DIR = os.path.join(CURRENT_DIR, "weights")
 WEIGHT_URLS = os.path.join(CURRENT_DIR, "weight_urls.json")
@@ -21,7 +20,7 @@ DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 
 def b64_to_bytes(img_b64):
-    """Decodes an image from base64 -> bytes
+    """Decodes an image from base64 -> bytes.
 
     Parameters
     ----------
@@ -33,7 +32,6 @@ def b64_to_bytes(img_b64):
     img_bytes
         Byte representation of the image.
     """
-
     img_b64 = img_b64.split(",")[1]
     img_bytes = base64.b64decode(img_b64)
     return img_bytes
@@ -55,12 +53,11 @@ def transform_image(img_bytes):
     # TODO: update size at the end with final
     img_size = (256, 256)
     img = Image.open(io.BytesIO(img_bytes))
-
     img_transforms = transforms.Compose(
         [transforms.Resize(img_size), transforms.ToTensor()]
     )
 
-    # transform and remove batch dim
+    # transform and remove batch dimension
     img_tensor = img_transforms(img).unsqueeze(0)
 
     return img_tensor
@@ -117,12 +114,12 @@ def _get_weights_s3():
     model_weights : dict
         Dictionary of model weights, key: model name, value: weights.
     """
-
     model_weights = {}
 
     with open(WEIGHT_URLS) as f:
         weight_dict = json.load(f)
 
+    # download and save weights from aws s3 bucket
     for model, url in weight_dict.items():
         model_weights[model] = load_state_dict_from_url(
             url=url,
@@ -167,7 +164,7 @@ def load_models(mode="eval"):
         model.load_state_dict(weights)
 
         # switch to inference mode
-        if model == "eval":
+        if mode == "eval":
             model.eval()
 
         models[name.lower()] = model
@@ -238,8 +235,3 @@ def get_topk_predictions(model, img_tensor, k=2):
         pred_classes = [class_mapper[str(i.item())] for i in pred_labels.squeeze()]
 
     return pred_probs, pred_labels, pred_classes
-
-
-if __name__ == "__main__":
-
-    load_models()
