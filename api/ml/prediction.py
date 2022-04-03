@@ -1,7 +1,6 @@
 import os
 import io
 import json
-from tkinter import CURRENT
 import torch
 import base64
 from torch.hub import load_state_dict_from_url
@@ -100,21 +99,17 @@ def get_class_mapper():
     return class_mapper
 
 
-def load_weights(model, path, device=DEVICE, mode="eval"):
+def load_weights(model, weights, mode="eval"):
     """Loads pre-trained weights into a PyTorch model."""
 
-    # load model with cpu or gpu
-    if device == "cpu":
-        model.load_state_dict(torch.load(path, map_location=torch.device(device)))
-    else:
-        model.load_state_dict(torch.load(path))
+    model.load_state_dict(weights)
 
     # switch to eval mode if desired
     if mode == "eval":
         model.eval()
 
 
-def get_weights_s3():
+def _get_weights_s3():
     """Gets model weights from AWS S3 bucket.
 
     Returns
@@ -138,37 +133,46 @@ def get_weights_s3():
     return model_weights
 
 
-# def load_models():
-#     """Loads in all models in "model_weights" directory to a dictionary.
+def load_models(mode="eval"):
+    """Loads all models into a dictionary.
 
-#     Returns
-#     -------
-#     models : dict
-#         Dictionary of loaded models.
-#     """
-#     models = {}
-#     n_classes = len(get_class_mapper())
+    Parameters
+    ----------
+    mode : str, optional
+        The mode the model should be in, by default "eval".
 
-#     for f in os.listdir(WEIGHTS_DIR):
-#         model_name, _ = os.path.splitext(f)  # name without .pth
-#         network, _ = [x.lower() for x in model_name.split("_")]  # network name
-#         weights_path = os.path.join(WEIGHTS_DIR, f)  # path to correct weights
+    Returns
+    -------
+    models
+        Dictionary of models, key: model name, value: PyTorch model.
+    """
+    models = {}
+    n_classes = len(get_class_mapper())
+    model_weights = _get_weights_s3()
 
-#         # get correct untrained model
-#         if network == "alexnet":
-#             model = get_custom_alexnet(n_classes, pretrained=False)
-#         elif network == "densenet121":
-#             model = get_custom_densenet121(n_classes, pretrained=False)
-#         elif network == "resnet18":
-#             model = get_custom_resnet18(n_classes, pretrained=False)
-#         elif network == "simple":
-#             model = SimpleCNN()
+    for name, weights in model_weights.items():
+        network, _ = [x.lower() for x in name.split("_")]  # network name
 
-#         # load in weights and save to dictionary
-#         load_weights(model, weights_path)
-#         models[model_name.lower()] = model
+        # get the correct model
+        if network == "alexnet":
+            model = get_custom_alexnet(n_classes, pretrained=False)
+        elif network == "densenet121":
+            model = get_custom_densenet121(n_classes, pretrained=False)
+        elif network == "resnet18":
+            model = get_custom_resnet18(n_classes, pretrained=False)
+        elif network == "simple":
+            model = SimpleCNN()
 
-#     return models
+        # load in weights
+        model.load_state_dict(weights)
+
+        # switch to inference mode
+        if model == "eval":
+            model.eval()
+
+        models[name.lower()] = model
+
+    return models
 
 
 def get_prediction(model, img_tensor):
@@ -234,3 +238,8 @@ def get_topk_predictions(model, img_tensor, k=2):
         pred_classes = [class_mapper[str(i.item())] for i in pred_labels.squeeze()]
 
     return pred_probs, pred_labels, pred_classes
+
+
+if __name__ == "__main__":
+
+    load_models()
