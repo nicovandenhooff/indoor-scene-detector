@@ -96,16 +96,6 @@ def get_class_mapper():
     return class_mapper
 
 
-def load_weights(model, weights, mode="eval"):
-    """Loads pre-trained weights into a PyTorch model."""
-
-    model.load_state_dict(weights)
-
-    # switch to eval mode if desired
-    if mode == "eval":
-        model.eval()
-
-
 def _get_weights_s3():
     """Gets model weights from AWS S3 bucket.
 
