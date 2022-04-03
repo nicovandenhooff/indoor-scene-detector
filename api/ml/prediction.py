@@ -6,7 +6,7 @@ import base64
 from PIL import Image
 from torchvision import transforms
 from torch.hub import load_state_dict_from_url
-from training import (
+from .training import (
     SimpleCNN,
     get_custom_alexnet,
     get_custom_densenet121,
