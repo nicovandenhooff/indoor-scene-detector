@@ -3,23 +3,24 @@ import io
 import json
 import torch
 import base64
-from ml.training import (
+from PIL import Image
+from torchvision import transforms
+from torch.hub import load_state_dict_from_url
+from .training import (
     SimpleCNN,
     get_custom_alexnet,
     get_custom_densenet121,
     get_custom_resnet18,
 )
 
-from PIL import Image
-from torchvision import transforms
-
 CURRENT_DIR = os.path.abspath(os.path.dirname(__file__))
-WEIGHTS_DIR = os.path.join(CURRENT_DIR, "model_weights")
+WEIGHT_DIR = os.path.join(CURRENT_DIR, "weights")
+WEIGHT_URLS = os.path.join(CURRENT_DIR, "weight_urls.json")
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 
 def b64_to_bytes(img_b64):
-    """Decodes an image from base64 -> bytes
+    """Decodes an image from base64 -> bytes.
 
     Parameters
     ----------
@@ -31,7 +32,6 @@ def b64_to_bytes(img_b64):
     img_bytes
         Byte representation of the image.
     """
-
     img_b64 = img_b64.split(",")[1]
     img_bytes = base64.b64decode(img_b64)
     return img_bytes
@@ -53,12 +53,11 @@ def transform_image(img_bytes):
     # TODO: update size at the end with final
     img_size = (256, 256)
     img = Image.open(io.BytesIO(img_bytes))
-
     img_transforms = transforms.Compose(
         [transforms.Resize(img_size), transforms.ToTensor()]
     )
 
-    # transform and remove batch dim
+    # transform and remove batch dimension
     img_tensor = img_transforms(img).unsqueeze(0)
 
     return img_tensor
@@ -97,37 +96,51 @@ def get_class_mapper():
     return class_mapper
 
 
-def load_weights(model, path, device=DEVICE, mode="eval"):
-    """Loads pre-trained weights into a PyTorch model."""
-
-    # load model with cpu or gpu
-    if device == "cpu":
-        model.load_state_dict(torch.load(path, map_location=torch.device(device)))
-    else:
-        model.load_state_dict(torch.load(path))
-
-    # switch to eval mode if desired
-    if mode == "eval":
-        model.eval()
-
-
-def load_models():
-    """Loads in all models in "model_weights" directory to a dictionary.
+def _get_weights_s3():
+    """Gets model weights from AWS S3 bucket.
 
     Returns
     -------
-    models : dict
-        Dictionary of loaded models.
+    model_weights : dict
+        Dictionary of model weights, key: model name, value: weights.
+    """
+    model_weights = {}
+
+    with open(WEIGHT_URLS) as f:
+        weight_dict = json.load(f)
+
+    # download and save weights from aws s3 bucket
+    for model, url in weight_dict.items():
+        model_weights[model] = load_state_dict_from_url(
+            url=url,
+            map_location=torch.device("cpu"),
+            progress=False,
+        )
+
+    return model_weights
+
+
+def load_models(mode="eval"):
+    """Loads all models into a dictionary.
+
+    Parameters
+    ----------
+    mode : str, optional
+        The mode the model should be in, by default "eval".
+
+    Returns
+    -------
+    models
+        Dictionary of models, key: model name, value: PyTorch model.
     """
     models = {}
     n_classes = len(get_class_mapper())
+    model_weights = _get_weights_s3()
 
-    for f in os.listdir(WEIGHTS_DIR):
-        model_name, _ = os.path.splitext(f)  # name without .pth
-        network, _ = [x.lower() for x in model_name.split("_")]  # network name
-        weights_path = os.path.join(WEIGHTS_DIR, f)  # path to correct weights
+    for name, weights in model_weights.items():
+        network, _ = [x.lower() for x in name.split("_")]  # network name
 
-        # get correct untrained model
+        # get the correct model
         if network == "alexnet":
             model = get_custom_alexnet(n_classes, pretrained=False)
         elif network == "densenet121":
@@ -137,9 +150,14 @@ def load_models():
         elif network == "simple":
             model = SimpleCNN()
 
-        # load in weights and save to dictionary
-        load_weights(model, weights_path)
-        models[model_name.lower()] = model
+        # load in weights
+        model.load_state_dict(weights)
+
+        # switch to inference mode
+        if mode == "eval":
+            model.eval()
+
+        models[name.lower()] = model
 
     return models
 
