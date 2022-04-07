@@ -4,6 +4,8 @@ import './index.css';
 import App from './App';
 import { ThemeProvider } from './context'
 
+console.log(process.env)
+
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider >

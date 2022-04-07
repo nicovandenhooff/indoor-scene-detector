@@ -12,6 +12,7 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.26.1",
+    "env-cmd": "^10.1.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-loader": "^4.0.2",
     "husky": "^6.0.0",
@@ -27,6 +28,7 @@
   "scripts": {
     "start": "react-scripts start",
     "start-api": "cd .. && cd api && venv/bin/flask run --no-debugger",
+    "start-production": "env-cmd -f .env.production yarn start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -57,7 +59,6 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:5000",
   "devDependencies": {
     "@babel/core": "^7.16.5",
     "@babel/preset-env": "^7.16.5",
