@@ -1,8 +1,6 @@
 from audioop import cross
 from flask import Flask, request
 from flask_cors import CORS, cross_origin
-from api.ml.plotting import plot_saliency_grads
-from api.ml.prediction import bytes_to_b64, fig_to_bytes
 from ml import prediction, plotting
 
 app = Flask(__name__)

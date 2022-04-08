@@ -2,7 +2,7 @@ import torch
 import numpy as np
 import matplotlib.pyplot as plt
 
-from prediction import get_prediction
+from .prediction import get_prediction
 from captum.attr import visualization as viz
 from captum.attr import Occlusion, GradientShap, IntegratedGradients, Saliency
 from matplotlib.colors import LinearSegmentedColormap
