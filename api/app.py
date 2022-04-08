@@ -39,7 +39,7 @@ def get_predictions():
 
     # get saliency gradients
     grads = plotting.get_saliency_grads(model, img_tensor)
-    fig = plot_saliency_grads(grads, img_tensor)
+    fig = plotting.plot_saliency_grads(grads, img_tensor)
     saliency_bytes = fig_to_bytes(fig)
     saliency_b64 = bytes_to_b64(saliency_bytes)
 
