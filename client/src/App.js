@@ -33,26 +33,20 @@ const App = () => {
     setImageURL(imageUrl)
   }, [image])
 
-
-  const createImage = (newImage) => axios.post('/api/predict', {
-    newImage, network, transferLearning
-  }).then((res) => {
-    setPredictions(res.data)
-  }).catch(e => {
-    console.log(`error = ${e}`)
-  })
-
-  const createPost = async (post) => {
-    try {
-      await createImage(post);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
   const handleSubmit = (e) => {
+    if (!image || !network) {
+      return toggle(true)
+    }
+
     e.preventDefault();
-    createPost(postImage);
+
+    return axios.post('/api/predict', {
+      newImage: postImage, network, transferLearning
+    }).then((res) => {
+      setPredictions(res.data)
+    }).catch(e => {
+      console.log(`error = ${e}`)
+    })
   };
 
   const convertToBase64 = (file) => {
