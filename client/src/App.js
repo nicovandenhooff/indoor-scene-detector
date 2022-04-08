@@ -9,7 +9,6 @@ import { ThemeToggle } from "./components/themeToggle/ThemeToggle";
 import { ThemeContext } from "./context"
 import { useModal } from './hooks';
 import Container from '@mui/material/Container';
-import axios from './axios';
 
 import { GlobalStyles } from './global';
 
