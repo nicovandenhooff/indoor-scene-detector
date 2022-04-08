@@ -22,11 +22,23 @@ export const Form = ({ image, toggle, setImage, setPredictions }) => {
 
     const handleFileUpload = async (e) => {
         const file = e.target.files[0];
-        console.log(file)
+
+        const base64 = await convertToBase64(file);
+        console.log(base64)
+        setPostImage(base64);
+        setImage(URL.createObjectURL(file))
+    };
+
+    const handleImageSelection = async (image) => {
+        const img = document.getElementById(image.id)
+        const blob = await (await fetch(img.src)).blob()
+
+        const file = new File([blob], image.src, blob)
+
         const base64 = await convertToBase64(file);
         setPostImage(base64);
-        setImage(file)
-    };
+        setImage(image.src)
+    }
 
     const convertToBase64 = (file) => {
         return new Promise((resolve, reject) => {
@@ -86,7 +98,7 @@ export const Form = ({ image, toggle, setImage, setPredictions }) => {
                 Select or upload an image:
             </Typography>
 
-            <ImageSelection handleFileUpload={handleFileUpload} />
+            <ImageSelection handleImageSelection={handleImageSelection} />
             <input
                 type="file"
                 label="Image"

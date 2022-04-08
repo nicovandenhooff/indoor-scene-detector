@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react"
+import React, { useState, useContext } from "react"
 import { Body, Panel, NavBar, Modal } from "./components/layout";
 import { Form } from "./components/form/Form";
 import { ImageViewer } from "./components/image-viewer/ImageViewer";
@@ -14,18 +14,10 @@ import { GlobalStyles } from './global';
 
 const App = () => {
   const [image, setImage] = useState()
-  const [imageURL, setImageURL] = useState('')
   const [predictions, setPredictions] = useState({})
 
   const { theme } = useContext(ThemeContext)
   const { showModal, toggle } = useModal();
-
-  useEffect(() => {
-    if (!image) return
-    const imageUrl = URL.createObjectURL(image)
-    setImageURL(imageUrl)
-  }, [image])
-
 
   return (
     <>
@@ -78,7 +70,7 @@ const App = () => {
               />
             </Panel>
             <Panel>
-              {imageURL && <ImageViewer src={imageURL} />}
+              {image && <ImageViewer src={image} />}
               {
                 Object.keys(predictions).map((key, i) => (
                   <p key={i}>

@@ -1,31 +1,15 @@
 import React from 'react';
 import { ImageList, ImageListItem, Box } from '@mui/material';
 
-import airport from '../../assets/images/airport.jpeg'
-import bakery from '../../assets/images/bakery.jpeg'
-import bar from '../../assets/images/bar.jpeg'
-import bedroom from '../../assets/images/bedroom.jpeg'
-import kitchen from '../../assets/images/kitchen.jpeg'
-import livingroom from '../../assets/images/livingroom.jpeg'
-import pantry from '../../assets/images/pantry.jpeg'
-import restaurant from '../../assets/images/restaurant.jpeg'
-import subway from '../../assets/images/subway.jpeg'
-import warehouse from '../../assets/images/warehouse.jpeg'
 
-
-export const ImageSelection = (handleFileUpload) => {
+export const ImageSelection = ({ handleImageSelection }) => {
 
     const handleSetImage = (e) => {
-        console.log(e.target)
-        console.log('hi')
-        handleFileUpload(e.target)
+        handleImageSelection(e.target)
     }
 
     return (
-        <Box
-            sx={{
-                maxWidth: '400px',
-            }}>
+        <Box>
             <ImageList
                 sx={{
                     gridAutoFlow: "column",
@@ -50,10 +34,12 @@ export const ImageSelection = (handleFileUpload) => {
                 {itemData.map((item) => (
                     <ImageListItem key={item.img} sx={{ cursor: "pointer" }}>
                         <img
-                            src={`${item.src}?w=164&h=164&fit=crop&auto=format`}
+                            src={`${item.src}`}
                             alt={item.title}
                             loading="lazy"
                             onClick={handleSetImage}
+                            id={item.id}
+                            key={item.id}
                         />
                     </ImageListItem>
 
@@ -66,35 +52,45 @@ export const ImageSelection = (handleFileUpload) => {
 
 const itemData = [
     {
-        src: airport,
+        src: 'assets/images/airport.jpeg',
         title: 'Airport',
+        id: 'airport'
     },
     {
-        src: bakery,
+        src: 'assets/images/bakery.jpeg',
         title: 'Bakery',
+        id: 'bakery'
     }, {
-        src: bar,
+        src: 'assets/images/bar.jpeg',
         title: 'Bar',
+        id: 'bar'
     }, {
-        src: bedroom,
+        src: 'assets/images/bedroom.jpeg',
         title: 'Bedroom',
+        id: 'bedroom'
     }, {
-        src: kitchen,
+        src: 'assets/images/kitchen.jpeg',
         title: 'Kitchen',
+        id: 'kitchen'
     }, {
-        src: livingroom,
+        src: 'assets/images/livingroom.jpeg',
         title: 'Living Room',
+        id: 'livingroom'
     }, {
-        src: pantry,
+        src: 'assets/images/pantry.jpeg',
         title: 'Pantry',
+        id: 'pantry'
     }, {
-        src: restaurant,
+        src: 'assets/images/restaurant.jpeg',
         title: 'Restaurant',
+        id: 'restaurant'
     }, {
-        src: subway,
+        src: 'assets/images/subway.jpeg',
         title: 'Subway',
+        id: 'subway'
     }, {
-        src: warehouse,
+        src: 'assets/images/warehouse.jpeg',
         title: 'Warehouse',
+        id: 'warehouse'
     }
 ];

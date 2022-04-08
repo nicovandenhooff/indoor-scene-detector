@@ -17,5 +17,6 @@
 }
 
 .panel-form {
+    max-width: 400px;
     flex: 0 1 250px;
 }
