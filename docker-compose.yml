@@ -5,7 +5,7 @@ services:
     build: api
     command: [ "python3", "-m", "flask", "run", "--host=0.0.0.0" ]
     ports:
-      - "8000:5000"
+      - "5000:5000"
     volumes:
       - ./api:/app
     environment:
@@ -19,6 +19,8 @@ services:
     volumes:
       - ./client:/frontend
       - node-modules:/frontend/node_modules
+    environment:
+      - REACT_APP_API_ENDPOINT=http://localhost:5000
     depends_on:
       - api
 
