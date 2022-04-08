@@ -9,22 +9,15 @@ import { ThemeToggle } from "./components/themeToggle/ThemeToggle";
 import { ThemeContext } from "./context"
 import { useModal } from './hooks';
 import Container from '@mui/material/Container';
-import axios from './axios';
 
 import { GlobalStyles } from './global';
 
 const App = () => {
   const [image, setImage] = useState()
   const [imageURL, setImageURL] = useState('')
-  const [network, setNetwork] = useState('alexnet')
-  const [transferLearning, setTransferLearning] = useState('tuned')
-  const [postImage, setPostImage] = useState({
-    myFile: "",
-  });
   const [predictions, setPredictions] = useState({})
 
   const { theme } = useContext(ThemeContext)
-
   const { showModal, toggle } = useModal();
 
   useEffect(() => {
@@ -32,49 +25,6 @@ const App = () => {
     const imageUrl = URL.createObjectURL(image)
     setImageURL(imageUrl)
   }, [image])
-
-
-  const createImage = (newImage) => axios.post('/api/predict', {
-    newImage, network, transferLearning
-  }).then((res) => {
-    setPredictions(res.data)
-  }).catch(e => {
-    console.log(`error = ${e}`)
-  })
-
-  const createPost = async (post) => {
-    try {
-      await createImage(post);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    createPost(postImage);
-  };
-
-  const convertToBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-      fileReader.onload = () => {
-        resolve(fileReader.result);
-      };
-      fileReader.onerror = (error) => {
-        reject(error);
-      };
-    });
-  };
-
-
-  const handleFileUpload = async (e) => {
-    const file = e.target.files[0];
-    const base64 = await convertToBase64(file);
-    setPostImage(base64);
-    setImage(file)
-  };
 
 
   return (
@@ -104,11 +54,10 @@ const App = () => {
           <Body>
             <Panel className="panel-form">
               <Form
-                handleSubmit={handleSubmit}
-                setImageURL={setImageURL}
-                setNetwork={setNetwork}
-                setImage={(e) => handleFileUpload(e)}
-                setTransferLearning={setTransferLearning}
+                setImage={setImage}
+                image={image}
+                toggle={toggle}
+                setPredictions={setPredictions}
               />
             </Panel>
             <Panel>

@@ -1,38 +1,87 @@
-import React from "react"
-import ImageUploader from "react-images-upload";
-
-import Button from '@mui/material/Button';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
+import React, { useState } from "react"
+import {
+    Button,
+    CircularProgress,
+    FormControl,
+    FormControlLabel,
+    Radio,
+    RadioGroup
+} from "@mui/material";
+import axios from '../../axios';
 
 import "./Form.css"
 
-export const Form = ({ handleSubmit, setImage, setNetwork, setTransferLearning }) => {
+export const Form = ({ image, toggle, setImage, setPredictions }) => {
 
-    const handleNetworkChange = (e) => setNetwork(e.target.value)
-    const handleTransferLearningChange = (e) => setTransferLearning(e.target.value)
+    const [network, setNetwork] = useState('alexnet')
+    const [transferLearning, setTransferLearning] = useState('tuned')
+    const [postImage, setPostImage] = useState({ myFile: "", });
+    const [loading, setLoading] = useState(false)
+
+    const handleFileUpload = async (e) => {
+        const file = e.target.files[0];
+        const base64 = await convertToBase64(file);
+        setPostImage(base64);
+        setImage(file)
+    };
+
+    const convertToBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(file);
+            fileReader.onload = () => {
+                resolve(fileReader.result);
+            };
+            fileReader.onerror = (error) => {
+                reject(error);
+            };
+        });
+    };
+
+    const handleNetworkChange = (e) =>
+        setNetwork(e.target.value)
+
+    const handleTransferLearningChange = (e) =>
+        setTransferLearning(e.target.value)
+
+    const handleSubmit = (e) => {
+        if (!image || !network) {
+            return toggle(true)
+        }
+        setLoading(true)
+        e.preventDefault();
+
+        return axios.post('/api/predict', {
+            newImage: postImage, network, transferLearning
+        }).then((res) => {
+            setPredictions(res.data)
+            setLoading(false)
+        }).catch(e => {
+            console.log(`error = ${e}`)
+        })
+    };
+
+
+    const submitButton = () => {
+        return !loading ?
+            <Button variant="contained" type="submit" onClick={handleSubmit}>
+                Submit
+            </Button>
+            : <Button variant="contained" type="submit" onClick={handleSubmit}>
+                <CircularProgress color="secondary" size='20px' />
+            </Button>
+    }
 
     return (
         <FormControl className="form">
+            Upload an image:
             <input
                 type="file"
                 label="Image"
                 name="myFile"
                 accept=".jpeg, .png, .jpg"
-                onChange={setImage}
+                onChange={handleFileUpload}
             />
-            {/* <ImageUploader
-                className="image-uploader"
-                name="image"
-                withIcon={true}
-                buttonText="Upload Image"
-                buttonClassName="upload-button"
-                onChange={setImage}
-                imgExtension={[".jpg", ".png"]}
-                singleImage={true}
-                maxFileSize={5242880} /> */}
             Select a network:
             <RadioGroup
                 aria-labelledby="network-label"
@@ -58,7 +107,7 @@ export const Form = ({ handleSubmit, setImage, setNetwork, setTransferLearning }
                 <FormControlLabel value="featex" control={<Radio />} label="Last layer tuned" />
 
             </RadioGroup>
-            <Button variant="contained" type="submit" onClick={handleSubmit}>Submit</Button>
+            {submitButton()}
 
         </FormControl>
     )
