@@ -1,21 +1,34 @@
 import React from "react"
-import ImageUploader from "react-images-upload";
+import {
+    Button,
+    CircularProgress,
+    FormControl,
+    FormControlLabel,
+    Radio,
+    RadioGroup
+} from "@mui/material";
 
-import Button from '@mui/material/Button';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
 
 import "./Form.css"
 
-export const Form = ({ handleSubmit, setImage, setNetwork, setTransferLearning }) => {
+export const Form = ({ handleSubmit, setImage, setNetwork, setTransferLearning, loading }) => {
 
     const handleNetworkChange = (e) => setNetwork(e.target.value)
     const handleTransferLearningChange = (e) => setTransferLearning(e.target.value)
 
+    const submitButton = () => {
+        return !loading ?
+            <Button variant="contained" type="submit" onClick={handleSubmit}>
+                Submit
+            </Button>
+            : <Button variant="contained" type="submit" onClick={handleSubmit}>
+                <CircularProgress color="secondary" size='20px' />
+            </Button>
+    }
+
     return (
         <FormControl className="form">
+            Upload an image:
             <input
                 type="file"
                 label="Image"
@@ -23,16 +36,6 @@ export const Form = ({ handleSubmit, setImage, setNetwork, setTransferLearning }
                 accept=".jpeg, .png, .jpg"
                 onChange={setImage}
             />
-            {/* <ImageUploader
-                className="image-uploader"
-                name="image"
-                withIcon={true}
-                buttonText="Upload Image"
-                buttonClassName="upload-button"
-                onChange={setImage}
-                imgExtension={[".jpg", ".png"]}
-                singleImage={true}
-                maxFileSize={5242880} /> */}
             Select a network:
             <RadioGroup
                 aria-labelledby="network-label"
@@ -58,7 +61,7 @@ export const Form = ({ handleSubmit, setImage, setNetwork, setTransferLearning }
                 <FormControlLabel value="featex" control={<Radio />} label="Last layer tuned" />
 
             </RadioGroup>
-            <Button variant="contained" type="submit" onClick={handleSubmit}>Submit</Button>
+            {submitButton()}
 
         </FormControl>
     )

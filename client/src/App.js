@@ -18,13 +18,14 @@ const App = () => {
   const [imageURL, setImageURL] = useState('')
   const [network, setNetwork] = useState('alexnet')
   const [transferLearning, setTransferLearning] = useState('tuned')
+  const [loading, setLoading] = useState(false)
+
   const [postImage, setPostImage] = useState({
     myFile: "",
   });
   const [predictions, setPredictions] = useState({})
 
   const { theme } = useContext(ThemeContext)
-
   const { showModal, toggle } = useModal();
 
   useEffect(() => {
@@ -37,13 +38,14 @@ const App = () => {
     if (!image || !network) {
       return toggle(true)
     }
-
+    setLoading(true)
     e.preventDefault();
 
     return axios.post('/api/predict', {
       newImage: postImage, network, transferLearning
     }).then((res) => {
       setPredictions(res.data)
+      setLoading(false)
     }).catch(e => {
       console.log(`error = ${e}`)
     })
@@ -103,6 +105,7 @@ const App = () => {
                 setNetwork={setNetwork}
                 setImage={(e) => handleFileUpload(e)}
                 setTransferLearning={setTransferLearning}
+                loading={loading}
               />
             </Panel>
             <Panel>
