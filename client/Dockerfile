@@ -1,20 +1,23 @@
 # base image
-FROM node:16 as build-step
+FROM node:16
 
-RUN mkdir /frontend
+# development endpoint
+ENV REACT_APP_API_ENDPOINT=http://localhost:5000
+
+# updates
+RUN apt-get update && apt-get install
+
 # set working directory
 WORKDIR /frontend
 
-# install and cache app dependencies
+# copy requirements and settings
 COPY package.json yarn.lock ./
 
+# install packages
 RUN yarn install
 
-# copy other files
-COPY ./src ./src
-COPY ./public ./public
+# copy front end source code and assets
+COPY ./src ./public ./
 
-# expose port number
+# front end port
 EXPOSE 3000
-
-CMD ["yarn", "start"]

@@ -1,13 +1,21 @@
-FROM python:3.8-slim-buster
-WORKDIR /app
+# base image
+FROM python:3.9-slim-buster
 
-ENV FLASK_APP app.py
+# flask app/env
+ENV FLASK_APP=app.py
+ENV FLASK_ENV=development
 
-COPY requirements.txt requirements.txt
+# updates
+RUN apt-get update && apt-get install
 
+# set working directory
+WORKDIR /api
+
+# copy api to app folder
+COPY . ./
+
+# install python requirements
 RUN pip3 install -r requirements.txt
 
-COPY . .
-
-
-# CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
+# api port
+EXPOSE 5000
