@@ -5,12 +5,12 @@ import { ImageList, ImageListItem, Box } from '@mui/material';
 export const ImageSelection = ({ handleFileUpload }) => {
 
     return (
-        <Box>
+        <Box sx={{ mb: 2 }}>
             <ImageList
                 sx={{
                     gridAutoFlow: "column",
-                    gridTemplateColumns: "repeat(auto-fill,minmax(160px,1fr)) !important",
-                    gridAutoColumns: "minmax(160px, 1fr)"
+                    gridTemplateColumns: "repeat(auto-fill,minmax(100px,1fr)) !important",
+                    gridAutoColumns: "minmax(100px, 1fr)"
                 }}
             >
                 {itemData.map((item) => (

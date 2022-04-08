@@ -9,15 +9,16 @@ import {
     Typography
 } from "@mui/material";
 import axios from '../../axios';
-import { ImageSelection } from "../image-selection/ImageSelection";
+import { ImageSelection } from "../image-selection";
 
 import "./Form.css"
+import { FileUploader } from "../file-uploader";
 
 export const Form = ({ image, toggle, setImage, setPredictions }) => {
 
     const [network, setNetwork] = useState('alexnet')
     const [transferLearning, setTransferLearning] = useState('tuned')
-    const [postImage, setPostImage] = useState({ myFile: "", });
+    const [postImage, setPostImage] = useState(null);
     const [loading, setLoading] = useState(false)
 
     const handleFileUpload = async (e) => {
@@ -79,43 +80,29 @@ export const Form = ({ image, toggle, setImage, setPredictions }) => {
 
 
     const submitButton = () => {
-        return !loading ?
-            <Button variant="contained" type="submit" sx={{ alignSelf: "flex-end" }} onClick={handleSubmit}>
-                Submit
+
+        const buttonText = !loading ? 'Submit' : <CircularProgress color="secondary" size='20px' />
+
+        return (
+            <Button variant="contained" type="submit" onClick={handleSubmit} sx={{
+                alignSelf: "flex-end",
+                width: "100%",
+                maxWidth: "-webkit-fill-available"
+            }} >
+                {buttonText}
             </Button>
-            : <Button variant="contained" type="submit" onClick={handleSubmit}>
-                <CircularProgress color="secondary" size='20px' />
-            </Button>
+        )
     }
 
     return (
         <FormControl className="form">
-            <Typography
-                variant="subtitle1"
-                noWrap
-                component="div"
-                sx={{ display: 'flex' }}
-            >
-                Select or upload an image:
-            </Typography>
 
+            <Typography>1. Select or upload an image:</Typography>
             <ImageSelection handleFileUpload={handleFileUpload} />
-            <input
-                type="file"
-                label="Image"
-                name="myFile"
-                accept=".jpeg, .png, .jpg"
-                onChange={handleFileUpload}
-            />
-            <Typography
-                variant="subtitle1"
-                noWrap
-                component="div"
-                sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
-            >
-                Select a network:
 
-            </Typography>
+            <FileUploader handleFileUpload={handleFileUpload} />
+
+            <Typography>2. Select a network:</Typography>
             <RadioGroup
                 aria-labelledby="network-label"
                 defaultValue="alexnet"
@@ -129,15 +116,7 @@ export const Form = ({ image, toggle, setImage, setPredictions }) => {
                 <FormControlLabel value="simple_cnn" control={<Radio />} label={<Typography variant="body2">Simple Network</Typography>} />
 
             </RadioGroup>
-            <Typography
-                variant="subtitle1"
-                noWrap
-                component="div"
-                sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
-            >
-                Select tuning:
-
-            </Typography>
+            <Typography>3. Select tuning: </Typography>
             <RadioGroup
                 aria-labelledby="network-label"
                 defaultValue="tuned"

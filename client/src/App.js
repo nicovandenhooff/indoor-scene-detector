@@ -4,7 +4,6 @@ import { Form } from "./components/form/Form";
 import { ImageViewer } from "./components/image-viewer/ImageViewer";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { ThemeToggle } from "./components/themeToggle/ThemeToggle";
 
 import { ThemeContext } from "./context"
 import { useModal } from './hooks';
@@ -48,17 +47,15 @@ const App = () => {
             justifyContent: 'space-between',
             padding: '40px 40px 20px',
             fontSize: 'large',
-            flexDirection: { sm: 'column' }
+            flexDirection: { sm: 'column', md: 'row' }
           }}>
             <Typography
               variant="h6"
-              noWrap
               component="div"
               sx={{ mr: 2, display: 'flex' }}
             >
               Some stuff we can put here...
             </Typography>
-            <ThemeToggle />
           </Box>
           <Body>
             <Panel className="panel-form">
