@@ -5,9 +5,11 @@ import {
     FormControl,
     FormControlLabel,
     Radio,
-    RadioGroup
+    RadioGroup,
+    Typography
 } from "@mui/material";
 import axios from '../../axios';
+import { ImageSelection } from "../image-selection/ImageSelection";
 
 import "./Form.css"
 
@@ -20,6 +22,7 @@ export const Form = ({ image, toggle, setImage, setPredictions }) => {
 
     const handleFileUpload = async (e) => {
         const file = e.target.files[0];
+        console.log(file)
         const base64 = await convertToBase64(file);
         setPostImage(base64);
         setImage(file)
@@ -64,7 +67,7 @@ export const Form = ({ image, toggle, setImage, setPredictions }) => {
 
     const submitButton = () => {
         return !loading ?
-            <Button variant="contained" type="submit" onClick={handleSubmit}>
+            <Button variant="contained" type="submit" sx={{ alignSelf: "flex-end" }} onClick={handleSubmit}>
                 Submit
             </Button>
             : <Button variant="contained" type="submit" onClick={handleSubmit}>
@@ -74,7 +77,16 @@ export const Form = ({ image, toggle, setImage, setPredictions }) => {
 
     return (
         <FormControl className="form">
-            Upload an image:
+            <Typography
+                variant="subtitle1"
+                noWrap
+                component="div"
+                sx={{ display: 'flex' }}
+            >
+                Select or upload an image:
+            </Typography>
+
+            <ImageSelection handleFileUpload={handleFileUpload} />
             <input
                 type="file"
                 label="Image"
@@ -82,7 +94,15 @@ export const Form = ({ image, toggle, setImage, setPredictions }) => {
                 accept=".jpeg, .png, .jpg"
                 onChange={handleFileUpload}
             />
-            Select a network:
+            <Typography
+                variant="subtitle1"
+                noWrap
+                component="div"
+                sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
+            >
+                Select a network:
+
+            </Typography>
             <RadioGroup
                 aria-labelledby="network-label"
                 defaultValue="alexnet"
@@ -90,12 +110,21 @@ export const Form = ({ image, toggle, setImage, setPredictions }) => {
                 onChange={handleNetworkChange}
                 className="radio-group"
             >
-                <FormControlLabel value="alexnet" control={<Radio />} label="AlexNet" />
-                <FormControlLabel value="densenet121" control={<Radio />} label="DenseNet" />
-                <FormControlLabel value="resnet18" control={<Radio />} label="ResNet" />
-                <FormControlLabel value="simple_cnn" control={<Radio />} label="Simple Network" />
+                <FormControlLabel value="alexnet" control={<Radio />} label={<Typography variant="body2">AlexNet</Typography>} />
+                <FormControlLabel value="densenet121" control={<Radio />} label={<Typography variant="body2">DenseNet</Typography>} />
+                <FormControlLabel value="resnet18" control={<Radio />} label={<Typography variant="body2">ResNet</Typography>} />
+                <FormControlLabel value="simple_cnn" control={<Radio />} label={<Typography variant="body2">Simple Network</Typography>} />
 
             </RadioGroup>
+            <Typography
+                variant="subtitle1"
+                noWrap
+                component="div"
+                sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
+            >
+                Select tuning:
+
+            </Typography>
             <RadioGroup
                 aria-labelledby="network-label"
                 defaultValue="tuned"
@@ -103,8 +132,8 @@ export const Form = ({ image, toggle, setImage, setPredictions }) => {
                 onChange={handleTransferLearningChange}
                 className="radio-group"
             >
-                <FormControlLabel value="tuned" control={<Radio />} label="Fully tuned" />
-                <FormControlLabel value="featex" control={<Radio />} label="Last layer tuned" />
+                <FormControlLabel value="tuned" control={<Radio />} label={<Typography variant="body2">Fully tuned</Typography>} />
+                <FormControlLabel value="featex" control={<Radio />} label={<Typography variant="body2">Last layer tuned</Typography>} />
 
             </RadioGroup>
             {submitButton()}

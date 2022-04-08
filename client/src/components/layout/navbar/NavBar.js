@@ -1,14 +1,10 @@
 import React, { useState } from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Button from '@mui/material/Button';
-import MenuItem from '@mui/material/MenuItem';
+import MenuIcon from '@mui/icons-material/Menu'
+import {
+    AppBar, Box, Toolbar, IconButton,
+    Typography, Menu, MenuItem,
+    Container, Button
+} from '@mui/material';
 import { Link } from "react-router-dom";
 
 const pages = ['Dashboard', 'About', 'Contact'];
@@ -29,7 +25,7 @@ export const NavBar = () => {
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <Typography
-                        variant="h6"
+                        variant="h5"
                         noWrap
                         component="div"
                         sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}

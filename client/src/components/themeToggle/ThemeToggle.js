@@ -7,7 +7,7 @@ export const ThemeToggle = () => {
     const { theme, toggleTheme } = useContext(ThemeContext)
 
     return (
-        <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 20 }}>
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <Switch onChange={toggleTheme} checked={theme === "light" ? false : true} />
         </div>
     )

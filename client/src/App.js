@@ -8,7 +8,7 @@ import { ThemeToggle } from "./components/themeToggle/ThemeToggle";
 
 import { ThemeContext } from "./context"
 import { useModal } from './hooks';
-import Container from '@mui/material/Container';
+import { Container, Box, Typography } from '@mui/material';
 
 import { GlobalStyles } from './global';
 
@@ -48,9 +48,26 @@ const App = () => {
           sx={{
             flexGrow: 1,
             display: 'flex',
-            flexDirection: { md: 'column' },
+            flexDirection: 'column',
           }}>
-          <ThemeToggle />
+          <Box sx={{
+            display: 'flex',
+            flexGrow: 1,
+            justifyContent: 'space-between',
+            padding: '40px 40px 20px',
+            fontSize: 'large',
+            flexDirection: { sm: 'column' }
+          }}>
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ mr: 2, display: 'flex' }}
+            >
+              Some stuff we can put here...
+            </Typography>
+            <ThemeToggle />
+          </Box>
           <Body>
             <Panel className="panel-form">
               <Form
@@ -62,8 +79,6 @@ const App = () => {
             </Panel>
             <Panel>
               {imageURL && <ImageViewer src={imageURL} />}
-            </Panel>
-            <Panel>
               {
                 Object.keys(predictions).map((key, i) => (
                   <p key={i}>

@@ -10,7 +10,6 @@ export const Body = ({ children }) => {
                 flexGrow: 1,
                 display: 'flex',
                 flexDirection: { xs: 'column', md: 'row' },
-                paddingTop: '40px'
             }}>
             {children}
         </Container >
