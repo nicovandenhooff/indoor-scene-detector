@@ -1,4 +1,3 @@
-from audioop import cross
 from flask import Flask, request
 from flask_cors import CORS, cross_origin
 from ml import prediction, plotting
