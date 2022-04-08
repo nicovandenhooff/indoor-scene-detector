@@ -14,14 +14,13 @@ export const ImageSelection = ({ handleFileUpload }) => {
                 }}
             >
                 {itemData.map((item) => (
-                    <ImageListItem key={item.img} sx={{ cursor: "pointer" }}>
+                    <ImageListItem key={item.id} sx={{ cursor: "pointer" }}>
                         <img
                             src={`${item.src}`}
                             alt={item.title}
                             loading="lazy"
                             onClick={handleFileUpload}
                             id={item.id}
-                            key={item.id}
                         />
                     </ImageListItem>
 
