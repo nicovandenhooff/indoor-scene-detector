@@ -1,8 +1,5 @@
-from audioop import cross
 from flask import Flask, request
 from flask_cors import CORS, cross_origin
-from api.ml.plotting import plot_saliency_grads
-from api.ml.prediction import bytes_to_b64, fig_to_bytes
 from ml import prediction, plotting
 
 app = Flask(__name__)
@@ -37,15 +34,15 @@ def get_predictions():
     model = MODELS[model_name]
     pred_prob, pred_label, pred_class = prediction.get_prediction(model, img_tensor)
 
-    # get saliency gradients
-    grads = plotting.get_saliency_grads(model, img_tensor)
-    fig = plot_saliency_grads(grads, img_tensor)
-    saliency_bytes = fig_to_bytes(fig)
-    saliency_b64 = bytes_to_b64(saliency_bytes)
+    # # get saliency gradients
+    # grads = plotting.get_saliency_grads(model, img_tensor)
+    # fig = plotting.plot_saliency_grads(grads, img_tensor)
+    # saliency_bytes = prediction.fig_to_bytes(fig)
+    # saliency_b64 = prediction.bytes_to_b64(saliency_bytes)
 
     return {
         "prob": pred_prob,
         "label": pred_label,
         "class": pred_class,
-        "saliency_b64": saliency_b64,
+        # "saliency_b64": saliency_b64,
     }
