@@ -9,7 +9,7 @@ import { ThemeToggle } from "./components/themeToggle/ThemeToggle";
 import { ThemeContext } from "./context"
 import { useModal } from './hooks';
 import Container from '@mui/material/Container';
-import axios from 'axios';
+import axios from './axios';
 
 import { GlobalStyles } from './global';
 
@@ -34,42 +34,12 @@ const App = () => {
   }, [image])
 
 
-  // TO UNCOMMENT OUT AND USE ONCE EVERYTHING WORKS
-  // const handleSubmit = (e) => {
-
-  //   if (!image || !network) {
-  //     return toggle(true)
-  //   }
-
-  //   console.log(image[0])
-  //   e.preventDefault()
-
-  //   axios.post('/predict', { data: image[0] })
-  //     .then(res => {
-  //       console.log(`response = ${res.data}`)
-  //       // setName(res.data)
-  //     })
-  //     .catch(error => {
-  //       console.log(`error = ${error}`)
-  //     })
-
-  //   // return fetch("/predict", {
-  //   //   method: "POST",
-  //   //   headers: { "Content-Type": "application/json" },
-  //   //   body: JSON.stringify({ image }),
-  //   // })
-  //   //   .then((res) => res.json())
-  //   //   .then((data) => {
-  //   //     console.log('data', data)
-  //   //   })
-  // }
-
-
-
   const createImage = (newImage) => axios.post('/api/predict', {
     newImage, network, transferLearning
   }).then((res) => {
     setPredictions(res.data)
+  }).catch(e => {
+    console.log(`error = ${e}`)
   })
 
   const createPost = async (post) => {
@@ -163,60 +133,3 @@ const App = () => {
 }
 
 export default App
-
-
-
-// import React from 'react';
-// import './index.css'
-
-// class App extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       error: null,
-//       isLoaded: false,
-//       items: [],
-//     };
-//   }
-
-//   componentDidMount() {
-//     fetch("api/v1.0/predict")
-//       .then(res => res.json())
-//       .then(
-//         (result) => {
-//           this.setState({
-//             isLoaded: true,
-//             items: result.items,
-//           });
-//         },
-//         (error) => {
-//           this.setState({
-//             isLoaded: true,
-//             error,
-//           });
-//         }
-//       )
-//   }
-
-//   render() {
-//     const { error, isLoaded, items } = this.state;
-//     if (error) {
-//       return <div>Error: {error.message}</div>;
-//     } else if (!isLoaded) {
-//       return <div>Loading...</div>;
-//     } else {
-//       return (
-//         <ul>
-//           {items.map(item => (
-//             <li key={item.name}>
-//               {item.name} {item.price}
-//             </li>
-//           ))}
-//         </ul>
-//       );
-//     }
-//   }
-// }
-
-
-// export default App
