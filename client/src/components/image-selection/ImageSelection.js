@@ -2,11 +2,7 @@ import React from 'react';
 import { ImageList, ImageListItem, Box } from '@mui/material';
 
 
-export const ImageSelection = ({ handleImageSelection }) => {
-
-    const handleSetImage = (e) => {
-        handleImageSelection(e.target)
-    }
+export const ImageSelection = ({ handleFileUpload }) => {
 
     return (
         <Box>
@@ -14,21 +10,7 @@ export const ImageSelection = ({ handleImageSelection }) => {
                 sx={{
                     gridAutoFlow: "column",
                     gridTemplateColumns: "repeat(auto-fill,minmax(160px,1fr)) !important",
-                    gridAutoColumns: "minmax(160px, 1fr)",
-                    // selected and (selected + hover) states
-                    // '&& .Mui-selected, && .Mui-selected:hover': {
-                    // bgcolor: 'red',
-                    '&, & .MuiImageListItem-root': {
-                        border: 'pink',
-                        // },
-                    },
-                    // hover states
-                    '& .MuiImageListItem-root:hover': {
-                        bgcolor: 'orange',
-                        '&, & .MuiImageListItem-root': {
-                            color: 'yellow',
-                        },
-                    },
+                    gridAutoColumns: "minmax(160px, 1fr)"
                 }}
             >
                 {itemData.map((item) => (
@@ -37,7 +19,7 @@ export const ImageSelection = ({ handleImageSelection }) => {
                             src={`${item.src}`}
                             alt={item.title}
                             loading="lazy"
-                            onClick={handleSetImage}
+                            onClick={handleFileUpload}
                             id={item.id}
                             key={item.id}
                         />

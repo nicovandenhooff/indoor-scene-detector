@@ -21,24 +21,25 @@ export const Form = ({ image, toggle, setImage, setPredictions }) => {
     const [loading, setLoading] = useState(false)
 
     const handleFileUpload = async (e) => {
-        const file = e.target.files[0];
+        const target = e.target
+
+        let file
+        let imageUrl
+
+        if (!!target.id) {
+            const img = document.getElementById(target.id)
+            const blob = await (await fetch(img.src)).blob()
+            imageUrl = target.src
+            file = new File([blob], imageUrl, blob)
+        } else {
+            file = e.target.files[0];
+            imageUrl = URL.createObjectURL(file)
+        }
 
         const base64 = await convertToBase64(file);
-        console.log(base64)
         setPostImage(base64);
-        setImage(URL.createObjectURL(file))
+        setImage(imageUrl)
     };
-
-    const handleImageSelection = async (image) => {
-        const img = document.getElementById(image.id)
-        const blob = await (await fetch(img.src)).blob()
-
-        const file = new File([blob], image.src, blob)
-
-        const base64 = await convertToBase64(file);
-        setPostImage(base64);
-        setImage(image.src)
-    }
 
     const convertToBase64 = (file) => {
         return new Promise((resolve, reject) => {
@@ -98,7 +99,7 @@ export const Form = ({ image, toggle, setImage, setPredictions }) => {
                 Select or upload an image:
             </Typography>
 
-            <ImageSelection handleImageSelection={handleImageSelection} />
+            <ImageSelection handleFileUpload={handleFileUpload} />
             <input
                 type="file"
                 label="Image"
