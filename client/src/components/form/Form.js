@@ -5,24 +5,41 @@ import {
     FormControl,
     FormControlLabel,
     Radio,
-    RadioGroup
+    RadioGroup,
+    Typography
 } from "@mui/material";
 import axios from '../../axios';
+import { ImageSelection } from "../image-selection";
 
 import "./Form.css"
+import { FileUploader } from "../file-uploader";
 
 export const Form = ({ image, toggle, setImage, setPredictions }) => {
 
     const [network, setNetwork] = useState('alexnet')
     const [transferLearning, setTransferLearning] = useState('tuned')
-    const [postImage, setPostImage] = useState({ myFile: "", });
+    const [postImage, setPostImage] = useState(null);
     const [loading, setLoading] = useState(false)
 
     const handleFileUpload = async (e) => {
-        const file = e.target.files[0];
+        const target = e.target
+
+        let file
+        let imageUrl
+
+        if (!!target.id) {
+            const img = document.getElementById(target.id)
+            const blob = await (await fetch(img.src)).blob()
+            imageUrl = target.src
+            file = new File([blob], imageUrl, blob)
+        } else {
+            file = e.target.files[0];
+            imageUrl = URL.createObjectURL(file)
+        }
+
         const base64 = await convertToBase64(file);
         setPostImage(base64);
-        setImage(file)
+        setImage(imageUrl)
     };
 
     const convertToBase64 = (file) => {
@@ -63,26 +80,29 @@ export const Form = ({ image, toggle, setImage, setPredictions }) => {
 
 
     const submitButton = () => {
-        return !loading ?
-            <Button variant="contained" type="submit" onClick={handleSubmit}>
-                Submit
+
+        const buttonText = !loading ? 'Submit' : <CircularProgress color="secondary" size='20px' />
+
+        return (
+            <Button variant="contained" type="submit" onClick={handleSubmit} sx={{
+                alignSelf: "flex-end",
+                width: "100%",
+                maxWidth: "-webkit-fill-available"
+            }} >
+                {buttonText}
             </Button>
-            : <Button variant="contained" type="submit" onClick={handleSubmit}>
-                <CircularProgress color="secondary" size='20px' />
-            </Button>
+        )
     }
 
     return (
         <FormControl className="form">
-            Upload an image:
-            <input
-                type="file"
-                label="Image"
-                name="myFile"
-                accept=".jpeg, .png, .jpg"
-                onChange={handleFileUpload}
-            />
-            Select a network:
+
+            <Typography>1. Select or upload an image:</Typography>
+            <ImageSelection handleFileUpload={handleFileUpload} />
+
+            <FileUploader handleFileUpload={handleFileUpload} />
+
+            <Typography>2. Select a network:</Typography>
             <RadioGroup
                 aria-labelledby="network-label"
                 defaultValue="alexnet"
@@ -90,12 +110,13 @@ export const Form = ({ image, toggle, setImage, setPredictions }) => {
                 onChange={handleNetworkChange}
                 className="radio-group"
             >
-                <FormControlLabel value="alexnet" control={<Radio />} label="AlexNet" />
-                <FormControlLabel value="densenet121" control={<Radio />} label="DenseNet" />
-                <FormControlLabel value="resnet18" control={<Radio />} label="ResNet" />
-                <FormControlLabel value="simple_cnn" control={<Radio />} label="Simple Network" />
+                <FormControlLabel value="alexnet" control={<Radio />} label={<Typography variant="body2">AlexNet</Typography>} />
+                <FormControlLabel value="densenet121" control={<Radio />} label={<Typography variant="body2">DenseNet</Typography>} />
+                <FormControlLabel value="resnet18" control={<Radio />} label={<Typography variant="body2">ResNet</Typography>} />
+                <FormControlLabel value="simple_cnn" control={<Radio />} label={<Typography variant="body2">Simple Network</Typography>} />
 
             </RadioGroup>
+            <Typography>3. Select tuning: </Typography>
             <RadioGroup
                 aria-labelledby="network-label"
                 defaultValue="tuned"
@@ -103,8 +124,8 @@ export const Form = ({ image, toggle, setImage, setPredictions }) => {
                 onChange={handleTransferLearningChange}
                 className="radio-group"
             >
-                <FormControlLabel value="tuned" control={<Radio />} label="Fully tuned" />
-                <FormControlLabel value="featex" control={<Radio />} label="Last layer tuned" />
+                <FormControlLabel value="tuned" control={<Radio />} label={<Typography variant="body2">Fully tuned</Typography>} />
+                <FormControlLabel value="featex" control={<Radio />} label={<Typography variant="body2">Last layer tuned</Typography>} />
 
             </RadioGroup>
             {submitButton()}

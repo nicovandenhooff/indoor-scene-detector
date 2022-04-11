@@ -2,7 +2,7 @@
 .form{
     display: flex;
     flex-direction: column;
-    width: 20vw;
+    /* max-width: 20vw; */
     /* align-items: center; */
 }
 

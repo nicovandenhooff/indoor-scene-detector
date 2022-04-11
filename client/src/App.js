@@ -1,31 +1,22 @@
-import React, { useEffect, useState, useContext } from "react"
+import React, { useState, useContext } from "react"
 import { Body, Panel, NavBar, Modal } from "./components/layout";
 import { Form } from "./components/form/Form";
 import { ImageViewer } from "./components/image-viewer/ImageViewer";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { ThemeToggle } from "./components/themeToggle/ThemeToggle";
 
 import { ThemeContext } from "./context"
 import { useModal } from './hooks';
-import Container from '@mui/material/Container';
+import { Container, Box, Typography } from '@mui/material';
 
 import { GlobalStyles } from './global';
 
 const App = () => {
   const [image, setImage] = useState()
-  const [imageURL, setImageURL] = useState('')
   const [predictions, setPredictions] = useState({})
 
   const { theme } = useContext(ThemeContext)
   const { showModal, toggle } = useModal();
-
-  useEffect(() => {
-    if (!image) return
-    const imageUrl = URL.createObjectURL(image)
-    setImageURL(imageUrl)
-  }, [image])
-
 
   return (
     <>
@@ -48,9 +39,24 @@ const App = () => {
           sx={{
             flexGrow: 1,
             display: 'flex',
-            flexDirection: { md: 'column' },
+            flexDirection: 'column',
           }}>
-          <ThemeToggle />
+          <Box sx={{
+            display: 'flex',
+            flexGrow: 1,
+            justifyContent: 'space-between',
+            padding: '40px 40px 20px',
+            fontSize: 'large',
+            flexDirection: { sm: 'column', md: 'row' }
+          }}>
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{ mr: 2, display: 'flex' }}
+            >
+              Some stuff we can put here...
+            </Typography>
+          </Box>
           <Body>
             <Panel className="panel-form">
               <Form
@@ -61,9 +67,7 @@ const App = () => {
               />
             </Panel>
             <Panel>
-              {imageURL && <ImageViewer src={imageURL} />}
-            </Panel>
-            <Panel>
+              {image && <ImageViewer src={image} />}
               {
                 Object.keys(predictions).map((key, i) => (
                   <p key={i}>
