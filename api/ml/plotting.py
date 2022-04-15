@@ -126,7 +126,7 @@ def get_occlusion_attr(
     return occlusion_attr
 
 
-def plot_occlusion(occlusion_attr, img_tensor, **kwargs):
+def plot_occlusion(occlusion_attr, img_tensor, use_pyplot=False, **kwargs):
     """Plots positive occlusion attributes as a heatmap over an image.
 
     Parameters
@@ -135,6 +135,9 @@ def plot_occlusion(occlusion_attr, img_tensor, **kwargs):
         The primary image attributions calculated with Occlusion.
     img_tensor : torch.Tensor
         The original image.
+    use_pyplot : bool
+        Whether or not to use matplotlib.pyplot or OOP matplotlib to
+        plot the figure.  By default False to ensure Flask app works.
 
     Returns
     -------
@@ -149,6 +152,7 @@ def plot_occlusion(occlusion_attr, img_tensor, **kwargs):
         cmap="jet",
         alpha_overlay=0.35,
         show_colorbar=True,
+        use_pyplot=use_pyplot,
         **kwargs,
     )
 
@@ -195,7 +199,7 @@ def get_grad_shap_attr(model, img_tensor, n_samples=15, stdevs=0.0001, **kwargs)
     return grad_shap_attr
 
 
-def plot_grad_shap(grad_shap_attr, img_tensor, **kwargs):
+def plot_grad_shap(grad_shap_attr, img_tensor, use_pyplot=False, **kwargs):
     """Plots positive Gradient SHAP attributes of an image.
 
     Parameters
@@ -204,6 +208,9 @@ def plot_grad_shap(grad_shap_attr, img_tensor, **kwargs):
         The primary image attributions calculated with Gradient SHAP.
     img_tensor : torch.Tensor
         The original image.
+    use_pyplot : bool
+        Whether or not to use matplotlib.pyplot or OOP matplotlib to
+        plot the figure.  By default False to ensure Flask app works.
 
     Returns
     -------
@@ -217,6 +224,7 @@ def plot_grad_shap(grad_shap_attr, img_tensor, **kwargs):
         signs=["positive"],
         cmap=CUSTOM_CMAP,
         show_colorbar=True,
+        use_pyplot=use_pyplot,
         **kwargs,
     )
 
@@ -255,7 +263,7 @@ def get_integrated_grad_attr(model, img_tensor, n_steps=15, **kwargs):
     return ig_attr
 
 
-def plot_integrated_gradients(ig_attr, img_tensor, **kwargs):
+def plot_integrated_gradients(ig_attr, img_tensor, use_pyplot=False, **kwargs):
     """Plots positive Integrated Gradients attributes of an image.
 
     Parameters
@@ -264,6 +272,9 @@ def plot_integrated_gradients(ig_attr, img_tensor, **kwargs):
         The primary image attributions calculated with Integrated Gradients.
     img_tensor : torch.Tensor
         The original image.
+    use_pyplot : bool
+        Whether or not to use matplotlib.pyplot or OOP matplotlib to
+        plot the figure.  By default False to ensure Flask app works.
 
     Returns
     -------
@@ -278,6 +289,7 @@ def plot_integrated_gradients(ig_attr, img_tensor, **kwargs):
         cmap=CUSTOM_CMAP,
         show_colorbar=True,
         outlier_perc=1,
+        use_pyplot=use_pyplot,
         **kwargs,
     )
 
@@ -307,7 +319,7 @@ def get_saliency_grads(model, img_tensor):
     return grads
 
 
-def plot_saliency_grads(grads, img_tensor, **kwargs):
+def plot_saliency_grads(grads, img_tensor, use_pyplot=False, **kwargs):
     """Plots gradients (magnitudes) of an image calculated with Saliency.
 
     Parameters
@@ -316,6 +328,9 @@ def plot_saliency_grads(grads, img_tensor, **kwargs):
         The gradients calculated with Saliency.
     img_tensor : torch.Tensor
         The original image.
+    use_pyplot : bool
+        Whether or not to use matplotlib.pyplot or OOP matplotlib to
+        plot the figure.  By default False to ensure Flask app works.
 
     Returns
     -------
@@ -329,6 +344,7 @@ def plot_saliency_grads(grads, img_tensor, **kwargs):
         method="blended_heat_map",
         sign="absolute_value",
         show_colorbar=True,
+        use_pyplot=use_pyplot,
         **kwargs,
     )
 
