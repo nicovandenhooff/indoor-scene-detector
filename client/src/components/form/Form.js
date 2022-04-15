@@ -14,12 +14,11 @@ import { ImageSelection } from "../image-selection";
 import "./Form.css"
 import { FileUploader } from "../file-uploader";
 
-export const Form = ({ image, toggle, setImage, setPredictions }) => {
+export const Form = ({ image, toggle, setImage, setPredictions, loading, setLoading }) => {
 
     const [network, setNetwork] = useState('alexnet')
     const [transferLearning, setTransferLearning] = useState('tuned')
     const [postImage, setPostImage] = useState(null);
-    const [loading, setLoading] = useState(false)
 
     const handleFileUpload = async (e) => {
         const target = e.target
@@ -68,8 +67,12 @@ export const Form = ({ image, toggle, setImage, setPredictions }) => {
         setLoading(true)
         e.preventDefault();
 
+        const modelName = network !== "simple_cnn"
+            ? network + '_' + transferLearning
+            : "simple_cnn"
+
         return axios.post('/api/predict', {
-            newImage: postImage, network, transferLearning
+            image: postImage, modelName
         }).then((res) => {
             setPredictions(res.data)
             setLoading(false)
@@ -89,7 +92,7 @@ export const Form = ({ image, toggle, setImage, setPredictions }) => {
                 width: "100%",
                 maxWidth: "-webkit-fill-available"
             }} >
-                {buttonText}
+                {'Submit'}
             </Button>
         )
     }
@@ -116,18 +119,22 @@ export const Form = ({ image, toggle, setImage, setPredictions }) => {
                 <FormControlLabel value="simple_cnn" control={<Radio />} label={<Typography variant="body2">Simple Network</Typography>} />
 
             </RadioGroup>
-            <Typography>3. Select tuning: </Typography>
-            <RadioGroup
-                aria-labelledby="network-label"
-                defaultValue="tuned"
-                name="transferLearning"
-                onChange={handleTransferLearningChange}
-                className="radio-group"
-            >
-                <FormControlLabel value="tuned" control={<Radio />} label={<Typography variant="body2">Fully tuned</Typography>} />
-                <FormControlLabel value="featex" control={<Radio />} label={<Typography variant="body2">Last layer tuned</Typography>} />
+            {network == "simple_cnn" ? null
+                : <>
+                    <Typography>3. Select transfer learning technique: </Typography>
+                    <RadioGroup
+                        aria-labelledby="network-label"
+                        defaultValue="tuned"
+                        name="transferLearning"
+                        onChange={handleTransferLearningChange}
+                        className="radio-group"
+                    >
+                        <FormControlLabel value="tuned" control={<Radio />} label={<Typography variant="body2">All layers tuned</Typography>} />
+                        <FormControlLabel value="featex" control={<Radio />} label={<Typography variant="body2">Only last layer tuned</Typography>} />
 
-            </RadioGroup>
+                    </RadioGroup>
+                </>
+            }
             {submitButton()}
 
         </FormControl>

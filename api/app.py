@@ -21,14 +21,9 @@ def home():
 @cross_origin()
 def get_predictions():
     data = request.json
-    img_bytes = prediction.b64_to_bytes(data["newImage"])
+    img_bytes = prediction.b64_to_bytes(data["image"])
     img_tensor = prediction.transform_image(img_bytes)
-
-    model_name = data["network"]
-
-    # TODO: move network name to react
-    if data["network"] != "simple_cnn":
-        model_name += "_" + data["transferLearning"]
+    model_name = data["modelName"]
 
     # choose model and get outputs
     model = MODELS[model_name]
