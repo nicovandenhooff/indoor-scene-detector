@@ -110,24 +110,28 @@ export const Form = ({ image, toggle, setImage, setPredictions }) => {
                 onChange={handleNetworkChange}
                 className="radio-group"
             >
-                <FormControlLabel value="alexnet" control={<Radio />} label={<Typography variant="body2">AlexNet</Typography>} />
-                <FormControlLabel value="densenet121" control={<Radio />} label={<Typography variant="body2">DenseNet</Typography>} />
-                <FormControlLabel value="resnet18" control={<Radio />} label={<Typography variant="body2">ResNet</Typography>} />
+                <FormControlLabel value="alexnet_transferLearning" control={<Radio />} label={<Typography variant="body2">AlexNet</Typography>} />
+                <FormControlLabel value="densenet121_transferLearning" control={<Radio />} label={<Typography variant="body2">DenseNet</Typography>} />
+                <FormControlLabel value="resnet18_transferLearning" control={<Radio />} label={<Typography variant="body2">ResNet</Typography>} />
                 <FormControlLabel value="simple_cnn" control={<Radio />} label={<Typography variant="body2">Simple Network</Typography>} />
 
             </RadioGroup>
-            <Typography>3. Select tuning: </Typography>
-            <RadioGroup
-                aria-labelledby="network-label"
-                defaultValue="tuned"
-                name="transferLearning"
-                onChange={handleTransferLearningChange}
-                className="radio-group"
-            >
-                <FormControlLabel value="tuned" control={<Radio />} label={<Typography variant="body2">Fully tuned</Typography>} />
-                <FormControlLabel value="featex" control={<Radio />} label={<Typography variant="body2">Last layer tuned</Typography>} />
+            {network == "simple_cnn" ? null
+                : <>
+                    <Typography>3. Select transfer learning technique: </Typography>
+                    <RadioGroup
+                        aria-labelledby="network-label"
+                        defaultValue="tuned"
+                        name="transferLearning"
+                        onChange={handleTransferLearningChange}
+                        className="radio-group"
+                    >
+                        <FormControlLabel value="tuned" control={<Radio />} label={<Typography variant="body2">All layers tuned</Typography>} />
+                        <FormControlLabel value="featex" control={<Radio />} label={<Typography variant="body2">Only last layer tuned</Typography>} />
 
-            </RadioGroup>
+                    </RadioGroup>
+                </>
+            }
             {submitButton()}
 
         </FormControl>
