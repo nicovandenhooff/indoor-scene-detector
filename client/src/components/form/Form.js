@@ -68,8 +68,12 @@ export const Form = ({ image, toggle, setImage, setPredictions }) => {
         setLoading(true)
         e.preventDefault();
 
+        const modelName = network !== "simple_cnn"
+            ? network + '_' + transferLearning
+            : "simple_cnn"
+
         return axios.post('/api/predict', {
-            newImage: postImage, network, transferLearning
+            image: postImage, modelName
         }).then((res) => {
             setPredictions(res.data)
             setLoading(false)
@@ -110,9 +114,9 @@ export const Form = ({ image, toggle, setImage, setPredictions }) => {
                 onChange={handleNetworkChange}
                 className="radio-group"
             >
-                <FormControlLabel value="alexnet_transferLearning" control={<Radio />} label={<Typography variant="body2">AlexNet</Typography>} />
-                <FormControlLabel value="densenet121_transferLearning" control={<Radio />} label={<Typography variant="body2">DenseNet</Typography>} />
-                <FormControlLabel value="resnet18_transferLearning" control={<Radio />} label={<Typography variant="body2">ResNet</Typography>} />
+                <FormControlLabel value="alexnet" control={<Radio />} label={<Typography variant="body2">AlexNet</Typography>} />
+                <FormControlLabel value="densenet121" control={<Radio />} label={<Typography variant="body2">DenseNet</Typography>} />
+                <FormControlLabel value="resnet18" control={<Radio />} label={<Typography variant="body2">ResNet</Typography>} />
                 <FormControlLabel value="simple_cnn" control={<Radio />} label={<Typography variant="body2">Simple Network</Typography>} />
 
             </RadioGroup>
