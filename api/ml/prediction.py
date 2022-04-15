@@ -275,6 +275,16 @@ def get_topk_predictions(model, img_tensor, k=2):
         pred_probs, pred_labels = torch.topk(probs, k=k, dim=1, sorted=True)
         pred_classes = [class_mapper[str(i.item())] for i in pred_labels.squeeze()]
 
-    pred_probs, pred_labels = pred_probs.tolist(), pred_labels.tolist()
+    pred_probs, pred_labels = pred_probs.tolist()[0], pred_labels.tolist()[0]
 
     return pred_probs, pred_labels, pred_classes
+
+
+def wrangle_topk_predictions(pred_probs, pred_labels, pred_classes):
+    """Helper function to wrangle predictions to cleaner data structure format for FE."""
+    predictions = []
+
+    for prob, label, class_name in zip(pred_probs, pred_labels, pred_classes):
+        predictions.append({"prob": prob, "label": label, "class": class_name})
+
+    return predictions
