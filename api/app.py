@@ -32,17 +32,28 @@ def get_predictions():
 
     # choose model and get outputs
     model = MODELS[model_name]
+
+    # TODO: To only keep one of the predictions below, to discuss with mel
+    # I think it's better to keep the latter since it returns arrays
+    # Then in the FE we can just index these arrays?
     pred_prob, pred_label, pred_class = prediction.get_prediction(model, img_tensor)
+    pred_probs, pred_labels, pred_classes = prediction.get_topk_predictions(
+        model, img_tensor, k=3
+    )
 
-    # # get saliency gradients
-    # grads = plotting.get_saliency_grads(model, img_tensor)
-    # fig = plotting.plot_saliency_grads(grads, img_tensor)
-    # saliency_bytes = prediction.fig_to_bytes(fig)
-    # saliency_b64 = prediction.bytes_to_b64(saliency_bytes)
+    # get saliency plot and convert to base64
+    grads = plotting.get_saliency_grads(model, img_tensor)
+    fig = plotting.plot_saliency_grads(grads, img_tensor)
+    saliency_bytes = prediction.fig_to_bytes(fig)
+    saliency_b64 = prediction.bytes_to_b64(saliency_bytes)
 
+    # TODO: Same comment as line 36, to update this based on what we keep
     return {
         "prob": pred_prob,
         "label": pred_label,
         "class": pred_class,
-        # "saliency_b64": saliency_b64,
+        "probs": pred_probs,
+        "labels": pred_labels,
+        "classes": pred_classes,
+        "saliency_b64": str(saliency_b64),
     }
