@@ -8,7 +8,8 @@ import {
 import { Link } from "react-router-dom";
 import { ThemeToggle } from "../../themeToggle/ThemeToggle";
 
-const pages = ['Dashboard', 'About', 'Contact'];
+// const pages = ['Dashboard', 'About', 'Contact'];
+const pages = [];
 
 export const NavBar = () => {
     const [anchorElNav, setAnchorElNav] = useState(null);
@@ -89,7 +90,7 @@ export const NavBar = () => {
                             </Button>
                         ))}
                     </Box>
-                    <ThemeToggle />
+                    {/* <ThemeToggle /> */}
                 </Toolbar>
 
             </Container>
