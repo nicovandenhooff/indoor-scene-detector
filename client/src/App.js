@@ -8,6 +8,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ThemeContext } from "./context"
 import { useModal } from './hooks';
 import { Container, Box, Typography, CircularProgress } from '@mui/material';
+import { Table, TableBody, TableCell, TableRow, TableHead, TableContainer } from '@mui/material';
+
 
 import { GlobalStyles } from './global';
 
@@ -18,6 +20,8 @@ const App = () => {
 
   const { theme } = useContext(ThemeContext)
   const { showModal, toggle } = useModal();
+
+  console.log(predictions)
 
   return (
     <>
@@ -118,7 +122,7 @@ const App = () => {
                   component="div"
                   sx={{ display: 'flex', alignSelf: 'center', mb: '20px' }}
                 >
-                  Top prediction
+                  Top 3 class predictions:
                 </Typography>
                 {loading
                   ? <Typography
@@ -130,22 +134,33 @@ const App = () => {
                     Calculating...
                   </Typography>
                   : predictions &&
-                  <>
-                    <Typography
-                      variant="body"
-                      component="div"
-                      sx={{ display: 'flex', alignSelf: 'center', mb: '20px' }}
-                    >
-                      Class: {predictions.class}
-                    </Typography>
-                    <Typography
-                      variant="body"
-                      component="div"
-                      sx={{ display: 'flex', alignSelf: 'center', mb: '20px' }}
-                    >
-                      Probability: {parseFloat(predictions.prob).toFixed(4)}
-                    </Typography>
-                  </>
+                  <Table aria-label="simple table">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell></TableCell>
+                        <TableCell>Class</TableCell>
+                        <TableCell>Probability</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {predictions.predictions.map((prediction, i) => (
+                        <TableRow
+                          key={prediction.class}
+                          sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                          <TableCell component="th" scope="row">
+                            {i + 1}
+                          </TableCell>
+                          <TableCell component="th" scope="row">
+                            {prediction.class}
+                          </TableCell>
+                          <TableCell component="th" scope="row">
+                            {parseFloat(prediction.prob).toFixed(4)}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
                 }
               </Box>
             </Box>
