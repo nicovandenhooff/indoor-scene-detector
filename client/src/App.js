@@ -7,13 +7,14 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import { ThemeContext } from "./context"
 import { useModal } from './hooks';
-import { Container, Box, Typography } from '@mui/material';
+import { Container, Box, Typography, CircularProgress } from '@mui/material';
 
 import { GlobalStyles } from './global';
 
 const App = () => {
   const [image, setImage] = useState()
-  const [predictions, setPredictions] = useState({})
+  const [predictions, setPredictions] = useState(null)
+  const [loading, setLoading] = useState(false)
 
   const { theme } = useContext(ThemeContext)
   const { showModal, toggle } = useModal();
@@ -75,6 +76,8 @@ const App = () => {
                 image={image}
                 toggle={toggle}
                 setPredictions={setPredictions}
+                setLoading={setLoading}
+                loading={loading}
               />
             </Box>
             <Box sx={{
@@ -84,18 +87,22 @@ const App = () => {
               marginLeft: '20px',
               marginRight: '20px',
               boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
-              flexDirection: { sm: 'column', md: 'row' },
+              flexDirection: { sm: 'column', lg: 'row' },
               transition: 'all 0.4s ease-in',
               borderRadius: '4px'
             }}>
               <Box sx={{
-                width: '450px'
+                width: '450px',
+                display: 'flex',
+                flexDirection: "column",
+                alignItems: 'center',
+                flex: 1
               }}
               >
                 <Typography
                   variant="h6"
                   component="div"
-                  sx={{ mr: 2, display: 'flex', alignSelf: 'center' }}
+                  sx={{ display: 'flex', alignSelf: 'center', mb: '20px' }}
                 >
                   Selected Image
                 </Typography>
@@ -103,24 +110,42 @@ const App = () => {
               </Box>
               <Box sx={{
                 display: 'flex',
-                justifyContent: 'space-between',
                 flexDirection: "column",
                 flex: 1
               }}>
                 <Typography
                   variant="h6"
                   component="div"
-                  sx={{ mr: 2, display: 'flex', alignSelf: 'center' }}
+                  sx={{ display: 'flex', alignSelf: 'center', mb: '20px' }}
                 >
-                  Top 3 class predictions
+                  Top prediction
                 </Typography>
-                {
-                  Object.keys(predictions).map((key, i) => (
-                    <p key={i}>
-                      <span>{key}</span>
-                      <span>: {predictions[key]}</span>
-                    </p>
-                  ))
+                {loading
+                  ? <Typography
+                    variant="body"
+                    component="div"
+                    sx={{ display: 'flex', alignSelf: 'center', mb: '20px', flexDirection: "column" }}
+                  >
+                    <CircularProgress color="secondary" size='20px' sx={{ alignSelf: 'center' }} />
+                    Calculating...
+                  </Typography>
+                  : predictions &&
+                  <>
+                    <Typography
+                      variant="body"
+                      component="div"
+                      sx={{ display: 'flex', alignSelf: 'center', mb: '20px' }}
+                    >
+                      Class: {predictions.class}
+                    </Typography>
+                    <Typography
+                      variant="body"
+                      component="div"
+                      sx={{ display: 'flex', alignSelf: 'center', mb: '20px' }}
+                    >
+                      Probability: {parseFloat(predictions.prob).toFixed(4)}
+                    </Typography>
+                  </>
                 }
               </Box>
             </Box>

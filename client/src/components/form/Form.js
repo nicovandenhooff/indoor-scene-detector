@@ -14,12 +14,11 @@ import { ImageSelection } from "../image-selection";
 import "./Form.css"
 import { FileUploader } from "../file-uploader";
 
-export const Form = ({ image, toggle, setImage, setPredictions }) => {
+export const Form = ({ image, toggle, setImage, setPredictions, loading, setLoading }) => {
 
     const [network, setNetwork] = useState('alexnet')
     const [transferLearning, setTransferLearning] = useState('tuned')
     const [postImage, setPostImage] = useState(null);
-    const [loading, setLoading] = useState(false)
 
     const handleFileUpload = async (e) => {
         const target = e.target
@@ -93,7 +92,7 @@ export const Form = ({ image, toggle, setImage, setPredictions }) => {
                 width: "100%",
                 maxWidth: "-webkit-fill-available"
             }} >
-                {buttonText}
+                {'Submit'}
             </Button>
         )
     }
