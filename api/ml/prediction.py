@@ -257,7 +257,7 @@ def get_topk_predictions(model, img_tensor, k=2):
 
     Returns
     -------
-    pred_probs, pred_labels, pred_classes : tensor, tensor, list
+    pred_probs, pred_labels, pred_classes : list, list, list
         The k probabilities, labels, and classes predicted, sorted in
         descending order from most likely to least likely.
     """
@@ -274,5 +274,7 @@ def get_topk_predictions(model, img_tensor, k=2):
         probs = torch.softmax(outputs, 1)
         pred_probs, pred_labels = torch.topk(probs, k=k, dim=1, sorted=True)
         pred_classes = [class_mapper[str(i.item())] for i in pred_labels.squeeze()]
+
+    pred_probs, pred_labels = pred_probs.tolist(), pred_labels.tolist()
 
     return pred_probs, pred_labels, pred_classes
