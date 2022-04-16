@@ -1,0 +1,40 @@
+name: cd
+
+on:
+  push:
+    branches: deployment
+  workflow_dispatch:
+
+jobs:
+  deploy-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout-deployment-branch
+        uses: actions/checkout@v3
+        with:
+          ref: deployment
+      - name: heroku-deployment
+        uses: AkhileshNS/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: ${{secrets.HEROKU_APP}}
+          heroku_email: ${{secrets.HEROKU_EMAIL}}
+          appdir: "api"
+  deploy-frontend:
+    needs: deploy-backend
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout-deployment-branch
+        uses: actions/checkout@v3
+        with:
+          ref: deployment
+      - name: install-and-build-front-end
+        working-directory: client
+        run: |
+          yarn install
+          npm run build
+      - name: gh-pages-deployment
+        uses: JamesIves/github-pages-deploy-action@v4.3.0
+        with:
+          branch: gh-pages
+          folder: build
