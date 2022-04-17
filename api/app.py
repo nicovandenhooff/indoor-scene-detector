@@ -11,12 +11,6 @@ if __name__ == "__main__":
     app.run(port="5000", debug=True)
 
 
-@app.route("/", methods=["GET", "POST"])
-@cross_origin()
-def home():
-    return {"hello": "HIIIII"}
-
-
 @app.route("/api/predict", methods=["POST"])
 @cross_origin()
 def get_predictions():
