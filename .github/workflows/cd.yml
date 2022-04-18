@@ -23,6 +23,8 @@ jobs:
   deploy-frontend:
     needs: deploy-backend
     runs-on: ubuntu-latest
+    env: 
+      REACT_APP_API_ENDPOINT: ${{secrets.BACKEND}}
     steps:
       - name: checkout-deployment-branch
         uses: actions/checkout@v3
