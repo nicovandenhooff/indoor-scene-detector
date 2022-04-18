@@ -1,13 +1,13 @@
 {
   "main.css": "/cnn-dashboard/static/css/main.afea43c2.chunk.css",
-  "main.js": "/cnn-dashboard/static/js/main.b70caa26.chunk.js",
-  "main.js.map": "/cnn-dashboard/static/js/main.b70caa26.chunk.js.map",
+  "main.js": "/cnn-dashboard/static/js/main.1f95209a.chunk.js",
+  "main.js.map": "/cnn-dashboard/static/js/main.1f95209a.chunk.js.map",
   "runtime~main.js": "/cnn-dashboard/static/js/runtime~main.43746b4b.js",
   "runtime~main.js.map": "/cnn-dashboard/static/js/runtime~main.43746b4b.js.map",
-  "static/js/2.64b7b154.chunk.js": "/cnn-dashboard/static/js/2.64b7b154.chunk.js",
-  "static/js/2.64b7b154.chunk.js.map": "/cnn-dashboard/static/js/2.64b7b154.chunk.js.map",
+  "static/js/2.d54fe160.chunk.js": "/cnn-dashboard/static/js/2.d54fe160.chunk.js",
+  "static/js/2.d54fe160.chunk.js.map": "/cnn-dashboard/static/js/2.d54fe160.chunk.js.map",
   "index.html": "/cnn-dashboard/index.html",
-  "precache-manifest.e38596aab13b892bf3f59931d7c06a70.js": "/cnn-dashboard/precache-manifest.e38596aab13b892bf3f59931d7c06a70.js",
+  "precache-manifest.c2848019f794dc5d125ffa57ab102aa3.js": "/cnn-dashboard/precache-manifest.c2848019f794dc5d125ffa57ab102aa3.js",
   "service-worker.js": "/cnn-dashboard/service-worker.js",
   "static/css/main.afea43c2.chunk.css.map": "/cnn-dashboard/static/css/main.afea43c2.chunk.css.map"
 }
