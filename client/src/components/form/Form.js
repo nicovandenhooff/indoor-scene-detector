@@ -16,7 +16,6 @@ import { FileUploader } from "../file-uploader";
 export const Form = ({ image, toggle, setImage, setPredictions, loading, setLoading }) => {
 
     const [network, setNetwork] = useState('alexnet')
-    const [transferLearning, setTransferLearning] = useState('tuned')
     const [postImage, setPostImage] = useState(null);
 
     const handleFileUpload = async (e) => {
@@ -56,9 +55,6 @@ export const Form = ({ image, toggle, setImage, setPredictions, loading, setLoad
     const handleNetworkChange = (e) =>
         setNetwork(e.target.value)
 
-    const handleTransferLearningChange = (e) =>
-        setTransferLearning(e.target.value)
-
     const handleSubmit = (e) => {
         if (!image || !network) {
             return toggle(true)
@@ -67,7 +63,7 @@ export const Form = ({ image, toggle, setImage, setPredictions, loading, setLoad
         e.preventDefault();
 
         const modelName = network !== "simple_cnn"
-            ? network + '_' + transferLearning
+            ? network + '_tuned'
             : "simple_cnn"
 
         return axios.post('/api/predict', {
@@ -82,8 +78,6 @@ export const Form = ({ image, toggle, setImage, setPredictions, loading, setLoad
 
 
     const submitButton = () => {
-
-        // const buttonText = !loading ? 'Submit' : <CircularProgress color="secondary" size='20px' />
 
         return (
             <Button variant="contained" type="submit" onClick={handleSubmit} sx={{
@@ -118,22 +112,6 @@ export const Form = ({ image, toggle, setImage, setPredictions, loading, setLoad
                 <FormControlLabel value="simple_cnn" control={<Radio />} label={<Typography variant="body2">Simple Network</Typography>} />
 
             </RadioGroup>
-            {network === "simple_cnn" ? null
-                : <>
-                    <Typography>3. Select transfer learning technique: </Typography>
-                    <RadioGroup
-                        aria-labelledby="network-label"
-                        defaultValue="tuned"
-                        name="transferLearning"
-                        onChange={handleTransferLearningChange}
-                        className="radio-group"
-                    >
-                        <FormControlLabel value="tuned" control={<Radio />} label={<Typography variant="body2">All layers tuned</Typography>} />
-                        <FormControlLabel value="featex" control={<Radio />} label={<Typography variant="body2">Only last layer tuned</Typography>} />
-
-                    </RadioGroup>
-                </>
-            }
             {submitButton()}
 
         </FormControl>

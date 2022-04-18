@@ -47,19 +47,21 @@ const App = () => {
             flexDirection: 'column',
           }}>
           <Box sx={{
-            display: 'flex',
-            flexGrow: 1,
-            justifyContent: 'space-between',
             padding: '40px 40px 20px',
-            fontSize: 'large',
-            flexDirection: { sm: 'column', md: 'row' }
           }}>
             <Typography
               variant="h6"
-              component="div"
-              sx={{ mr: 2, display: 'flex' }}
+              component="p"
+              sx={{ mb: 1 }}
             >
-              Some stuff we can put here...
+              Welcome to the Indoor Scene Image Detector.
+            </Typography>
+            <Typography
+              variant="body"
+              component="p"
+              sx={{ mb: 2 }}
+            >
+              Select or upload an image of an indoor scene to classify it!
             </Typography>
           </Box>
           <Body>
