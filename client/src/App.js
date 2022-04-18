@@ -1,14 +1,14 @@
 import React, { useState, useContext } from "react"
-import { Body, Panel, NavBar, Modal } from "./components/layout";
+import { Body, NavBar, Modal } from "./components/layout";
 import { Form } from "./components/form/Form";
 import { ImageViewer } from "./components/image-viewer/ImageViewer";
 
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 
 import { ThemeContext } from "./context"
 import { useModal } from './hooks';
 import { Container, Box, Typography, CircularProgress } from '@mui/material';
-import { Table, TableBody, TableCell, TableRow, TableHead, TableContainer } from '@mui/material';
+import { Table, TableBody, TableCell, TableRow, TableHead } from '@mui/material';
 
 
 import { GlobalStyles } from './global';
