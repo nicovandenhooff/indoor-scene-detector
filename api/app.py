@@ -11,6 +11,12 @@ if __name__ == "__main__":
     app.run(port="5000", debug=True)
 
 
+@app.route("/")
+@cross_origin()
+def hello():
+    return {"message": "You've reached the Indoor Scenes Heroku Backend Point."}
+
+
 @app.route("/api/predict", methods=["POST"])
 @cross_origin()
 def get_predictions():
