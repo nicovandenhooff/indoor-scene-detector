@@ -1,7 +1,6 @@
 import React, { useState } from "react"
 import {
     Button,
-    CircularProgress,
     FormControl,
     FormControlLabel,
     Radio,
@@ -84,7 +83,7 @@ export const Form = ({ image, toggle, setImage, setPredictions, loading, setLoad
 
     const submitButton = () => {
 
-        const buttonText = !loading ? 'Submit' : <CircularProgress color="secondary" size='20px' />
+        // const buttonText = !loading ? 'Submit' : <CircularProgress color="secondary" size='20px' />
 
         return (
             <Button variant="contained" type="submit" onClick={handleSubmit} sx={{
@@ -119,7 +118,7 @@ export const Form = ({ image, toggle, setImage, setPredictions, loading, setLoad
                 <FormControlLabel value="simple_cnn" control={<Radio />} label={<Typography variant="body2">Simple Network</Typography>} />
 
             </RadioGroup>
-            {network == "simple_cnn" ? null
+            {network === "simple_cnn" ? null
                 : <>
                     <Typography>3. Select transfer learning technique: </Typography>
                     <RadioGroup

@@ -6,7 +6,7 @@ import {
     Container, Button
 } from '@mui/material';
 import { Link } from "react-router-dom";
-import { ThemeToggle } from "../../themeToggle/ThemeToggle";
+// import { ThemeToggle } from "../../themeToggle/ThemeToggle";
 
 // const pages = ['Dashboard', 'About', 'Contact'];
 const pages = [];
