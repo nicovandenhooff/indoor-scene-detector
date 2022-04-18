@@ -2,10 +2,11 @@ from flask import Flask, request
 from flask_cors import CORS, cross_origin
 from ml import prediction, plotting
 
+MODELS = prediction.load_models()
+
 app = Flask(__name__)
 CORS(app)
 
-MODELS = prediction.load_models()
 
 if __name__ == "__main__":
     app.run(port="5000", debug=True)
@@ -39,10 +40,10 @@ def get_predictions():
     )
 
     # get saliency plot and convert to base64
-    grads = plotting.get_saliency_grads(model, img_tensor)
-    fig = plotting.plot_saliency_grads(grads, img_tensor)
-    saliency_bytes = prediction.fig_to_bytes(fig)
-    saliency_b64 = prediction.bytes_to_b64(saliency_bytes)
+    # grads = plotting.get_saliency_grads(model, img_tensor)
+    # fig = plotting.plot_saliency_grads(grads, img_tensor)
+    # saliency_bytes = prediction.fig_to_bytes(fig)
+    # saliency_b64 = prediction.bytes_to_b64(saliency_bytes)
 
     return {
         "predictions": predictions,
