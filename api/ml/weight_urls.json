@@ -1,9 +1,6 @@
 {
-    "AlexNet_FeatEx": "https://cnn-dashboard-weights.s3.us-west-2.amazonaws.com/AlexNet_FeatEx.pth",
     "AlexNet_Tuned": "https://cnn-dashboard-weights.s3.us-west-2.amazonaws.com/AlexNet_Tuned.pth",
-    "DenseNet121_FeatEx": "https://cnn-dashboard-weights.s3.us-west-2.amazonaws.com/DenseNet121_FeatEx.pth",
     "DenseNet121_Tuned": "https://cnn-dashboard-weights.s3.us-west-2.amazonaws.com/DenseNet121_Tuned.pth",
-    "ResNet18_FeatEx": "https://cnn-dashboard-weights.s3.us-west-2.amazonaws.com/ResNet18_FeatEx.pth",
     "ResNet18_Tuned": "https://cnn-dashboard-weights.s3.us-west-2.amazonaws.com/ResNet18_Tuned.pth",
     "Simple_CNN": "https://cnn-dashboard-weights.s3.us-west-2.amazonaws.com/Simple_CNN.pth"
 }
