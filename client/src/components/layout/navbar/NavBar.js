@@ -8,8 +8,7 @@ import {
 import { Link } from "react-router-dom";
 // import { ThemeToggle } from "../../themeToggle/ThemeToggle";
 
-// const pages = ['Dashboard', 'About', 'Contact'];
-const pages = [];
+const pages = ['Dashboard', 'About', 'Contact'];
 
 export const NavBar = () => {
     const [anchorElNav, setAnchorElNav] = useState(null);
@@ -64,7 +63,7 @@ export const NavBar = () => {
                         >
                             {pages.map((page) => (
                                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                    <Link to="/" >
+                                    <Link to="/about" >
                                         <Typography textAlign="center" >{page}</Typography>
                                     </Link>
                                 </MenuItem>

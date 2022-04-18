@@ -3,12 +3,13 @@ import { Body, NavBar, Modal } from "./components/layout";
 import { Form } from "./components/form/Form";
 import { ImageViewer } from "./components/image-viewer/ImageViewer";
 
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import { ThemeContext } from "./context"
 import { useModal } from './hooks';
 import { Container, Box, Typography, CircularProgress } from '@mui/material';
 import { Table, TableBody, TableCell, TableRow, TableHead } from '@mui/material';
+import { About, Dashboard, Contact } from "./pages";
 
 
 import { GlobalStyles } from './global';
@@ -20,8 +21,6 @@ const App = () => {
 
   const { theme } = useContext(ThemeContext)
   const { showModal, toggle } = useModal();
-
-  console.log(predictions)
 
   return (
     <>
