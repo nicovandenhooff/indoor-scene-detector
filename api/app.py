@@ -40,10 +40,10 @@ def get_predictions():
     )
 
     # get saliency plot and convert to base64
-    # grads = plotting.get_saliency_grads(model, img_tensor)
-    # fig = plotting.plot_saliency_grads(grads, img_tensor)
-    # saliency_bytes = prediction.fig_to_bytes(fig)
-    # saliency_b64 = prediction.bytes_to_b64(saliency_bytes)
+    grads = plotting.get_saliency_grads(model, img_tensor)
+    fig = plotting.plot_saliency_grads(grads, img_tensor)
+    saliency_bytes = prediction.fig_to_bytes(fig)
+    saliency_b64 = prediction.bytes_to_b64(saliency_bytes)
 
     return {
         "predictions": predictions,
