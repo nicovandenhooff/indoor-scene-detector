@@ -66,7 +66,7 @@ const App = () => {
               component="p"
               sx={{ mb: 2 }}
             >
-              Select or upload an image of an indoor scene to classify it.
+              Please select or upload an image of an indoor scene to classify it.
             </Typography>
           </Box>
           <Body>
