@@ -21,7 +21,12 @@ const App = () => {
   const { theme } = useContext(ThemeContext)
   const { showModal, toggle } = useModal();
 
-  console.log(predictions)
+  let heatmap
+
+  if (predictions) {
+    const str = predictions.saliency_b64.slice(0, -1)
+    heatmap = str.substring(2)
+  }
 
   return (
     <>
@@ -117,7 +122,8 @@ const App = () => {
               <Box sx={{
                 display: 'flex',
                 flexDirection: "column",
-                flex: 1
+                flex: 1,
+                alignItems: 'center'
               }}>
                 <Typography
                   variant="h6"
@@ -136,7 +142,7 @@ const App = () => {
                     Calculating...
                   </Typography>
                   : predictions &&
-                  <Table aria-label="simple table">
+                  <Table aria-label="simple table" sx={{ width: '400px' }}>
                     <TableHead>
                       <TableRow>
                         <TableCell></TableCell>
@@ -163,6 +169,18 @@ const App = () => {
                       ))}
                     </TableBody>
                   </Table>
+                }
+                {heatmap && !loading &&
+                  <>
+                    < Typography
+                      variant="h6"
+                      component="div"
+                      sx={{ mt: '70px', display: 'flex', alignSelf: 'center' }}
+                    >
+                      Saliency Coefficient Heatmap
+                    </Typography>
+                    <ImageViewer src={`data:image/jpeg;base64,${heatmap}`} />
+                  </>
                 }
               </Box>
             </Box>
