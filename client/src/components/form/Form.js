@@ -101,15 +101,15 @@ export const Form = ({ image, toggle, setImage, setPredictions, loading, setLoad
             <Typography>2. Select a network:</Typography>
             <RadioGroup
                 aria-labelledby="network-label"
-                defaultValue="alexnet"
+                defaultValue="densenet121"
                 name="network"
                 onChange={handleNetworkChange}
                 className="radio-group"
             >
-                <FormControlLabel value="alexnet" control={<Radio />} label={<Typography variant="body2">AlexNet</Typography>} />
-                <FormControlLabel value="densenet121" control={<Radio />} label={<Typography variant="body2">DenseNet</Typography>} />
-                <FormControlLabel value="resnet18" control={<Radio />} label={<Typography variant="body2">ResNet</Typography>} />
-                <FormControlLabel value="simple_cnn" control={<Radio />} label={<Typography variant="body2">Simple Network</Typography>} />
+                <FormControlLabel value="densenet121" control={<Radio />} label={<Typography variant="body2">DenseNet (Tuned)</Typography>} />
+                <FormControlLabel value="resnet18" control={<Radio />} label={<Typography variant="body2">ResNet (Tuned)</Typography>} />
+                <FormControlLabel value="alexnet" control={<Radio />} label={<Typography variant="body2">AlexNet (Tuned)</Typography>} />
+                <FormControlLabel value="simple_cnn" control={<Radio />} label={<Typography variant="body2">Vanilla CNN (No Transfer Learning)</Typography>} />
 
             </RadioGroup>
             {submitButton()}

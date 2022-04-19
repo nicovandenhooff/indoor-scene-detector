@@ -29,7 +29,7 @@ export const Modal = ({ isShowing, toggle }) => {
                                 </button>
                             </div>
                             <p>
-                                Whoops! Looks like you've forgotten to upload a photo.
+                                Whoops! Looks like you've forgotten to select or upload a photo.
                             </p>
                         </div>
                     </div>
