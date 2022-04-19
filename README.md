@@ -1,69 +1,66 @@
-# cnn-dashboard
+# Indoor Scene Detector
 
-# Installation
+This repository contains the source code as it relates to the Indoor Scene Detector application.
 
-Please install the following packages for the required operating system before continuing.
+*TODO: Change repo name and update README as required*
+*TODO: Add metadata shields from <https://shields.io/>*
 
-1. [yarn](https://yarnpkg.com/): A package and project manager for Node.js applications.
-2. [node](https://nodejs.org/en/): The JavaScript needed for the frontend.
-3. [Python](): A recent Python 3 interpreter to run the Flask backend.
+## About
 
-## Environment Setup
+Indoor Scene Detector ("ISD") is a full stack deep learning application built by [Nico Van den Hooff](https://github.com/nicovandenhooff) and [Melissa Liow](https://github.com/nicovandenhooff).  ISD can be used to classify images of an indoor scene, for example a bedroom or a kitchen.  ISD was built with the goal of empirically demonstrating the power of transfer learning when applied to convolutional neural networks ("CNN").  Specifically, a user of the application can show how tuned versions of AlexNet, DenseNet or ResNet are far superior to a CNN with no transfer learning.  Further, ISD also demonstrates how different types of transfer learning lead to differing levels of accuracy at prediction time.  Specifically, if transfer learning is applied by tuning all the layers of a pre-trained CNN, then predictions are higher compared to if only the last layer of a pre-trained CNN are tuned (and the remaining layers remain frozen).
 
-1. Clone the project
+## How to Use Indoor Scene Detector
 
-    ```python3
+1. Open the application at: <link-to-go-here>
+2. Select one of the available images or upload your own.
+3. Select the convolutional neural network you would like to use to classify the image.
+4. If you selected AlexNet, DenseNet, or ResNet, select a level of transfer learning.
+5. Press submit and your image will be classified.
+
+*TODO: Add GIF*
+*TODO: Add heatmap instructions*
+
+## Development
+
+### Contributing
+
+*TODO: Add contributing link*
+To learn more about making a contribution to Indoor Scene Detector, please see the contributing file.
+
+### Installation and running locally
+
+1. Install [Docker](https://docs.docker.com/get-docker/) for your operating system.
+
+2. Open up a terminal and run the following commands:
+
+    a. Clone our repository
+
+    ```shell
     git clone https://github.com/nicovandenhooff/cnn-dashboard.git
+    ```
+
+    b. Change working directories
+
+    ```shell
     cd cnn-dashboard
     ```
 
-2. Create a python virtual environment in `/api` directory
+    c. Run the application
 
-    ```python3
-    cd api
-    python3 -m venv venv
+    ```shell
+    docker-compose up
     ```
 
-3. Activate the virtual environment
+3. In a web browser, navigate to <http://localhost:3000/> to view the application.
 
-    ```python3
-    source venv/bin/activate
+4. Once you are finished with the application, run the following command the same terminal:
+
+    d. To shut down the Docker images, containers etc.
+
+    ```shell
+    docker-compose down
     ```
 
-4. Install dependencies for Flask server:
+## Attributions
 
-    ```python3
-    pip install -r requirements.txt
-    ```
-
-5. Navigate to the client directory and install dependencies for React app:
-
-    ```python3
-    cd ..
-    cd client
-    yarn install
-    ```
-
-## Running the project locally
-
-Open two terminals, and ensure that you are in the `client` directory within both and then run the following commands:
-
-To run a temprorary local flask server on port `5000`:
-
-```python
-yarn start-api
-```
-
-To run the frontend React app on port `3000`:
-
-```python
-yarn start
-```
-
-## Run dockerized containers
-
-Run in project root:
-
-```python
-docker-compose up
-```
+The data set used in building Indoor Scene Detector was the [Indoor Scene Recognition](https://web.mit.edu/torralba/www/indoor.html) data set collected by MIT.
