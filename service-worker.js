@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/cnn-dashboard/precache-manifest.e54a9fc08589225930e1c327d40a910d.js"
+  "/cnn-dashboard/precache-manifest.4617aa335748fbe7f3c3cf7e189aed57.js"
 );
 
 workbox.clientsClaim();
