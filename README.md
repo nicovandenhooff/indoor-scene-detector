@@ -1,6 +1,6 @@
 # Indoor Scene Detector
 
-![example workflow](https://github.com/nicovandenhooff/cnn-dashboard/actions/workflows/cd.yml/badge.svg) ![GitHub deployments](https://img.shields.io/github/deployments/nicovandenhooff/cnn-dashboard/github-pages?label=gh-pages) ![Website](https://img.shields.io/website?down_color=red&url=http%3A%2F%2Fwww.indoorscenedetector.com) ![GitHub](https://img.shields.io/github/license/nicovandenhooff/cnn-dashboard)
+![cd](https://github.com/nicovandenhooff/cnn-dashboard/workflows/cd/badge.svg) ![GitHub deployments](https://img.shields.io/github/deployments/nicovandenhooff/cnn-dashboard/github-pages?label=gh-pages) ![Website](https://img.shields.io/website?down_color=red&url=http%3A%2F%2Fwww.indoorscenedetector.com) ![GitHub](https://img.shields.io/github/license/nicovandenhooff/cnn-dashboard)
 
 This repository contains the source code Indoor Scene Detector application, a full stack computer vision application built with PyTorch, Captum, Flask, React, and Docker.  You can access the application at www.indoorscenedetector.com.  The backend of the application is deployed on Heroku.
 
