@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "29172fbee469c49998b2",
+    "revision": "88c08c543c689bfb9d9c",
     "url": "/cnn-dashboard/static/css/main.afea43c2.chunk.css"
   },
   {
-    "revision": "29172fbee469c49998b2",
-    "url": "/cnn-dashboard/static/js/main.6b6e8734.chunk.js"
+    "revision": "88c08c543c689bfb9d9c",
+    "url": "/cnn-dashboard/static/js/main.24d7da51.chunk.js"
   },
   {
     "revision": "8d65d40caef479d3dbe3",
@@ -16,7 +16,7 @@ self.__precacheManifest = [
     "url": "/cnn-dashboard/static/js/2.d54fe160.chunk.js"
   },
   {
-    "revision": "b46b4dc2de1e887dae2767b1318495b2",
+    "revision": "b8f5dd3ac1fdf6d08437a119cd134b2f",
     "url": "/cnn-dashboard/index.html"
   }
 ];
