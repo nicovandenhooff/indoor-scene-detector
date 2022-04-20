@@ -45,14 +45,14 @@ export const Dashboard = () => {
                         component="p"
                         sx={{ mb: 1 }}
                     >
-                        Welcome to the Indoor Scene Image Detector.
+                        Welcome to Indoor Scene Detector!
                     </Typography>
                     <Typography
                         variant="body"
                         component="p"
                         sx={{ mb: 2 }}
                     >
-                        Select or upload an image of an indoor scene to classify it!
+                        Select or upload an image of an indoor scene to classify it.
                     </Typography>
                 </Box>
                 <Body>
@@ -101,7 +101,7 @@ export const Dashboard = () => {
                                 component="div"
                                 sx={{ display: 'flex', alignSelf: 'center', mb: '20px' }}
                             >
-                                Selected Image
+                                Image to classify:
                             </Typography>
                             {image && <ImageViewer src={image} />}
                         </Box>
@@ -154,6 +154,18 @@ export const Dashboard = () => {
                                         ))}
                                     </TableBody>
                                 </Table>
+                            }
+                            {heatmap && !loading &&
+                                <>
+                                    < Typography
+                                        variant="h6"
+                                        component="div"
+                                        sx={{ mt: '70px', display: 'flex', alignSelf: 'center' }}
+                                    >
+                                        Saliency Coefficient Heatmap (Key Pixels)
+                                    </Typography>
+                                    <ImageViewer src={`data:image/jpeg;base64,${heatmap}`} />
+                                </>
                             }
                         </Box>
                     </Box>
