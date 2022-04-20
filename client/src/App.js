@@ -22,6 +22,13 @@ const App = () => {
   const { theme } = useContext(ThemeContext)
   const { showModal, toggle } = useModal();
 
+  let heatmap
+
+  if (predictions) {
+    const str = predictions.saliency_b64.slice(0, -1)
+    heatmap = str.substring(2)
+  }
+
   return (
     <>
       <GlobalStyles />
@@ -53,14 +60,14 @@ const App = () => {
               component="p"
               sx={{ mb: 1 }}
             >
-              Welcome to the Indoor Scene Image Detector.
+              Welcome to Indoor Scene Detector!
             </Typography>
             <Typography
               variant="body"
               component="p"
               sx={{ mb: 2 }}
             >
-              Select or upload an image of an indoor scene to classify it!
+              Please select or upload an image of an indoor scene to classify it.
             </Typography>
           </Box>
           <Body>
@@ -109,14 +116,15 @@ const App = () => {
                   component="div"
                   sx={{ display: 'flex', alignSelf: 'center', mb: '20px' }}
                 >
-                  Selected Image
+                  Image to classify:
                 </Typography>
                 {image && <ImageViewer src={image} />}
               </Box>
               <Box sx={{
                 display: 'flex',
                 flexDirection: "column",
-                flex: 1
+                flex: 1,
+                alignItems: 'center'
               }}>
                 <Typography
                   variant="h6"
@@ -135,7 +143,7 @@ const App = () => {
                     Calculating...
                   </Typography>
                   : predictions &&
-                  <Table aria-label="simple table">
+                  <Table aria-label="simple table" sx={{ width: '400px' }}>
                     <TableHead>
                       <TableRow>
                         <TableCell></TableCell>
@@ -162,6 +170,18 @@ const App = () => {
                       ))}
                     </TableBody>
                   </Table>
+                }
+                {heatmap && !loading &&
+                  <>
+                    < Typography
+                      variant="h6"
+                      component="div"
+                      sx={{ mt: '70px', display: 'flex', alignSelf: 'center' }}
+                    >
+                      Saliency Coefficient Heatmap (Key Pixels)
+                    </Typography>
+                    <ImageViewer src={`data:image/jpeg;base64,${heatmap}`} />
+                  </>
                 }
               </Box>
             </Box>
