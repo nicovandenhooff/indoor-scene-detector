@@ -16,6 +16,14 @@ export const Dashboard = () => {
 
     const { showModal, toggle } = useModal();
 
+    let heatmap
+
+    if (predictions) {
+        const str = predictions.saliency_b64.slice(0, -1)
+        heatmap = str.substring(2)
+    }
+
+
     return (
         <>
             <Modal
