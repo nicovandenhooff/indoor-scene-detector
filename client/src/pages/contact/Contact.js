@@ -1,5 +1,4 @@
 import React from 'react'
-import { Body } from "../../components/layout";
 import { Container, Box, Typography } from '@mui/material';
 
 
