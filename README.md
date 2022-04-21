@@ -8,7 +8,7 @@ This repository contains the source code Indoor Scene Detector application, a fu
 
 ### Creators
 
-Indoor Scene Detector was built and is maintained by [Nico Van den Hooff](https://github.com/nicovandenhooff) and [Melissa Liow](https://github.com/nicovandenhooff).  
+Indoor Scene Detector was built and is maintained by [Nico Van den Hooff](https://github.com/nicovandenhooff) and [Melissa Liow](https://github.com/mel-liow).
 
 ### Description
 
@@ -16,7 +16,7 @@ Indoor Scene Detector can be used to classify images of an indoor scene, for exa
 
 ### Model Outputs
 
-In classifying an image, a model will output the top three predictions by probability ranked in descending order.  In addition, a Saliency Heatmap is plotted.  Saliency is a simple algorithm that attempts to explain predictions that a CNN makes by calculating the gradient of the output with respect to the input.  The absolute value of Saliency coefficients can be taken to represent feature importance.  To learn more, please see the [original paper](https://arxiv.org/pdf/1312.6034.pdf), or the [Captum documentation](https://captum.ai/docs/algorithms).
+In classifying an image, a model will output the top three predictions by probability ranked in descending order.  In addition, a Saliency Heatmap is plotted.  Saliency is a simple algorithm that attempts to explain predictions that a CNN makes by calculating the gradient of the output with respect to the input.  The absolute value of Saliency coefficients can be taken to represent feature importance.  To learn more, please see the [original paper](https://arxiv.org/pdf/1312.6034.pdf), or the [Captum documentation](https://captum.ai/docs/algorithms#saliency).
 
 Currently, Indoor Scene Detector can classify indoor scenes of ten classes (airport, bakery, bar, bedroom, kitchen, living room, pantry, restaurant, subway, and warehouse).  Support for more classes is currently under development.
 

@@ -1,3 +1,8 @@
+"""
+Module that contains custom PyTorch Datatset class for use in model training.
+"""
+
+
 import torch
 from torchvision import datasets
 from torch.utils.data import Dataset, Subset, DataLoader

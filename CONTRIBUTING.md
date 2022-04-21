@@ -1,19 +1,17 @@
 # How to contribute
 
-*TODO: Update all links throughout this document*
-
 The Indoor Scene Detector project welcomes all contributions!
 
 ## Submitting changes
 
-Please send a [GitHub Pull Request](https://github.com/nicovandenhooff/reddit-data-collector/pull/new/master) with a clear list of what you've done (read more about [pull requests](http://help.github.com/pull-requests/)). Please make sure all of your commits are atomic (one feature per commit).
+Please send a [GitHub Pull Request](https://github.com/nicovandenhooff/cnn-dashboard/pull/new/master) with a clear list of what you've done (read more about [pull requests](http://help.github.com/pull-requests/)). Please make sure all of your commits are atomic (one feature per commit).
 
 Always write a clear log message for your commits. One-line messages are fine for small changes, but bigger changes should look like this:
 
 ```shell
 git commit -m "prefix: A brief summary of the commit
 >
-> A paragraph describing what changed and its impact
+> A paragraph describing what changed and its impact"
 ```
 
 Please prefix your commits with one of the following, as appropriate:
