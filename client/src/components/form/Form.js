@@ -13,9 +13,9 @@ import { ImageSelection } from "../image-selection";
 import "./Form.css"
 import { FileUploader } from "../file-uploader";
 
-export const Form = ({ image, toggle, setImage, setPredictions, loading, setLoading }) => {
+export const Form = ({ image, toggle, setImage, setPredictions, setLoading }) => {
 
-    const [network, setNetwork] = useState('alexnet')
+    const [network, setNetwork] = useState('densenet121')
     const [postImage, setPostImage] = useState(null);
 
     const handleFileUpload = async (e) => {
