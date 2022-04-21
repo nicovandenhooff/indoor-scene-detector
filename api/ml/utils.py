@@ -85,7 +85,7 @@ def bytes_to_tensor(img_bytes, batch=False):
     img_tensor = img_transforms(img)
 
     if not batch:
-        img_tensor.unsqueeze(0)
+        img_tensor = img_tensor.unsqueeze(0)
 
     return img_tensor
 
