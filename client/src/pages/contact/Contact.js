@@ -15,13 +15,21 @@ export const Contact = () => {
             }}>
             <Box sx={{
                 padding: '40px 40px 20px',
+                maxWidth: '1000px'
             }}>
                 <Typography
-                    variant="h6"
+                    variant="h5"
                     component="p"
                     sx={{ mb: 1 }}
                 >
-                    Welcome to the Indoor Scene Image Detector.
+                    Contact
+                </Typography>
+                <Typography
+                    variant="body"
+                    component="p"
+                    sx={{ mb: 2 }}
+                >
+                    Select or upload an image of an indoor scene to classify it!
                 </Typography>
                 <Typography
                     variant="body"
@@ -31,9 +39,6 @@ export const Contact = () => {
                     Select or upload an image of an indoor scene to classify it!
                 </Typography>
             </Box>
-            <Body>
-                hello
-            </Body>
         </Container>
     )
 
