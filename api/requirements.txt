@@ -1,9 +1,10 @@
+-f https://download.pytorch.org/whl/torch_stable.html
+
 # if mac just install normally since no GPU support for mac
 torch==1.11.0; sys_platform == 'darwin'
 torchvision==0.12.0; sys_platform == 'darwin'
 
 # if not mac install cpu versions which are smaller for heroku slug
--f https://download.pytorch.org/whl/torch_stable.html ; sys_platform != 'darwin'
 torch==1.11.0+cpu; sys_platform != 'darwin'
 torchvision==0.12.0+cpu; sys_platform != 'darwin'
 
