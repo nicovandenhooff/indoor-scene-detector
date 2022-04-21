@@ -1,8 +1,6 @@
-from multiprocessing.sharedctypes import Value
 import time
 import torch
 import torch.nn as nn
-import matplotlib.pyplot as plt
 from torchvision import models
 from copy import deepcopy
 
@@ -34,6 +32,7 @@ class SimpleCNN(nn.Module):
             nn.ReLU(inplace=True),
             nn.MaxPool2d(kernel_size=2),
         )
+
         self.classifier = nn.Sequential(
             nn.Linear(64 * 16 * 16, 32),
             nn.ReLU(inplace=True),
@@ -49,7 +48,6 @@ class SimpleCNN(nn.Module):
         return x
 
 
-# to add: scheduler
 def train_model(
     model,
     device,
@@ -176,7 +174,7 @@ def train_model(
 
 
 def freeze_parameters(model):
-    """Freeze the parameters in a PyTorch model."""
+    """Freeze the parameters of a PyTorch model."""
     for param in model.parameters():
         param.requires_grad = False
 
