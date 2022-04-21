@@ -9,10 +9,14 @@ from .training import (
     get_custom_resnet18,
 )
 
-CURRENT_DIR = os.path.abspath(os.path.dirname(__file__))
-WEIGHT_DIR = os.path.join(CURRENT_DIR, "weights")
-WEIGHT_URLS = os.path.join(CURRENT_DIR, "weight_urls.json")
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
+CURRENT_DIR = os.path.abspath(os.path.dirname(__file__))
+WEIGHTS = {
+    "AlexNet_Tuned": "https://cnn-dashboard-weights.s3.us-west-2.amazonaws.com/AlexNet_Tuned.pth",
+    "DenseNet121_Tuned": "https://cnn-dashboard-weights.s3.us-west-2.amazonaws.com/DenseNet121_Tuned.pth",
+    "ResNet18_Tuned": "https://cnn-dashboard-weights.s3.us-west-2.amazonaws.com/ResNet18_Tuned.pth",
+    "Simple_CNN": "https://cnn-dashboard-weights.s3.us-west-2.amazonaws.com/Simple_CNN.pth",
+}
 
 
 def get_class_mapper():
@@ -28,8 +32,14 @@ def get_class_mapper():
     return class_mapper
 
 
-def _get_weights_s3():
+def _get_weights_s3(weight_dict=WEIGHTS):
     """Gets model weights from AWS S3 bucket.
+
+    Parameters
+    ----------
+    weight_dict : dict
+        Dictionary containing model names (keys) and s3
+        bucket weight urls (value).
 
     Returns
     -------
@@ -37,9 +47,6 @@ def _get_weights_s3():
         Dictionary of model weights, key: model name, value: weights.
     """
     model_weights = {}
-
-    with open(WEIGHT_URLS) as f:
-        weight_dict = json.load(f)
 
     # download and save weights from aws s3 bucket
     for model, url in weight_dict.items():
