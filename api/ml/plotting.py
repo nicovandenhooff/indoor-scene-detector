@@ -53,7 +53,7 @@ def visualize_model(model, dl, device, num_images=6):
             pred_probs, pred_labels = torch.max(probs, 1)
 
             for j in range(inputs.size()[0]):
-                img = inputs[j].permute(1, 2, 0)
+                img = inputs[j].permute(1, 2, 0)  # swap axis for plotting
                 label = class_names[labels[j]]
                 pred_label = class_names[pred_labels[j].item()]
                 pred_prob = pred_probs[j].item()
@@ -137,12 +137,13 @@ def plot_occlusion(occlusion_attr, img_tensor, use_pyplot=False, **kwargs):
         The original image.
     use_pyplot : bool
         Whether or not to use matplotlib.pyplot or OOP matplotlib to
-        plot the figure.  By default False to ensure Flask app works.
+        plot the figure.  Use False if plotting in a Flask app, otherwise
+        the pyplot GUI will crash your app.
 
     Returns
     -------
     fig : matplotlib.figure.Figure
-        Blended heat map of positive attributes and original image.
+        Blended heat map of positive occlusion attributes.
     """
     fig, _ = viz.visualize_image_attr_multiple(
         attr=get_numpy_3d(occlusion_attr),
@@ -210,12 +211,13 @@ def plot_grad_shap(grad_shap_attr, img_tensor, use_pyplot=False, **kwargs):
         The original image.
     use_pyplot : bool
         Whether or not to use matplotlib.pyplot or OOP matplotlib to
-        plot the figure.  By default False to ensure Flask app works.
+        plot the figure.  Use False if plotting in a Flask app, otherwise
+        the pyplot GUI will crash your app.
 
     Returns
     -------
     fig : matplotlib.figure.Figure
-        Heatmap of positive attributes.
+        Heatmap of positive SHAP attributes.
     """
     fig, _ = viz.visualize_image_attr_multiple(
         attr=get_numpy_3d(grad_shap_attr),
@@ -274,12 +276,13 @@ def plot_integrated_gradients(ig_attr, img_tensor, use_pyplot=False, **kwargs):
         The original image.
     use_pyplot : bool
         Whether or not to use matplotlib.pyplot or OOP matplotlib to
-        plot the figure.  By default False to ensure Flask app works.
+        plot the figure.  Use False if plotting in a Flask app, otherwise
+        the pyplot GUI will crash your app.
 
     Returns
     -------
     fig : matplotlib.figure.Figure
-        Heatmap of positive attributes.
+        Heatmap of positive IG attributes.
     """
     fig, _ = viz.visualize_image_attr_multiple(
         attr=get_numpy_3d(ig_attr),
@@ -330,12 +333,13 @@ def plot_saliency_grads(grads, img_tensor, use_pyplot=False, **kwargs):
         The original image.
     use_pyplot : bool
         Whether or not to use matplotlib.pyplot or OOP matplotlib to
-        plot the figure.  By default False to ensure Flask app works.
+        plot the figure.  Use False if plotting in a Flask app, otherwise
+        the pyplot GUI will crash your app.
 
     Returns
     -------
     fig : matplotlib.figure.Figure
-        Blended heat map of gradients (magnitudes) and original image.
+        Blended heat map of Saliency gradients.
     """
 
     fig, _ = viz.visualize_image_attr(
