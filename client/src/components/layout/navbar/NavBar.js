@@ -8,8 +8,12 @@ import {
 import { Link } from "react-router-dom";
 // import { ThemeToggle } from "../../themeToggle/ThemeToggle";
 
-// const pages = ['Dashboard', 'About', 'Contact'];
-const pages = [];
+const pages = {
+    'Dashboard': '',
+    'About': 'about',
+    'Contact': 'contact'
+}
+
 
 export const NavBar = () => {
     const [anchorElNav, setAnchorElNav] = useState(null);
@@ -62,10 +66,10 @@ export const NavBar = () => {
                                 display: { xs: 'block', md: 'none' },
                             }}
                         >
-                            {pages.map((page) => (
-                                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                    <Link to="/" >
-                                        <Typography textAlign="center" >{page}</Typography>
+                            {Object.keys(pages).map((key) => (
+                                <MenuItem key={key} onClick={handleCloseNavMenu}>
+                                    <Link style={{ textDecoration: 'none', color: 'white' }} to={'/' + pages[key]} >
+                                        <Typography textAlign="center" >{key}</Typography>
                                     </Link>
                                 </MenuItem>
                             ))}
@@ -80,13 +84,15 @@ export const NavBar = () => {
                         Indoor Scene Detector
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex', justifyContent: 'flex-end' } }}>
-                        {pages.map((page) => (
+                        {Object.keys(pages).map((key) => (
                             <Button
-                                key={page}
+                                key={key}
                                 onClick={handleCloseNavMenu}
                                 sx={{ my: 2, color: 'white', display: 'block' }}
                             >
-                                {page}
+                                <Link style={{ textDecoration: 'none', color: 'white' }} to={'/' + pages[key]} >
+                                    <Typography textAlign="center" >{key}</Typography>
+                                </Link>
                             </Button>
                         ))}
                     </Box>
