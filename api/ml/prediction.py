@@ -1,3 +1,7 @@
+"""
+Module that contains functions related to model prediction.
+"""
+
 import os
 import json
 import torch

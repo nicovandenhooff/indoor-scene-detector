@@ -1,3 +1,8 @@
+"""
+Module that contains other useful functions, for example handling and transforming
+input and output of images or Matplotlib figures.
+"""
+
 import io
 import base64
 from PIL import Image

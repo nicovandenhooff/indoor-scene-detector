@@ -1,3 +1,7 @@
+"""
+Module that contains functions related to model training.
+"""
+
 import time
 import torch
 import torch.nn as nn
