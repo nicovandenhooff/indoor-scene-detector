@@ -1,6 +1,6 @@
 # Indoor Scene Detector
 
-[![cd](https://github.com/nicovandenhooff/cnn-dashboard/workflows/cd/badge.svg)](https://github.com/nicovandenhooff/cnn-dashboard/actions) [![GitHub deployments](https://img.shields.io/github/deployments/nicovandenhooff/cnn-dashboard/github-pages?label=gh-pages)](https://github.com/nicovandenhooff/cnn-dashboard/deployments/activity_log?environment=github-pages) [![Website](https://img.shields.io/website?down_color=red&url=http%3A%2F%2Fwww.indoorscenedetector.com)](https://www.indoorscenedetector.com/) [![License](https://img.shields.io/github/license/nicovandenhooff/cnn-dashboard)](https://github.com/nicovandenhooff/cnn-dashboard/blob/main/LICENSE)
+[![cd](https://github.com/nicovandenhooff/indoor-scene-detector/workflows/cd/badge.svg)](https://github.com/nicovandenhooff/indoor-scene-detector/actions) [![GitHub deployments](https://img.shields.io/github/deployments/nicovandenhooff/indoor-scene-detector/github-pages?label=gh-pages)](https://github.com/nicovandenhooff/indoor-scene-detector/deployments/activity_log?environment=github-pages) [![Website](https://img.shields.io/website?down_color=red&url=http%3A%2F%2Fwww.indoorscenedetector.com)](https://www.indoorscenedetector.com/) [![License](https://img.shields.io/github/license/nicovandenhooff/indoor-scene-detector)](https://github.com/nicovandenhooff/indoor-scene-detector/blob/main/LICENSE)
 
 This repository contains the source code for the Indoor Scene Detector application.  Indoor Scene Detector is a full stack computer vision application built with PyTorch, Captum, Flask, React, Docker, Heroku and GitHub Pages.  You can access the application at www.indoorscenedetector.com.
 
@@ -33,7 +33,7 @@ Each CNN will output the top three predictions for an image ranked by probabilit
 
 ### Contributing
 
-To learn more about making a contribution to Indoor Scene Detector, please see the [contributing file](https://github.com/nicovandenhooff/cnn-dashboard/blob/main/CONTRIBUTING.md).
+To learn more about making a contribution to Indoor Scene Detector, please see the [contributing file](https://github.com/nicovandenhooff/indoor-scene-detector/blob/main/CONTRIBUTING.md).
 
 ### Installation and running locally
 
@@ -44,13 +44,13 @@ To learn more about making a contribution to Indoor Scene Detector, please see t
     a. Clone our repository
 
     ```shell
-    git clone https://github.com/nicovandenhooff/cnn-dashboard.git
+    git clone https://github.com/nicovandenhooff/indoor-scene-detector.git
     ```
 
     b. Change working directories
 
     ```shell
-    cd cnn-dashboard
+    cd indoor-scene-detector
     ```
 
     c. Run the application
