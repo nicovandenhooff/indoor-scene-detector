@@ -1,3 +1,4 @@
+# continuous integration and deployment for the deployment branch
 name: ci-cd
 
 on:
@@ -9,15 +10,15 @@ jobs:
   ci:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout-branch
+      - name: Checkout deployment branch
         uses: actions/checkout@v3
         with:
           ref: deployment
-      - name: setup-python
+      - name: Setup Python
         uses: actions/setup-python@v3
         with:
           python-version: '3.9.7'
-      - name: install-and-test
+      - name: Install requirements and perform tests
         working-directory: api
         run: |
           python -m pip install --upgrade pip
@@ -28,11 +29,11 @@ jobs:
     needs: ci
     runs-on: ubuntu-latest
     steps:
-      - name: checkout-deployment-branch
+      - name: Checkout deployment branch
         uses: actions/checkout@v3
         with:
           ref: deployment
-      - name: heroku-deployment
+      - name: Deploy backend to Heroku
         uses: AkhileshNS/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
@@ -46,16 +47,16 @@ jobs:
     env: 
       REACT_APP_API_ENDPOINT: ${{secrets.BACKEND}}
     steps:
-      - name: checkout-deployment-branch
+      - name: Checkout deployment branch
         uses: actions/checkout@v3
         with:
           ref: deployment
-      - name: install-and-build-front-end
+      - name: Install requirements and build frontend
         working-directory: client
         run: |
           yarn install
           npm run build
-      - name: gh-pages-deployment
+      - name: Deploy frontend to GitHub pages
         uses: JamesIves/github-pages-deploy-action@v4.3.0
         with:
           branch: gh-pages
