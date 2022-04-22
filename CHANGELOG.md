@@ -9,4 +9,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-The first (beta) release of Indoor Scene Detector!
+- The first (beta) release of Indoor Scene Detector!
