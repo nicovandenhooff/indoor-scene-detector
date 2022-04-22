@@ -2,23 +2,25 @@
 
 [![cd](https://github.com/nicovandenhooff/cnn-dashboard/workflows/cd/badge.svg)](https://github.com/nicovandenhooff/cnn-dashboard/actions) [![GitHub deployments](https://img.shields.io/github/deployments/nicovandenhooff/cnn-dashboard/github-pages?label=gh-pages)](https://github.com/nicovandenhooff/cnn-dashboard/deployments/activity_log?environment=github-pages) [![Website](https://img.shields.io/website?down_color=red&url=http%3A%2F%2Fwww.indoorscenedetector.com)](https://www.indoorscenedetector.com/) [![License](https://img.shields.io/github/license/nicovandenhooff/cnn-dashboard)](https://github.com/nicovandenhooff/cnn-dashboard/blob/main/LICENSE)
 
-This repository contains the source code Indoor Scene Detector application, a full stack computer vision application built with PyTorch, Captum, Flask, React, and Docker.  You can access the application at www.indoorscenedetector.com.  The backend of the application is deployed on Heroku.
+This repository contains the source code for the Indoor Scene Detector application.  Indoor Scene Detector is a full stack computer vision application built with PyTorch, Captum, Flask, React, Docker, Heroku and GitHub Pages.  You can access the application at www.indoorscenedetector.com.
 
 ## About
 
 ### Creators
 
-Indoor Scene Detector was built and is maintained by [Nico Van den Hooff](https://github.com/nicovandenhooff) and [Melissa Liow](https://github.com/mel-liow).
+Indoor Scene Detector was created and is maintained by [Nico Van den Hooff](https://github.com/nicovandenhooff) and [Melissa Liow](https://github.com/mel-liow).
+
+Nico maintains the backend, MLOps, and DevOps components of the application.  Melissa maintains the frontend component of the application.
 
 ### Description
 
-Indoor Scene Detector can be used to classify images of an indoor scene, for example a bedroom or a kitchen.  Further, Indoor Scene Detector contains four different convolutional neural networks that can be used to classify an image.  Specifically, tuned versions of AlexNet, ResNet, and DenseNet are available for use, in addition to a custom "vanilla" CNN that has no transfer learning.  If AlexNet, ResNet or DenseNet are used, a user of the application can see the power of transfer learning in computer vision, as tuned versions of these networks obtain a much higher accuracy in predictions relative to the simple network with no transfer learning.
+Indoor Scene Detector is capable of classifying images of an indoor scene, such as a bedroom or a kitchen.  Currently, Indoor Scene Detector includes support for ten categories of scenes: airport, bakery, bar, bedroom, kitchen, living room, pantry, restaurant, subway, and warehouse.  Support for more classes is currently under development.
+
+In order to classify a scene, there are four convolutional neural networks available.  These include tuned versions of AlexNet, ResNet, or DenseNet, in addition to a simple "vanilla" CNN that has no transfer learning applied to it.  If AlexNet, ResNet or DenseNet are used, Indoor Scene Detector demonstrates the power of transfer learning in computer vision, as the tuned versions of these networks should obtain a much higher accuracy in predictions when compared to the simple CNN with no transfer learning.
 
 ### Model Outputs
 
-In classifying an image, a model will output the top three predictions by probability ranked in descending order.  In addition, a Saliency Heatmap is plotted.  Saliency is a simple algorithm that attempts to explain predictions that a CNN makes by calculating the gradient of the output with respect to the input.  The absolute value of Saliency coefficients can be taken to represent feature importance.  To learn more, please see the [original paper](https://arxiv.org/pdf/1312.6034.pdf), or the [Captum documentation](https://captum.ai/docs/algorithms#saliency).
-
-Currently, Indoor Scene Detector can classify indoor scenes of ten classes (airport, bakery, bar, bedroom, kitchen, living room, pantry, restaurant, subway, and warehouse).  Support for more classes is currently under development.
+Each CNN will output the top three predictions for an image ranked by probability in descending order.  In addition, a heatmap of the images Saliency attributes is plotted.  Saliency is an algorithm that attempts to explain the predictions a CNN makes by calculating the gradient of the output with respect to the input.  The absolute value of Saliency attributes can be taken to represent feature importance.  To learn more, please see the [original paper](https://arxiv.org/pdf/1312.6034.pdf), or the [Captum documentation](https://captum.ai/docs/algorithms#saliency).
 
 ## How to Use Indoor Scene Detector
 

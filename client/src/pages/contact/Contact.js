@@ -14,31 +14,30 @@ export const Contact = () => {
             }}>
             <Box sx={{
                 padding: '40px 40px 20px',
-                maxWidth: '1000px'
             }}>
                 <Typography
-                    variant="h5"
+                    variant="h4"
                     component="p"
                     sx={{ mb: 1 }}
                 >
-                    Contact
+                    Creators
                 </Typography>
                 <Typography
                     variant="body"
                     component="p"
                     sx={{ mb: 2 }}
                 >
-                    Select or upload an image of an indoor scene to classify it!
+                    Indoor Scene Detector was created and is maintained by <a href="https://www.linkedin.com/in/nicovandenhooff/">Nico Van den Hooff</a> and <a href="https://www.linkedin.com/in/mel-liow/">Melissa Liow</a>.
                 </Typography>
                 <Typography
                     variant="body"
                     component="p"
                     sx={{ mb: 2 }}
                 >
-                    Select or upload an image of an indoor scene to classify it!
+                    Nico maintains the backend, MLOps, and DevOps components of the application.  Melissa maintains the frontend component of the application.
                 </Typography>
             </Box>
-        </Container>
+        </Container >
     )
 
 
