@@ -26,15 +26,16 @@ def get_predictions():
     img_bytes = utils.b64_to_bytes(data["image"])
     img_tensor = utils.bytes_to_tensor(img_bytes)
 
-    # choose model
+    # choose model based on user selection
     model_name = data["modelName"]
     model = MODELS[model_name]
 
-    # get top 3 predictions then wrangle for FE
+    # get top 3 predictions
     pred_probs, pred_labels, pred_classes = prediction.get_topk_predictions(
         model, img_tensor, k=3
     )
 
+    # wrangle predictions for frontend
     predictions = prediction.wrangle_topk_predictions(
         pred_probs, pred_labels, pred_classes
     )
