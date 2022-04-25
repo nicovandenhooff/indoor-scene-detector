@@ -54,6 +54,13 @@ export const Dashboard = () => {
                     >
                         Select or upload an image of an indoor scene to classify it.
                     </Typography>
+                    <Typography
+                        variant="caption"
+                        component="p"
+                        sx={{ mb: 2 }}
+                    >
+                        (The first prediction may take 30-60 seconds while as the models are loaded).
+                    </Typography>
                 </Box>
                 <Body>
                     <Box sx={{
