@@ -59,7 +59,7 @@ export const Dashboard = () => {
                         component="p"
                         sx={{ mb: 2 }}
                     >
-                        (The first prediction may take 30-60 seconds while as the models are loaded).
+                        (The first prediction may take 30-60 seconds as the models are loaded).
                     </Typography>
                 </Box>
                 <Body>
