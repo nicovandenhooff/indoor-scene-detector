@@ -4,13 +4,7 @@ Module that is used to train the CNNs that power Indoor Scene Detector.
 Notes:
 - We ran this script in a Kaggle notebook in order to utilize the free GPU.
 - The paths to the data set below are absolute paths on Kaggle.  
-- The beta-version of of Indoor Scene Detector is trained on a subset of this data set
-  (10/67 classes).  We are currently developing support for all 67 classes.
-- The "training" module on Kaggle is saved in a Kaggle utility scripts called 
-  "indoorscenes_training", so the import statement looks slightly different 
-  within the Kaggle notebook..
-
-TODO: Add Kaggle notebook link
+- TODO: Add Kaggle notebook link
 """
 
 import torch
@@ -45,8 +39,10 @@ PATIENCE = 5
 # set device
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
-# kaggle absolute path
+# kaggle absolute path - full dataset
 # DATA_PATH = "../input/indoor-scenes-cvpr-2019/indoorCVPR_09/Images/"
+
+# kaggle absolute path - reduced dataset
 DATA_PATH = "../input/top10indoorscenes/reduced-indoor-scenes/images/"
 
 TRANSFORMS = transforms.Compose(
