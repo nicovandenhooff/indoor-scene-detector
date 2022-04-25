@@ -2,9 +2,16 @@
 Module that is used to train the CNNs that power Indoor Scene Detector.
 
 Notes:
-- We ran this script in a Kaggle notebook in order to utilize the free GPU.
-- The paths to the data set below are absolute paths on Kaggle.  
-- TODO: Add Kaggle notebook link
+- This script is intended to be run within the below Kaggle notebook
+  in order to take advantage of a free GPU:
+- https://www.kaggle.com/code/nicojv/indoor-scenes/notebook
+- The paths to the data set below are absolute paths to the data saved
+  within the Kaggle notebook.  The data is not saved in this GitHub 
+  repository, so you would have to first download it if you wanted to
+  re-run this script.
+- The `training.py` module on Kaggle is saved as a Kaggle utility script
+  named `indoorscenes_training`, so the imports on Kaggle will look
+  slightly different.
 """
 
 import torch
@@ -32,17 +39,13 @@ BATCH_SIZE = 64
 SPLIT = [4500, 600, 561]
 
 # model training variables
-CRITERION = nn.CrossEntropyLoss()
 EPOCHS = 25
 PATIENCE = 5
 
 # set device
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
-# kaggle absolute path - full dataset
-# DATA_PATH = "../input/indoor-scenes-cvpr-2019/indoorCVPR_09/Images/"
-
-# kaggle absolute path - reduced dataset
+# kaggle absolute path
 DATA_PATH = "../input/top10indoorscenes/reduced-indoor-scenes/images/"
 
 TRANSFORMS = transforms.Compose(
@@ -87,12 +90,13 @@ for name, model in cnn_models.items():
     )
 
     model.to(DEVICE)
+    criterion = nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(model.parameters())
 
     tuned_model, train_loss, train_acc, valid_loss, valid_acc = train_model(
         model=model,
         device=DEVICE,
-        criterion=CRITERION,
+        criterion=criterion,
         optimizer=optimizer,
         trainloader=trainloader,
         validloader=validloader,
